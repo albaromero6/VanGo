@@ -1,0 +1,274 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('/storage/app/public/fonts/Poppins-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Volkhov';
+    src: url('/storage/app/public/fonts/Volkhov-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*************** GENERAL ***************/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 0px;
+    overflow-x: hidden;
+}
+
+/*************** FONTS ***************/
+
+@font-face {
+    font-family: titulo;
+    src: url(../fuentes/Volkhov-Regular.ttf);
+}
+
+@font-face {
+    font-family: contenido;
+    src: url(../fuentes/Poppins-Regular.ttf);
+}
+
+/*************** NAVBAR ***************/
+
+.navbar {
+    background-color: #ffffff; 
+    padding: 20px 0;  
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    font-family: 'contenido';  
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;  
+    align-items: center;  
+    margin: 0 auto;
+    padding: 0 50px;  
+    width: 100%; 
+}
+
+.navbar .logo img {
+    width: 60px;  
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 100px;  
+    margin: 0;
+    flex-grow: 1; 
+    justify-content: left; 
+    padding-left: 80px;
+}
+
+.navbar .nav-links li {
+    display: inline-block;
+}
+
+.navbar .nav-links a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: normal;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+    color: #000000;  
+}
+
+.navbar .nav-actions {
+    display: flex;
+    gap: 30px;  
+    justify-content: flex-start; 
+    flex-shrink: 0;  
+    align-items: center;  
+}
+
+.navbar .nav-actions #logear {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 12px 35px;  
+    border-radius: 5px;
+    text-align: center;
+    min-width: 150px;  
+    height: 45px; 
+    line-height: 21px; 
+    font-weight: 400;
+    transition: all 0.3s ease;
+    background-color: #05889C; 
+    color: white;
+    width: 175px;
+}
+
+.navbar .nav-actions #logear:hover {
+    background-color: #037681; 
+    color: white;
+}
+
+.navbar .nav-actions #registrar {
+    font-size: 18px;  
+    color: #333;  
+    text-decoration: none;  
+    font-weight: normal;
+    padding: 0;  
+    border-radius: 0;  
+    margin-left: 0;  
+}
+
+.navbar .nav-actions #registrar:hover {
+    color: #000000;  
+}
+
+/*************** CONTACTO ***************/
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    font-family: 'contenido', sans-serif;
+    gap: 40px;
+    padding: 40px;
+    width: 80%;
+    margin: 50px auto;
+    max-height: 500px;
+}
+
+.form-container {
+    width: 40%;
+    background-color: #05889C;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;  
+}
+
+.form-container h2 {
+    font-size: 24px;
+    color: #FFFFFF;
+    margin-top: 25px; 
+    text-align: center;
+}
+
+.form-container input, 
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #AFD7D6;
+    border-radius: 10px;
+    font-size: 16px;
+    color: white;
+}
+
+.form-container input {
+    background-color: #AFD7D6;
+    margin-top: 0; 
+}
+
+.form-container input::placeholder {
+    font-family: 'contenido', sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.form-container button {
+    background-color: #FFFFFF;
+    color: #05889C;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.form-container button:hover {
+    background-color: #ffffffe1;
+}
+
+.image-container {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    border-radius: 15px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    margin-top: 20px; 
+    margin-left: 25px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    width: 100%;
+    gap: 30px; 
+    flex-wrap: wrap;
+    text-align: center; 
+}
+
+.contact-item {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    width: 22%;
+    text-align: center; 
+    margin-bottom: 15px; 
+}
+
+.contact-item:last-child {
+    margin-right: 0; 
+}
+
+.contact-icon {
+    width: 40px; 
+    height: 40px;
+    margin-right: 25px;
+}
+
+.contact-info span {
+    font-weight: bold;
+    display: block;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.contact-info p {
+    font-size: 16px;
+    color: #555;
+}
