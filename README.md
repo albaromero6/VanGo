@@ -8,7 +8,7 @@
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)  
 6. [Funcionalidades implementadas](#-funcionalidades-implementadas)  
 7. [Funcionalidades pendientes](#-funcionalidades-pendientes)  
-8. [Histórico de cambios](-#histórico-de-cambios)  
+8. [Histórico de cambios](#-histórico-de-cambios)  
 9. [Bibliografía y recursos](#-bibliografía-y-recursos)  
 10. [Vídeo](#-vídeo)
 
