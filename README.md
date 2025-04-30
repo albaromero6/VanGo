@@ -82,7 +82,7 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ---
 
-## 🧩 ESQUEMA DE LA BASE DE DATOS (E/R y DED)
+## 🧩 ESQUEMA DE LA BASE DE DATOS
 
 ![ER](https://github.com/user-attachments/assets/f8d489af-2b50-4417-afab-a66e2105daa3)
 
