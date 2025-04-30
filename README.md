@@ -15,7 +15,8 @@
 ---
 
 ## 🔖 AUTORÍA
-*Alba Romero Almansa
+
+Alba Romero Almansa
 
 ---
 
