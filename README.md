@@ -52,38 +52,41 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 ### Bases de Datos y Gestión
 - **MySQL**
 - **Workbench**
+- **ERD Plus**
 - **Beekeeper Studio**
 
 ### Back-End y API
 - **Spring Boot**
 - **JWT (JSON Web Token)**
 
-> 💡 *Elegí Spring Boot porque lo estoy trabajando junto con Angular y JWT en las prácticas, y me ayuda a repasar Java del año anterior.*
-
 ### Front-End y Diseño
 - **Angular**
 - **Bootstrap**
 - **Tailwind CSS**
+- **SCSS**
+- **SASS**
 - **CSS3**
 - **HTML5**
 
 ### Infraestructura y Despliegue
-- **AWS (Amazon Web Services)**
+- **AWS**
 - **NGINX**
 - **Docker**
 
-> ⚠️ *En principio usaré tres instancias EC2: una para el backend, otra para el frontend, y otra para la base de datos. Si todo funciona correctamente, podría añadir otra para el servidor NGINX.*
-
 ### Otras Herramientas
-- **Git / GitHub**
+- **Git**
+- **GitHub**
 - **Postman**
 - **Figma**
+- **Figjam**
 
 ---
 
-## 🧩 ESQUEMA E/R DE LA BASE DE DATOS
+## 🧩 ESQUEMA DE LA BASE DE DATOS
 
-*(Aquí deberás insertar una imagen del esquema o un enlace al diagrama si está en línea.)*
+![ER](https://github.com/user-attachments/assets/f8d489af-2b50-4417-afab-a66e2105daa3)
+
+![DED](https://github.com/user-attachments/assets/79dfc117-facd-4871-b5f1-79b1fd1451ac)
 
 ---
 
@@ -102,7 +105,6 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 - [ ] Sistema de reservas por horas  
 - [ ] Registro e inicio de sesión con JWT  
 - [ ] Panel de control de usuarios y propietarios  
-- [ ] Implementación de pasarela de pagos  
 - [ ] Valoraciones y comentarios de usuarios  
 - [ ] Despliegue en AWS  
 - [ ] Configuración de NGINX  
@@ -127,15 +129,8 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 - [Tutoriales de Java y JWT de YouTube]  
 - [Guías de AWS EC2 y NGINX]  
 
-*(Agrega aquí más recursos concretos que estés usando o hayas consultado.)*
-
 ---
 
 ## 🎥 VÍDEO EXPLICATIVO
 
 🔗 **Enlace al vídeo:** [pendiente de añadir]  
-
-📄 **Resumen:**  
-*(Aquí puedes escribir 2-3 líneas explicando qué cuentas en el vídeo: qué has desarrollado hasta ahora y qué te queda por hacer.)*
-
----
