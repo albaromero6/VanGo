@@ -126,10 +126,10 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 - [Documentación oficial de Spring Boot](https://spring.io/projects/spring-boot)  
 - [Documentación oficial de Angular](https://angular.io/)  
 - [Figma](https://www.figma.com/)  
-- YouTube 
+- [YouTube](https://www.youtube.com/)
 
 ---
 
 ## 🎥 VÍDEO EXPLICATIVO
 
-🔗 **Enlace al vídeo:** [pendiente de añadir]  
+🔗 [Van&Go]()
