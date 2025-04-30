@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
-
 import java.time.LocalDate;
 
 @Entity

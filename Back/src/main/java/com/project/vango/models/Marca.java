@@ -1,5 +1,6 @@
 package com.project.vango.models;
 
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +12,9 @@ public class Marca {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idMar;
 
-    @Column(length = 45, nullable = false)
+    @Column(length = 45, nullable = false, unique = true)
     private String nombre;
+
+    @OneToMany(mappedBy = "marca", cascade = CascadeType.REMOVE)
+    private List<Modelo> modelos;
 }

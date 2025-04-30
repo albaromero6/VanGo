@@ -20,13 +20,13 @@ public class Vehiculo {
     @JoinColumn(name = "idMar", nullable = false)
     private Marca marca;
 
-    @Column(length = 45, nullable = false, unique = true)
+    @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 
     @Column(length = 150)
     private String descripcion;
 
-    @Column(length = 150)
+    @Column(length = 255)
     private String imagen;
 
     private Double precio;

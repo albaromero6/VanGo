@@ -42,7 +42,7 @@ public class Reserva {
 
     public enum Estado {
         RESERVADA,
-        EN_CURSO,
+        CURSO,
         FINALIZADA
     }
 }
