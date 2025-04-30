@@ -50,7 +50,7 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 ## 🛠️ TECNOLOGÍAS
 
 ### Bases de Datos y Gestión
-- **MySQL**
+- MySQL
 - **Workbench**
 - **ERD Plus**
 - **Beekeeper Studio**
