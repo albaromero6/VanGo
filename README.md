@@ -2,7 +2,7 @@
 
 ## **ÍNDICE**
 1. [Autoría](#autoría)  
-2. [Introducción](#introducción)  
+2. [Introducción](#-introducción)  
 3. [Objetivos](#objetivos)  
 4. [Tecnologías](#tecnologías)  
 5. [Esquema E/R de la Base de Datos](#esquema-er-de-la-base-de-datos)  
