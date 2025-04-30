@@ -1,5 +1,6 @@
 package com.project.vango.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class Marca {
     @Column(length = 45, nullable = false, unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "marca", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "marca")
+    @JsonManagedReference
     private List<Modelo> modelos;
 }

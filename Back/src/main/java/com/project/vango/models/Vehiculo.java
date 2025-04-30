@@ -16,10 +16,6 @@ public class Vehiculo {
     @JoinColumn(name = "idMod", nullable = false)
     private Modelo modelo;
 
-    @ManyToOne
-    @JoinColumn(name = "idMar", nullable = false)
-    private Marca marca;
-
     @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 

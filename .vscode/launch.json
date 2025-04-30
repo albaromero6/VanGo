@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-VangoApplication<vango>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.project.vango.VangoApplication",
+            "projectName": "vango",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
