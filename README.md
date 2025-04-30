@@ -117,9 +117,11 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## 📜 HISTÓRICO DE CAMBIOS
 
-- `v0.1` – Estructura inicial del backend creada con Spring Boot  
-- `v0.2` – Configuración de modelos, repositorios, servicios y controladores  
-- `v0.3` – Diseño UI prototipado en Figma y maquetación CSS  
+- `commit1` (Subida Back Inicial) – Estructura inicial del backend creada con Spring Boot
+- `commit2` – Estructura inicial del backend creada con Spring Boot  
+- `commit3` – Estructura inicial del backend creada con Spring Boot  
+- `commit4` – Estructura inicial del backend creada con Spring Boot  
+
 
 ---
 
