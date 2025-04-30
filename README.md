@@ -92,6 +92,7 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## ✅ FUNCIONALIDADES IMPLEMENTADAS
 
+- Modelado de la base de datos.
 - Estructura básica del proyecto con Spring Boot.
 - Creación de modelos, repositorios, servicios y controladores en el backend.
 - Diseño en Figma de las interfaces principales.
