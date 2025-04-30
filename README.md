@@ -1,4 +1,4 @@
-# **Van&Go – Plataforma de Alquiler de Campers por Horas**
+# **Van&Go**
 
 ## **ÍNDICE**
 1. [Autoría](#autoría)  
@@ -10,7 +10,7 @@
 7. [Funcionalidades pendientes](#funcionalidades-pendientes)  
 8. [Histórico de cambios](#histórico-de-cambios)  
 9. [Bibliografía y recursos](#bibliografía-y-recursos)  
-10. [Vídeo explicativo](#vídeo-explicativo)
+10. [Vídeo](#vídeo-explicativo)
 
 ---
 
@@ -132,6 +132,6 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ---
 
-## 🎥 VÍDEO EXPLICATIVO
+## 🎥 VÍDEO
 
 🔗 [Van&Go]()
