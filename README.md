@@ -1,16 +1,16 @@
 # **Van&Go**
 
 ## **ÍNDICE**
-1. [Autoría](#autoría)  
+1. [Autoría](#-autoría)  
 2. [Introducción](#-introducción)  
-3. [Objetivos](#objetivos)  
-4. [Tecnologías](#tecnologías)  
-5. [Esquema E/R de la Base de Datos](#esquema-er-de-la-base-de-datos)  
-6. [Funcionalidades implementadas](#funcionalidades-implementadas)  
-7. [Funcionalidades pendientes](#funcionalidades-pendientes)  
-8. [Histórico de cambios](#histórico-de-cambios)  
-9. [Bibliografía y recursos](#bibliografía-y-recursos)  
-10. [Vídeo](#vídeo-explicativo)
+3. [Objetivos](#-objetivos)  
+4. [Tecnologías](#-tecnologías)  
+5. [Esquema E/R de la Base de Datos](#-esquema-er-de-la-base-de-datos)  
+6. [Funcionalidades implementadas](#-funcionalidades-implementadas)  
+7. [Funcionalidades pendientes](#-funcionalidades-pendientes)  
+8. [Histórico de cambios](-#histórico-de-cambios)  
+9. [Bibliografía y recursos](#-bibliografía-y-recursos)  
+10. [Vídeo](#-vídeo)
 
 ---
 
