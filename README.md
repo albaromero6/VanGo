@@ -124,10 +124,10 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## 📚 BIBLIOGRAFÍA Y RECURSOS
 
-- [Documentación oficial de Spring Boot](https://spring.io/projects/spring-boot)  
-- [Documentación oficial de Angular](https://angular.io/)  
-- [Figma](https://www.figma.com/)  
-- [YouTube](https://www.youtube.com/)
+[Documentación oficial de Spring Boot](https://spring.io/projects/spring-boot)  
+[Documentación oficial de Angular](https://angular.io/)  
+[Figma](https://www.figma.com/)  
+[YouTube](https://www.youtube.com/)
 
 ---
 
