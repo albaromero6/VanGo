@@ -5,7 +5,7 @@
 2. [Introducción](#-introducción)  
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)  
-5. [Esquema E/R de la Base de Datos](#-esquema-er-de-la-base-de-datos)  
+5. [Esquema E/R de la Base de Datos](#-esquema-de-la-base-de-datos)  
 6. [Funcionalidades implementadas](#-funcionalidades-implementadas)  
 7. [Funcionalidades pendientes](#-funcionalidades-pendientes)  
 8. [Histórico de cambios](-#histórico-de-cambios)  
