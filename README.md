@@ -118,10 +118,14 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 ## 📜 HISTÓRICO DE CAMBIOS
 
 - `commit1` (Subida Back Inicial) – Estructura inicial del backend creada con Spring Boot
-- `commit2` – Estructura inicial del backend creada con Spring Boot  
-- `commit3` – Estructura inicial del backend creada con Spring Boot  
-- `commit4` – Estructura inicial del backend creada con Spring Boot  
-
+- `commit2` (Spring en Funcionamiento) – Arreglo de application.properties para conseguir lanzar Spring Boot  
+- `commit3` (Subida Models) – Estructura inicial de las entidades
+- `commit4` (Models Actualizados) – Models mejorados con validaciones y restricciones de los atributos
+- `commit5` (Models Terminados) – Models terminados con todas sus relaciones y mejoras
+- `commit6` (Subida Repositories) – Estructura inicial y final de los repositories
+- `commit7` (Subida Services) – Estructura inicial y final de los servicios
+- `commit8` (Subida Controllers) – Estructura inicial y final de los controllers
+- `commit9` (Solución a Recursión Infinita) – Uso de @JsonManagedReference para evitar la recursión infinita en la sereialización del JSON
 
 ---
 
