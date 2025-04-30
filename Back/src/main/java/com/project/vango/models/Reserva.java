@@ -13,12 +13,12 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReser;
 
-    private LocalDate fechaInicio;
+    private LocalDate inicio;
 
-    private LocalDate fechaFin;
+    private LocalDate fin;
 
     @Column(nullable = false)
-    private Double precioTotal;
+    private Double total;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -34,11 +34,11 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "idSed_Salid", nullable = false)
-    private Sede sedeSalida;
+    private Sede idSed_Salid;
 
     @ManyToOne
     @JoinColumn(name = "idSed_Lleg", nullable = false)
-    private Sede sedeLlegada;
+    private Sede idSed_Lleg;
 
     public enum Estado {
         RESERVADA,

@@ -12,11 +12,13 @@ public class Vehiculo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idVeh;
 
-    @Column(length = 45, nullable = false)
-    private String marca;
+    @ManyToOne
+    @JoinColumn(name = "idMod", nullable = false)
+    private Modelo modelo;
 
-    @Column(length = 45, nullable = false)
-    private String modelo;
+    @ManyToOne
+    @JoinColumn(name = "idMar", nullable = false)
+    private Marca marca;
 
     @Column(length = 45, nullable = false, unique = true)
     private String matricula;
