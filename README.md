@@ -4,7 +4,7 @@
 1. [Autoría](#-autoría)  
 2. [Introducción](#-introducción)  
 3. [Objetivos](#-objetivos)  
-4. [Tecnologías](#-tecnologías)  
+4. [Tecnologías](#-tecnologías)
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)  
 6. [Funcionalidades implementadas](#-funcionalidades-implementadas)  
 7. [Funcionalidades pendientes](#-funcionalidades-pendientes)  
