@@ -51,34 +51,34 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ### Bases de Datos y Gestión
 - MySQL
-- **Workbench**
-- **ERD Plus**
-- **Beekeeper Studio**
+- Workbench
+- ERD Plus
+- Beekeeper Studio
 
 ### Back-End y API
-- **Spring Boot**
-- **JWT (JSON Web Token)**
+- Spring Boot
+- JWT
 
 ### Front-End y Diseño
-- **Angular**
-- **Bootstrap**
-- **Tailwind CSS**
-- **SCSS**
-- **SASS**
-- **CSS3**
-- **HTML5**
+- Angular
+- Bootstrap
+- Tailwind CSS
+- SCSS
+- SASS
+- CSS3
+- HTML5
 
 ### Infraestructura y Despliegue
-- **AWS**
-- **NGINX**
-- **Docker**
+- AWS
+- NGINX
+- Docker
 
 ### Otras Herramientas
-- **Git**
-- **GitHub**
-- **Postman**
-- **Figma**
-- **Figjam**
+- Git
+- GitHub
+- Postman
+- Figma
+- Figjam
 
 ---
 
@@ -101,15 +101,16 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## 🔄 FUNCIONALIDADES PENDIENTES
 
-- [ ] Integración del frontend con el backend  
-- [ ] Sistema de reservas por horas  
-- [ ] Registro e inicio de sesión con JWT  
-- [ ] Panel de control de usuarios y propietarios  
-- [ ] Valoraciones y comentarios de usuarios  
-- [ ] Despliegue en AWS  
-- [ ] Configuración de NGINX  
-- [ ] Seguridad avanzada (roles, permisos)  
-- [ ] Testing y validaciones  
+- Integración del frontend con el backend  
+- Sistema de reservas por horas  
+- Registro e inicio de sesión con JWT  
+- Panel de control de usuarios y propietarios  
+- Valoraciones y comentarios de usuarios  
+- Despliegue en AWS  
+- Configuración de NGINX  
+- Seguridad avanzada (roles, permisos)  
+- Testing y validaciones
+- Escaneo de seguridad con OWASP ZAP
 
 ---
 
