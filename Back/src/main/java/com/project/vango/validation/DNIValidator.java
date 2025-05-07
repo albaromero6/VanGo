@@ -3,14 +3,16 @@ package com.project.vango.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class DNIValidator implements ConstraintValidator<DNI, String> {
+public class DNIValidator implements ConstraintValidator<DNI, String> 
+{
 
     private static final String LETRAS = "TRWAGMYFPDXBNJZSQVHLCKE";
 
     @Override
     public boolean isValid(String dni, ConstraintValidatorContext context) 
     {
-        if (dni == null || dni.length() != 9) {
+        if (dni == null || dni.length() != 9) 
+        {
             return false;
         }
 
