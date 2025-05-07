@@ -2,11 +2,15 @@ package com.project.vango.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "modelo", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre", "idMar" }))
-@Data
 public class Modelo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

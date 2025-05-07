@@ -3,11 +3,15 @@ package com.project.vango.models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "marca")
-@Data
 public class Marca {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

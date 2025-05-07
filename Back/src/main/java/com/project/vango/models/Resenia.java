@@ -1,14 +1,19 @@
 package com.project.vango.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
+import com.project.vango.validation.FechaActual;
 import java.time.LocalDate;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "resenia")
-@Data
 public class Resenia {
 
     @Id
@@ -23,6 +28,8 @@ public class Resenia {
     @Column(nullable = false)
     private Integer puntuacion;
 
+    @FechaActual(message = "La fecha debe ser la fecha actual")
+    @Column(nullable = false)
     private LocalDate fecha;
 
     @OneToOne

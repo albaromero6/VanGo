@@ -1,11 +1,17 @@
 package com.project.vango.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.validation.constraints.Min;
+import com.project.vango.validation.Matricula;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "vehiculo")
-@Data
 public class Vehiculo {
 
     @Id
@@ -16,6 +22,7 @@ public class Vehiculo {
     @JoinColumn(name = "idMod", nullable = false)
     private Modelo modelo;
 
+    @Matricula(message = "El formato de la matrícula no es válido")
     @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 
@@ -25,10 +32,17 @@ public class Vehiculo {
     @Column(length = 255)
     private String imagen;
 
+    @Min(value = 0, message = "El precio debe ser un número positivo")
+    @Column(nullable = false)
     private Double precio;
+
+    @Min(value = 2000, message = "El año debe ser 2000 o posterior")
+    @Column(nullable = false)
+    private Integer anio;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Builder.Default
     private Disponibilidad disponibilidad = Disponibilidad.DISPONIBLE;
 
     public enum Disponibilidad {

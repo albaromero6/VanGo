@@ -1,11 +1,16 @@
 package com.project.vango.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import com.project.vango.validation.Telefono;
+import lombok.*;
 
+@Getter
+@Setter
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "sede")
-@Data
 public class Sede {
 
     @Id
@@ -18,6 +23,7 @@ public class Sede {
     @Column(length = 45, nullable = false)
     private String ciudad;
 
+    @Telefono(message = "El formato del teléfono no es válido")
     @Column(length = 15)
     private String telefono;
 }
