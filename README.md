@@ -117,9 +117,15 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## 📜 HISTÓRICO DE CAMBIOS
 
-- `v0.1` – Estructura inicial del backend creada con Spring Boot  
-- `v0.2` – Configuración de modelos, repositorios, servicios y controladores  
-- `v0.3` – Diseño UI prototipado en Figma y maquetación CSS  
+- `commit1` (Subida Back Inicial) – Estructura inicial del backend creada con Spring Boot
+- `commit2` (Spring en Funcionamiento) – Arreglo de application.properties para conseguir lanzar Spring Boot  
+- `commit3` (Subida Models) – Estructura inicial de las entidades
+- `commit4` (Models Actualizados) – Models mejorados con validaciones y restricciones de los atributos
+- `commit5` (Models Terminados) – Models terminados con todas sus relaciones y mejoras
+- `commit6` (Subida Repositories) – Estructura inicial y final de los repositories
+- `commit7` (Subida Services) – Estructura inicial y final de los servicios
+- `commit8` (Subida Controllers) – Estructura inicial y final de los controllers
+- `commit9` (Solución a Recursión Infinita) – Uso de @JsonManagedReference para evitar la recursión infinita en la sereialización del JSON
 
 ---
 
@@ -134,4 +140,4 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 
 ## 🎥 VÍDEO
 
-🔗 [Van&Go]()
+🔗 [Van&Go](https://vimeo.com/1080304449/fe6823ea07?share=copy)
