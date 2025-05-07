@@ -20,7 +20,7 @@ public class Marca {
     @Column(length = 45, nullable = false, unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "marca")
+    @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Modelo> modelos;
 }

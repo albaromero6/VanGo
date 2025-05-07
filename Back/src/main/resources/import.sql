@@ -1,0 +1,13 @@
+INSERT INTO usuario (nombre, apellido, email, password, telefono, registro, rol, dni) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'password123', '600123456', '2025-05-07', 'CLIENTE', '79954430J'), ('Ana', 'Gómez', 'ana.gomez@example.com', 'password123', '611234567', '2025-04-20', 'ADMINISTRADOR', '19338585R'), ('Carlos', 'López', 'carlos.lopez@example.com', 'password123', '622345678', '2025-03-15', 'CLIENTE', '32550686M');
+
+INSERT INTO marca (nombre) VALUES ('Volkswagen'), ('Mercedes-Benz'), ('Ford'), ('Peugeot'), ('Renault'), ('Citroën'), ('Fiat'), ('Toyota'), ('Ford Transit'), ('Hymer');
+
+INSERT INTO modelo (nombre, id_mar) VALUES ('Transporter', 1), ('California', 1), ('Sprinter', 2), ('Vito', 2), ('Transit Custom', 3), ('Tourneo', 3), ('Boxer', 4), ('Jumpy', 4), ('Trafic', 5), ('Master', 5), ('Berlingo', 6), ('SpaceTourer', 6), ('Ducato', 7), ('Proace', 7), ('Land Cruiser', 8), ('Hilux', 8), ('Transit', 9), ('Grand Canyon', 10);
+
+INSERT INTO vehiculo (matricula, descripcion, imagen, precio, disponibilidad, anio, id_mod) VALUES ('1234ABC', 'Volkswagen Transporter 2020, 5 puertas, diésel, manual', 'transporter.jpg', 75.00, 'DISPONIBLE', 2020, 1), ('5678DEF', 'Mercedes-Benz California 2021, 4 puertas, diésel, automático', 'california.jpg', 120.00, 'DISPONIBLE', 2021, 2), ('9101GHI', 'Ford Transit Custom 2019, 5 puertas, diésel, manual', 'transit.jpg', 65.00, 'INDISPONIBLE', 2019, 3), ('1121JKL', 'Peugeot Boxer 2020, 4 puertas, diésel, automático', 'boxer.jpg', 70.00, 'DISPONIBLE', 2020, 4), ('3141MNO', 'Renault Trafic 2022, 5 puertas, diésel, manual', 'trafic.jpg', 80.00, 'DISPONIBLE', 2022, 5);
+
+INSERT INTO sede (direccion, ciudad, telefono) VALUES ('Calle de Vallehermoso 78', 'Madrid', '912345678'), ('Carrer de Pau Claris 153', 'Barcelona', '933456789'), ('Calle Tetuán 17', 'Sevilla', '954567890'), ('Carrer de Hospital 68', 'Valencia', '961234567'), ('Avenida de la Constitución 15', 'Zaragoza', '976345678');
+
+INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id_sed_salid) VALUES ('2025-05-01', '2025-05-07', 350.00, 'RESERVADA', 1, 1, 1, 2), ('2025-05-03', '2025-05-10', 420.00, 'CURSO', 2, 2, 2, 3), ('2025-05-05', '2025-05-12', 500.00, 'FINALIZADA', 3, 3, 3, 4), ('2025-05-07', '2025-05-14', 300.00, 'RESERVADA', 1, 4, 4, 1), ('2025-05-10', '2025-05-17', 450.00, 'CURSO', 2, 5, 5, 2);
+
+INSERT INTO resenia (comentario, puntuacion, fecha, id_reser) VALUES ('Excelente servicio, muy recomendable.', 5, '2025-05-06', 1), ('El vehículo estaba en buen estado, pero la atención podría mejorar.', 3, '2025-05-09', 2), ('Todo estuvo perfecto, sin problemas.', 4, '2025-05-11', 3);
