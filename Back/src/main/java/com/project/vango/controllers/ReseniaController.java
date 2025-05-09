@@ -1,11 +1,10 @@
 package com.project.vango.controllers;
 
 import com.project.vango.models.Resenia;
-import com.project.vango.services.RService;
+import com.project.vango.services.ReseniaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -14,7 +13,7 @@ import java.util.List;
 public class ReseniaController {
 
     @Autowired
-    private RService reseniaService;
+    private ReseniaService reseniaService;
 
     @GetMapping
     public ResponseEntity<List<Resenia>> getAllResenias() {
