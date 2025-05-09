@@ -1,5 +1,6 @@
 package com.project.vango.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import jakarta.persistence.*;
@@ -22,5 +23,17 @@ public class Marca {
 
     @OneToMany(mappedBy = "marca", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
+    @JsonIgnore
     private List<Modelo> modelos;
+
+    @PreRemove
+    private void preRemove() {
+        if (modelos != null) {
+            modelos.forEach(modelo -> {
+                if (modelo.getVehiculos() != null) {
+                    modelo.getVehiculos().clear();
+                }
+            });
+        }
+    }
 }

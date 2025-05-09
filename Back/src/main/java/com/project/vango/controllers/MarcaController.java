@@ -37,6 +37,7 @@ public class MarcaController {
         return marcaService.findById(id)
                 .map(existingMarca -> {
                     marca.setIdMar(id);
+                    marca.setModelos(existingMarca.getModelos());
                     return ResponseEntity.ok(marcaService.save(marca));
                 })
                 .orElse(ResponseEntity.notFound().build());
@@ -46,6 +47,16 @@ public class MarcaController {
     public ResponseEntity<Void> deleteMarca(@PathVariable Integer id) {
         return marcaService.findById(id)
                 .map(marca -> {
+                    if (marca.getModelos() != null) {
+                        marca.getModelos().forEach(modelo -> {
+                            if (modelo.getVehiculos() != null) {
+                                modelo.getVehiculos().forEach(vehiculo -> {
+                                    vehiculo.setModelo(null);
+                                });
+                                modelo.getVehiculos().clear();
+                            }
+                        });
+                    }
                     marcaService.deleteById(id);
                     return ResponseEntity.ok().<Void>build();
                 })

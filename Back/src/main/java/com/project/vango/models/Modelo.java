@@ -1,8 +1,11 @@
 package com.project.vango.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +26,18 @@ public class Modelo {
     @JoinColumn(name = "idMar", nullable = false)
     @JsonBackReference
     private Marca marca;
+
+    @OneToMany(mappedBy = "modelo", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Vehiculo> vehiculos;
+
+    @PreRemove
+    private void preRemove() {
+        if (vehiculos != null) {
+            vehiculos.forEach(vehiculo -> {
+                vehiculo.setModelo(null);
+            });
+            vehiculos.clear();
+        }
+    }
 }
