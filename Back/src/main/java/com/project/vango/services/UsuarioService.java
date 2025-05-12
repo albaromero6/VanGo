@@ -13,28 +13,23 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public List<Usuario> findAll() 
-    {
+    public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
 
-    public Optional<Usuario> findById(Integer id) 
-    {
+    public Optional<Usuario> findById(Integer id) {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario save(Usuario usuario) 
-    {
+    public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
-    public void deleteById(Integer id) 
-    {
+    public void deleteById(Integer id) {
         usuarioRepository.deleteById(id);
     }
 
-    public Optional<Usuario> findByEmail(String email) 
-    {
-        return Optional.ofNullable(usuarioRepository.findByEmail(email));
+    public Optional<Usuario> findByEmail(String email) {
+        return usuarioRepository.findByEmail(email);
     }
 }

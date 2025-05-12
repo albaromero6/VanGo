@@ -4,6 +4,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
@@ -18,18 +19,18 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    // Método generador del Token
-    public String generateToken(String username) {
+    // Método generador del Token usando el email como subject
+    public String generateToken(String email) {
         return Jwts.builder()
-                .setSubject(username)                                  // Nombre del usuario como sujeto del Token
+                .setSubject(email)                                     // Email como sujeto del Token
                 .setIssuedAt(new Date())                               // Fecha de emisión
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // Fecha expiración 10h
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
                 .signWith(key, SignatureAlgorithm.HS256)               // Firma del Token
-                .compact();                                            // Genera el Token como un String
+                .compact();                                            // Genera el Token como String
     }
 
-    // Método para extraer el usuario desde el Token
-    public String extractUsername(String token) {
+    // Método para extraer el email desde el Token
+    public String extractEmail(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -38,10 +39,10 @@ public class JwtUtil {
                 .getSubject();
     }
 
-    // Método para validar que el usuario extraido coincide con el esperado
-    public boolean validateToken(String token, String username) {
-        String extractedUsername = extractUsername(token);
-        return extractedUsername.equals(username) && !isTokenExpired(token);
+    // Método para validar que el email extraído coincide con el esperado
+    public boolean validateToken(String token, String expectedEmail) {
+        String extractedEmail = extractEmail(token);
+        return extractedEmail.equals(expectedEmail) && !isTokenExpired(token);
     }
 
     // Método que devuelve true si el Token ya ha expirado

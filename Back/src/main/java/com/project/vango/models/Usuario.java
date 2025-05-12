@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.vango.validation.DNI;
 import com.project.vango.validation.Telefono;
 import lombok.*;
@@ -36,8 +37,8 @@ public class Usuario {
     @Column(length = 9, nullable = false, unique = true)
     private String dni;
 
-    @JsonIgnore
-    @Column(length = 45, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(length = 255, nullable = false)
     private String password;
 
     @Telefono(message = "El formato del teléfono no es válido")
