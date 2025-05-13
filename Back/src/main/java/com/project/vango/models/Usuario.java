@@ -3,8 +3,6 @@ package com.project.vango.models;
 import java.time.LocalDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.vango.validation.DNI;
 import com.project.vango.validation.Telefono;
