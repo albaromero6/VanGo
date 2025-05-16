@@ -79,6 +79,7 @@ a {
     text-decoration: none;
     font-weight: $font-weight-medium;
     transition: color 0.3s ease;
+    cursor: pointer;
 
     &:hover {
         color: darken($primary-color, 10%);

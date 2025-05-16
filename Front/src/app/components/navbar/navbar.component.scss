@@ -45,6 +45,8 @@
             font-size: $font-size-base;
             font-weight: $font-weight-medium;
             transition: color 0.3s ease;
+            cursor: pointer;
+            display: block;
 
             &:hover {
                 color: $primary-color;
