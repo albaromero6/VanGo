@@ -1,0 +1,169 @@
+@import 'variables';
+
+// Reset básico
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: $font-family-body;
+    font-size: $font-size-base;
+    line-height: 1.5;
+    color: $text-body;
+    font-weight: $font-weight-regular;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+// Estilos de texto básicos
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-bottom: $spacing-medium;
+    font-family: $font-family-title;
+    font-weight: $font-weight-semibold;
+    color: $text-title;
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+p {
+    margin-bottom: $spacing-medium;
+    color: $text-body;
+}
+
+// Enlaces
+a {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: $font-weight-medium;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: darken($primary-color, 10%);
+    }
+}
+
+// Listas
+ul,
+ol {
+    margin-bottom: $spacing-medium;
+    padding-left: $spacing-large;
+    list-style-position: inside;
+}
+
+// Imágenes
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+// Botones
+button {
+    cursor: pointer;
+    font-family: $font-family-body;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+// Inputs
+input,
+textarea,
+select {
+    font-family: $font-family-body;
+    font-size: $font-size-base;
+    padding: $spacing-small;
+    border: 1px solid $secondary-color;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: $spacing-medium;
+
+    &:focus {
+        outline: none;
+        border-color: $primary-color;
+    }
+}
+
+// Contenedores
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-medium;
+}
+
+// Secciones
+section {
+    padding: $spacing-large 0;
+}
+
+// Utilidades
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.mt-1 {
+    margin-top: $spacing-small;
+}
+
+.mt-2 {
+    margin-top: $spacing-medium;
+}
+
+.mt-3 {
+    margin-top: $spacing-large;
+}
+
+.mb-1 {
+    margin-bottom: $spacing-small;
+}
+
+.mb-2 {
+    margin-bottom: $spacing-medium;
+}
+
+.mb-3 {
+    margin-bottom: $spacing-large;
+}

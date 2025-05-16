@@ -1,0 +1,99 @@
+@import '../../../styles/variables';
+
+.navbar {
+    background-color: #ffffff;
+    padding: $spacing-medium 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    font-family: $font-family-body;
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 auto;
+        padding: 0 2%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    &__logo {
+        img {
+            width: 100px;
+        }
+    }
+
+    &__links {
+        list-style: none;
+        display: flex;
+        gap: 50px;
+        margin: 0;
+        flex-grow: 1;
+        justify-content: left;
+        padding-left: 50px;
+
+        li {
+            display: inline-block;
+        }
+
+        a {
+            color: $text-body;
+            text-decoration: none;
+            font-size: $font-size-base;
+            font-weight: $font-weight-medium;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: $spacing-medium;
+        justify-content: flex-end;
+        flex-shrink: 0;
+        align-items: center;
+        margin-left: auto;
+
+        &--login {
+            display: inline-block;
+            text-decoration: none;
+            font-size: $font-size-base;
+            padding: $spacing-small $spacing-medium;
+            border-radius: 5px;
+            text-align: center;
+            min-width: auto;
+            height: auto;
+            line-height: normal;
+            font-weight: $font-weight-medium;
+            transition: all 0.3s ease;
+            background-color: $primary-color;
+            color: white;
+            width: auto;
+
+            &:hover {
+                background-color: darken($primary-color, 5%);
+                color: white;
+            }
+        }
+
+        &--register {
+            font-size: $font-size-base;
+            color: $text-body;
+            text-decoration: none;
+            font-weight: $font-weight-medium;
+            padding: 0;
+            border-radius: 0;
+            margin-left: 0;
+
+            &:hover {
+                color: $primary-color;
+            }
+        }
+    }
+}
