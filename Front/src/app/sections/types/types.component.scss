@@ -1,0 +1,60 @@
+@import '../../../styles/variables';
+
+.types {
+    background-color: #ffffff;
+    padding: $spacing-large * 3 $spacing-large * 2;
+
+    &__title {
+        text-align: center;
+        font-size: 32px;
+        color: $text-title;
+        font-family: $font-family-title;
+        margin-bottom: $spacing-small;
+    }
+
+    &__description {
+        text-align: center;
+        font-size: $font-size-base;
+        font-family: $font-family-body;
+        margin-bottom: $spacing-large * 2;
+        color: $text-body;
+        max-width: 950px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__item {
+        width: 22%;
+        text-align: center;
+        background-color: white;
+        padding: $spacing-medium;
+        border-radius: 10px;
+        box-shadow: none;
+        transition: none;
+        margin-bottom: $spacing-medium;
+
+        img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: $spacing-medium;
+        }
+
+        h3 {
+            font-size: $font-size-large;
+            margin-bottom: 15px;
+            font-family: $font-family-body;
+        }
+
+        p {
+            font-size: $font-size-small;
+            color: $text-body;
+        }
+    }
+}

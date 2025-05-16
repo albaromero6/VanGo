@@ -13,15 +13,12 @@ html {
 }
 
 body {
-    font-family: $font-family-body;
-    font-size: $font-size-base;
-    line-height: 1.5;
-    color: $text-body;
-    font-weight: $font-weight-regular;
-    min-height: 100vh;
-    overflow-x: hidden;
+    margin: 0;
     padding-top: 80px;
-    padding-bottom: 300px;
+    font-family: $font-family-body;
+    color: $text-body;
+    background-color: $color-background;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
