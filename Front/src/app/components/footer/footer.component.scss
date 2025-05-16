@@ -1,0 +1,134 @@
+@import '../../../styles/variables';
+
+.footer {
+    background-color: #ffffff;
+    padding: $spacing-large $spacing-medium;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: $font-family-body;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: $spacing-medium;
+    }
+
+    &__logo {
+        text-align: left;
+        width: 45%;
+        padding-bottom: $spacing-medium;
+        padding-left: $spacing-large;
+
+        h1 {
+            font-family: $font-family-title;
+            font-size: 40px;
+            font-weight: $font-weight-bold;
+            color: $text-title;
+            margin-bottom: $spacing-small;
+        }
+
+        p {
+            font-family: $font-family-body;
+            font-size: $font-size-base;
+            color: $text-body;
+            margin-bottom: $spacing-medium;
+        }
+    }
+
+    &__social {
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+        padding-left: 0;
+
+        a {
+            color: $secondary-color;
+            font-size: 26px;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: darken($secondary-color, 10%);
+            }
+        }
+    }
+
+    &__links {
+        display: flex;
+        font-family: $font-family-body;
+        justify-content: space-around;
+        width: 30%;
+
+        div {
+            text-align: center;
+
+            p {
+                font-weight: $font-weight-bold;
+                margin-bottom: $spacing-small;
+            }
+        }
+
+        a {
+            color: $text-body;
+            font-size: $font-size-small;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $primary-color;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 $spacing-large;
+        flex-wrap: wrap;
+        border-top: 1px solid #ddd;
+        padding-top: $spacing-medium;
+
+        p {
+            margin: 5px 0;
+            font-size: $font-size-small;
+            color: $text-body;
+        }
+
+        a {
+            color: $text-body;
+            text-decoration: none;
+            font-size: $font-size-small;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: darken($text-body, 50%);
+            }
+        }
+    }
+
+    &__copyright {
+        text-align: left;
+        order: 1;
+    }
+
+    &__terms {
+        text-align: right;
+        order: 2;
+        display: flex;
+        gap: $spacing-large;
+    }
+}

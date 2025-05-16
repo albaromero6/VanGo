@@ -9,6 +9,7 @@
 
 html {
     scroll-behavior: smooth;
+    height: 100%;
 }
 
 body {
@@ -19,6 +20,17 @@ body {
     font-weight: $font-weight-regular;
     min-height: 100vh;
     overflow-x: hidden;
+    padding-top: 80px;
+    padding-bottom: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+// Contenedor principal
+app-root {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px); // Restamos la altura del navbar
 }
 
 // Estilos de texto básicos
