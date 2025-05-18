@@ -67,13 +67,14 @@
 
             p {
                 font-weight: $font-weight-bold;
+                font-size: $font-size-large;
                 margin-bottom: $spacing-small;
             }
         }
 
         a {
             color: $text-body;
-            font-size: $font-size-small;
+            font-size: $font-size-base;
             text-decoration: none;
             display: block;
             margin-bottom: 15px;
