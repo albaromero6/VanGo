@@ -9,6 +9,7 @@
         font-size: 32px;
         color: $text-title;
         font-family: $font-family-title;
+        font-size: $font-size-xxlarge;
         margin-bottom: $spacing-small;
     }
 
@@ -53,7 +54,7 @@
         }
 
         p {
-            font-size: $font-size-small;
+            font-size: $font-size-base;
             color: $text-body;
         }
     }
