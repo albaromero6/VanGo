@@ -1,0 +1,88 @@
+@import '../../../styles/variables';
+
+.app {
+    background-color: $color-background;
+    padding: $spacing-xlarge 0;
+    position: relative;
+    overflow: hidden;
+    height: 420px;
+
+    &__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: $spacing-large * 2;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    &__left {
+        width: 50%;
+        text-align: center;
+        margin-top: $spacing-xxlarge;
+        margin-left: -$spacing-xlarge;
+
+        h2 {
+            font-size: $font-size-xxlarge;
+            font-family: $font-family-title;
+            color: $text-title;
+            margin-bottom: $spacing-medium;
+            margin-right: $spacing-xlarge;
+        }
+
+        p {
+            font-size: $font-size-large;
+            font-family: $font-family-body;
+            color: $text-body;
+            margin-bottom: $spacing-large;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        gap: $spacing-medium;
+        justify-content: center;
+    }
+
+    &__store-button {
+        display: inline-block;
+        margin-top: $spacing-small;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        &-logo {
+            width: 160px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+    }
+
+    &__right {
+        width: 50%;
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+
+        img {
+            width: auto;
+            max-width: 540px;
+            height: auto;
+            position: absolute;
+            right: -100px;
+            top: -30px;
+        }
+    }
+}
