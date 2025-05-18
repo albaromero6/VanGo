@@ -2,7 +2,7 @@
 
 .app {
     background-color: $color-background;
-    padding: $spacing-xlarge 0;
+    padding: $spacing-xlarge 0 $spacing-medium 0;
     position: relative;
     overflow: hidden;
     height: 420px;
@@ -33,7 +33,7 @@
             font-family: $font-family-title;
             color: $text-title;
             margin-bottom: $spacing-medium;
-            margin-right: $spacing-xlarge;
+            margin-right: $spacing-large;
         }
 
         p {
@@ -81,7 +81,7 @@
             max-width: 540px;
             height: auto;
             position: absolute;
-            right: -100px;
+            right: -200px;
             top: -30px;
         }
     }
