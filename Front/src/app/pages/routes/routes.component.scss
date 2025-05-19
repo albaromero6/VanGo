@@ -1,0 +1,75 @@
+@import '../../../styles/variables';
+
+.routes {
+    &__header {
+        display: flex;
+        flex-direction: column;
+        margin-left: $spacing-xlarge;
+        margin-top: $spacing-xlarge*2;
+    }
+
+    &__title {
+        font-size: $font-size-xxlarge;
+        color: $text-title;
+        margin-bottom: $spacing-small;
+        font-family: $font-family-title;
+    }
+
+    &__subtitle {
+        font-size: $font-size-large;
+        color: $text-body;
+        margin-bottom: $spacing-xxlarge;
+        font-family: $font-family-body;
+    }
+
+    &__content {
+        display: flex;
+        width: 95%;
+        margin-left: $spacing-xlarge;
+        justify-content: space-between;
+    }
+
+    &__route {
+        display: flex;
+        width: 50%;
+        margin: $spacing-medium 0;
+
+        &-image {
+            width: 40%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        &-text {
+            width: 50%;
+            margin-right: $spacing-large;
+        }
+
+        &-title {
+            font-size: $font-size-xlarge;
+            color: $text-title;
+            margin-bottom: $spacing-small;
+            font-family: $font-family-title;
+        }
+
+        &-description {
+            color: $text-body;
+            font-size: $font-size-base;
+            line-height: 1.6;
+            margin-bottom: $spacing-medium;
+            font-family: $font-family-body;
+        }
+
+        &-link {
+            text-decoration: none;
+            color: $primary-color;
+            font-weight: $font-weight-bold;
+            display: inline-block;
+            font-family: $font-family-body;
+
+            &:hover {
+                color: darken($primary-color, 10%);
+            }
+        }
+    }
+}
