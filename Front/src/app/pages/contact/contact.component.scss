@@ -1,0 +1,133 @@
+@import '../../../styles/variables';
+
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    font-family: $font-family-body;
+    gap: $spacing-xlarge;
+    padding: $spacing-xlarge;
+    width: 80%;
+    margin: $spacing-xxlarge auto;
+    max-height: 500px;
+}
+
+.form-container {
+    width: 40%;
+    background-color: $primary-color;
+    padding: $spacing-medium;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 0;
+
+    h2 {
+        font-size: $font-size-xlarge;
+        color: $color-background;
+        margin-top: $spacing-large;
+        text-align: center;
+    }
+
+    input {
+        width: 100%;
+        padding: $spacing-small;
+        margin-bottom: $spacing-medium;
+        border: 1px solid $secondary-color;
+        border-radius: 10px;
+        font-size: $font-size-base;
+        color: $color-background;
+        background-color: $secondary-color;
+        margin-top: 0;
+
+        &::placeholder {
+            font-family: $font-family-body;
+            font-size: $font-size-base;
+            color: $color-background;
+        }
+    }
+
+    button {
+        width: 100%;
+        padding: $spacing-small;
+        margin-bottom: $spacing-medium;
+        border: none;
+        border-radius: 10px;
+        font-size: $font-size-base;
+        background-color: $color-background;
+        color: $primary-color;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba($color-background, 0.88);
+        }
+    }
+}
+
+.image-container {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: bottom;
+        border-radius: 15px;
+    }
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: $spacing-medium;
+    margin-left: 0;
+    padding: $spacing-medium;
+    background-color: $color-background;
+    border-radius: 8px;
+    width: 100%;
+    gap: $spacing-medium;
+    flex-wrap: wrap;
+    text-align: center;
+
+    .contact-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        margin-bottom: $spacing-medium;
+        padding: 0 $spacing-small;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .contact-icon {
+        width: 30px;
+        height: 30px;
+        margin-right: $spacing-medium;
+        flex-shrink: 0;
+    }
+
+    span {
+        font-weight: $font-weight-bold;
+        display: block;
+        color: $text-body;
+        margin-bottom: $spacing-small;
+        font-size: $font-size-base;
+    }
+
+    p {
+        font-size: $font-size-base;
+        color: $text-body;
+    }
+}
