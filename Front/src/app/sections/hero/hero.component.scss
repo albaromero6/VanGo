@@ -1,0 +1,191 @@
+@import '../../../styles/variables';
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70vh;
+    padding-top: $spacing-xlarge;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70vh;
+    background-color: $color-background;
+    position: relative;
+    overflow: hidden;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 40%;
+        padding-right: $spacing-medium;
+        padding-left: 10%;
+        text-align: center;
+        position: relative;
+        margin-bottom: $spacing-xlarge*5;
+        z-index: 2;
+
+        h1 {
+            font-size: 45px;
+            color: $text-title;
+            font-family: $font-family-title;
+            margin-bottom: $spacing-small;
+        }
+
+        p {
+            font-size: $font-size-large;
+            font-weight: $font-weight-regular;
+            font-family: $font-family-body;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1.4;
+            margin-top: $spacing-small;
+            margin-bottom: $spacing-xlarge;
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        gap: $spacing-medium;
+        margin-top: $spacing-medium;
+        justify-content: center;
+        width: auto;
+        max-width: 100%;
+    }
+
+    &__store-button {
+        display: block;
+        width: 160px;
+        height: 50px;
+        border-radius: 5px;
+        overflow: hidden;
+        border: none;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        &-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__image {
+        position: absolute;
+        top: 0;
+        left: 40%;
+        width: 60%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+
+        img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            transform: scale(1.2);
+        }
+    }
+
+    &__forma {
+        height: 700px;
+        right: 25px;
+        z-index: 4;
+        margin-right: $spacing-small;
+    }
+}
+
+.search {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1500px;
+    background-color: $color-background;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-medium $spacing-large;
+    margin-bottom: 0;
+    z-index: 3;
+
+    &__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 20%;
+        padding: 0 $spacing-small;
+        border-right: 1px solid #eee;
+
+        &:last-of-type {
+            border-right: none;
+        }
+    }
+
+    &__icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 24px;
+        width: 24px;
+        margin-right: $spacing-small;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+    }
+
+    &__input {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+
+        input {
+            font-family: $font-family-body;
+            font-size: $font-size-small;
+            color: $text-body;
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            line-height: 1.2;
+            height: auto;
+            background-color: transparent;
+        }
+    }
+
+    &__button {
+        background-color: $primary-color;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-family: $font-family-body;
+        font-size: $font-size-base;
+        padding: $spacing-small $spacing-large;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: darken($primary-color, 5%);
+        }
+    }
+}
