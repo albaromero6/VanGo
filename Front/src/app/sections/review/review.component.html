@@ -1,44 +1,38 @@
 <section class="reseñas">
     <h2>¿Qué dicen nuestros clientes?</h2>
 
-    <div class="reseña">
-        <!-- Primer testimonio -->
+    <div class="carrusel">
+        <img src="assets/img/Comillas2.png" alt="Comilla apertura" class="comilla-deco comilla-deco--left">
+        <img src="assets/img/Comillas1.png" alt="Comilla cierre" class="comilla-deco comilla-deco--right">
+        <button class="carrusel__arrow carrusel__arrow--left" (click)="prevReview()" aria-label="Anterior">
+            <svg width="32" height="32" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+            </svg>
+        </button>
+
         <div class="testimonio">
             <div class="imagen">
-                <img src="assets/img/Alberto.jpg" alt="Cliente Van&Go">
+                <img [src]="reviews[currentIndex].image" [alt]="reviews[currentIndex].alt">
             </div>
             <div class="contenido">
-                <div class="estrellas">★ ★ ★ ★ ★</div>
-                <p>"Alquilamos una caravana para un fin de semana en familia y fue una experiencia increíble. 
-                    La app funciona genial y el proceso fue rapidísimo."</p>
-                <p>Alberto Gómez<br><span>Asturias</span></p>
+                <div class="estrellas" [attr.aria-label]="'Valoración: ' + reviews[currentIndex].stars + ' estrellas'">
+                    <ng-container *ngFor="let star of getStars(reviews[currentIndex].stars)">
+                        ★
+                    </ng-container>
+                </div>
+
+                <div class="review-text">
+                    {{ reviews[currentIndex].text }}
+                </div>
+                <p><strong>{{ reviews[currentIndex].name }}</strong><br><span>{{ reviews[currentIndex].location
+                        }}</span></p>
             </div>
         </div>
 
-        <!-- Segundo testimonio -->
-        <div class="testimonio">
-            <div class="imagen">
-                <img src="assets/img/Laura.jpg" alt="Laura Pérez">
-            </div>
-            <div class="contenido">
-                <div class="estrellas">★ ★ ★ ★ ★</div>
-                <p>"Me siento muy segura usando la app de Van&Go para alquilar caravanas. La atención al cliente es
-                    excelente y los vehículos siempre están listos a tiempo. ¡Totalmente recomendable!"</p>
-                <p>Laura Pérez<br><span>Valencia</span></p>
-            </div>
-        </div>
-
-        <!-- Tercer testimonio (parcialmente visible en la imagen) -->
-        <div class="testimonio">
-            <div class="imagen">
-                <img src="assets/img/Miguel.jpg" alt="Cliente Van&Go">
-            </div>
-            <div class="contenido">
-                <div class="estrellas">★ ★ ★ ★ ★</div>
-                <p>"Van&Go me ha permitido descubrir nuevos destinos con total libertad. La calidad de las caravanas 
-                    y la facilidad de uso de la plataforma son top."</p>
-                <p>Miguel Durán<br><span>Murcia</span></p>
-            </div>
-        </div>
+        <button class="carrusel__arrow carrusel__arrow--right" (click)="nextReview()" aria-label="Siguiente">
+            <svg width="32" height="32" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+            </svg>
+        </button>
     </div>
 </section>

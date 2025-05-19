@@ -1,94 +1,198 @@
 @import '../../../styles/variables';
 
 .reseñas {
-    background-color: #f9f9f9; 
-    padding: 40px 0; 
-    text-align: center;
     background-color: $tertiary-color;
-    background-repeat: no-repeat; 
-    background-position: 98% 2%; 
-    background-size: 7%; 
-    position: relative; 
+    padding: $spacing-xlarge 0;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: 98% 2%;
+    background-size: 7%;
+    position: relative;
+
+    h2 {
+        font-size: $font-size-xxlarge;
+        color: $text-title;
+        font-family: $font-family-title;
+        margin-bottom: $spacing-xlarge;
+        font-weight: $font-weight-bold;
+    }
 }
 
-.reseñas h2 {
-    font-size: 2.5rem; 
-    color: #181e4b; 
-    font-family: $font-family-title;
-    margin-bottom: 40px; 
-    font-weight: bold;
-}
-
-.reseña {
-    display: flex;
-    justify-content: center; 
-    gap: 50px;
-    flex-wrap: wrap; 
-}
-
-.testimonio {
-    background-color: #fff; 
-    border-radius: 12px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    display: flex; 
-    width: 100%; 
-    max-width: 700px;
-    overflow: hidden; 
-    text-align: left; 
-    height: 420px;
-    position: relative; 
-    z-index: 1; 
-}
-
-.testimonio .imagen {
-    flex: 0 0 40%; 
+.carrusel {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: 
-#f5f5f5; 
-    overflow: hidden; 
+    gap: $spacing-large;
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+
+    .comilla-deco {
+        position: absolute;
+        width: 70px;
+        height: auto;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.5;
+    }
+
+    .comilla-deco--left {
+        top: -30px;
+        left: -30px;
+    }
+
+    .comilla-deco--right {
+        bottom: -30px;
+        right: -30px;
+    }
 }
 
-.testimonio .imagen img {
-    width: auto; 
-    height: 100%; 
-    object-fit: contain; 
-    max-width: 100%; 
-}
-
-.testimonio .contenido {
-    flex: 1; 
-    padding: 30px 50px; 
+.carrusel__arrow {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 48px;
+    height: 48px;
     display: flex;
-    font-family: $font-family-body;
-    font-size: large;
-    flex-direction: column; 
+    align-items: center;
     justify-content: center;
-    color: #555; 
-    overflow: hidden; 
+    cursor: pointer;
+    transition: background 0.2s;
+    color: $primary-color;
+    font-size: 2rem;
+    z-index: 2;
+
+    &:hover {
+        background: $secondary-color;
+    }
+
+    svg {
+        display: block;
+    }
 }
 
-.testimonio .contenido .estrellas {
-    color: 
-#ff9900; 
-    font-size: 1.5rem; 
-    margin-bottom: 10px; 
-}
+.testimonio {
+    background-color: $color-background;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+    display: flex;
+    width: 900px;
+    max-width: 95vw;
+    overflow: hidden;
+    text-align: left;
+    min-height: 380px;
+    position: relative;
+    z-index: 1;
 
-.testimonio .contenido p:first-child {
-    font-style: italic; 
-    margin-bottom: 30px; 
-}
+    .imagen {
+        flex: 0 0 45%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $secondary-color;
+        overflow: hidden;
+        min-height: 100%;
 
-.testimonio .contenido p:last-child {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: 
-#181e4b; 
-    margin-top: 40px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-width: 100%;
+        }
+    }
+
+    .contenido {
+        flex: 1;
+        padding: $spacing-xlarge $spacing-xlarge;
+        display: flex;
+        font-family: $font-family-body;
+        font-size: $font-size-base;
+        flex-direction: column;
+        justify-content: center;
+        color: $text-body;
+        overflow: hidden;
+
+        .estrellas {
+            color: #FFC107;
+            font-size: 2rem;
+            margin-bottom: $spacing-large;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            position: relative;
+            font-style: italic;
+            margin-bottom: $spacing-large;
+            font-size: $font-size-base;
+            color: $text-body;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+            gap: 4px;
+            min-height: 120px;
+        }
+
+        .comilla {
+            font-size: 2.5rem;
+            color: $secondary-color;
+            font-family: serif;
+            line-height: 1;
+            vertical-align: top;
+            margin: 0 4px;
+
+            &--close {
+                position: absolute;
+                right: 0;
+                bottom: -18px;
+                margin: 0;
+                font-size: 2.5rem;
+                line-height: 1;
+            }
+
+            &--open {
+                align-self: flex-start;
+            }
+        }
+
+        .review-text-content {
+            flex: 1;
+        }
+
+        p:last-child {
+            font-weight: $font-weight-bold;
+            font-size: $font-size-large;
+            color: $text-title;
+            margin-top: $spacing-large;
+        }
+
+        span {
+            color: $text-body;
+            font-size: $font-size-small;
+            font-weight: $font-weight-regular;
+        }
+    }
+
+    .comilla-deco {
+        position: absolute;
+        width: 70px;
+        height: auto;
+        pointer-events: none;
+        z-index: 2;
+        opacity: 0.5;
+    }
+
+    .comilla-deco--left {
+        top: -30px;
+        left: -30px;
+    }
+
+    .comilla-deco--right {
+        bottom: -30px;
+        right: -30px;
+    }
 }
 
 .reseña .testimonio:not(:last-child) {
-    margin-bottom: 40px; 
+    margin-bottom: $spacing-xlarge;
 }
