@@ -18,6 +18,7 @@ header {
     background-color: $color-background;
     position: relative;
     overflow: hidden;
+    margin-top: $spacing-xlarge*3;
 
     &__content {
         display: flex;

@@ -1,20 +1,13 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from "./components/navbar/navbar.component";
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { TypesComponent } from './sections/types/types.component';
-import { StepsComponent } from './sections/steps/steps.component';
-import { ApplicationComponent } from './sections/application/application.component';
-import { HeroComponent } from './sections/hero/hero.component';
-import { ReviewComponent } from './sections/review/review.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ NavbarComponent, HeroComponent, TypesComponent, StepsComponent, ReviewComponent, ApplicationComponent, FooterComponent ],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-
-export class AppComponent {
-  title = 'VanGo';
-}
+export class AppComponent { }
