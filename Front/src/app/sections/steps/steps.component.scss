@@ -3,6 +3,8 @@
 .pasos {
     padding: $spacing-xxlarge;
     background-color: $color-background;
+    margin-bottom: $spacing-xxlarge;
+    margin-top: $spacing-large;
 
     &__title {
         text-align: center;

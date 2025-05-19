@@ -5,11 +5,12 @@ import { TypesComponent } from './sections/types/types.component';
 import { StepsComponent } from './sections/steps/steps.component';
 import { ApplicationComponent } from './sections/application/application.component';
 import { HeroComponent } from './sections/hero/hero.component';
+import { ReviewComponent } from './sections/review/review.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ NavbarComponent, HeroComponent, TypesComponent, StepsComponent, ApplicationComponent, FooterComponent ],
+  imports: [ NavbarComponent, HeroComponent, TypesComponent, StepsComponent, ReviewComponent, ApplicationComponent, FooterComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
