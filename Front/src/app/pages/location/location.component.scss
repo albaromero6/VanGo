@@ -1,0 +1,178 @@
+@import '../../../styles/variables';
+
+.locations-section {
+    padding: $spacing-xxlarge 0;
+    background-color: $color-background;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 $spacing-medium;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: $spacing-xlarge;
+
+    h2 {
+        font-size: $font-size-xxlarge;
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-medium;
+        color: $text-title;
+        font-family: $font-family-title;
+        margin-top: $spacing-large;
+    }
+
+    p {
+        font-size: $font-size-base;
+        color: $text-body;
+        max-width: 700px;
+        margin: 0 auto;
+        font-family: $font-family-body;
+    }
+}
+
+.locations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-large;
+}
+
+.location-card {
+    width: 100%;
+    height: 350px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    font-family: $font-family-body;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 300ms;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .content {
+        box-sizing: border-box;
+        width: 100%;
+        position: absolute;
+        padding: $spacing-large;
+        height: auto;
+        bottom: 0;
+    background: linear-gradient(to top, $secondary-color, rgba($secondary-color, 0.9) 70%, transparent);
+
+        h3 {
+            font-size: $font-size-xlarge;
+            font-weight: $font-weight-bold;
+            margin-bottom: $spacing-small;
+            color: $color-background;
+            font-family: $font-family-body;
+        }
+
+        .location-details {
+            margin-bottom: $spacing-medium;
+
+            p {
+                margin-bottom: $spacing-small;
+                color: rgba($color-background, 0.9);
+                font-family: $font-family-body;
+                font-size: $font-size-base;
+            }
+        }
+    }
+}
+
+.location-features {
+    h4 {
+        font-weight: $font-weight-semibold;
+        margin-bottom: $spacing-small;
+        color: $text-title;
+        font-family: $font-family-title;
+    }
+
+    ul {
+        list-style-position: inside;
+        color: $text-body;
+        font-family: $font-family-body;
+    }
+
+    li {
+        margin-bottom: $spacing-small;
+    }
+}
+
+.location-actions {
+    padding: 0 $spacing-large $spacing-large;
+}
+
+.btn-map {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: $spacing-small;
+    background-color: $primary-color;
+    color: $color-background;
+    border: none;
+    border-radius: 5px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-regular;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: $font-family-body;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
+
+    svg {
+        margin-right: $spacing-small;
+    }
+}
+
+.cta-section {
+    text-align: center;
+    margin-top: $spacing-xxlarge;
+
+    h3 {
+        font-size: $font-size-xlarge;
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-medium;
+        color: $text-title;
+        font-family: $font-family-body;
+    }
+
+    p {
+        font-size: $font-size-base;
+        color: $text-body;
+        max-width: 700px;
+        margin: 0 auto $spacing-large;
+        font-family: $font-family-body;
+        font-weight: $font-weight-regular;
+    }
+}
+
+.btn-contact {
+    padding: $spacing-small $spacing-xlarge;
+    background-color: $primary-color;
+    color: $color-background;
+    border: none;
+    border-radius: 5px;
+    font-size: $font-size-base;
+    font-weight: $font-weight-regular;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-family: $font-family-body;
+
+    &:hover {
+        background-color: darken($primary-color, 10%);
+    }
+}
