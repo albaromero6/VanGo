@@ -7,34 +7,37 @@
     box-sizing: border-box;
 }
 
-html,
+html {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
 body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    padding-top: 80px;
     font-family: $font-family-body;
     color: $text-body;
     background-color: $color-background;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 // Contenedor principal
 app-root {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    height: 100%;
     width: 100%;
+}
+
+// Clase para cuando la navbar está visible
+.navbar-visible {
+    padding-top: 80px;
 }
 
 // Estilos de texto básicos

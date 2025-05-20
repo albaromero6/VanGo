@@ -10,12 +10,12 @@ import { ContactComponent } from './pages/contact/contact.component';
 
 export const routes: Routes = [
 
-    { path: '',             component: HomeComponent },
-    { path: 'catalogo',     component: CatalogComponent },
-    { path: 'eligenos',     component: SelectusComponent },
-    { path: 'rutas',        component: RoutesComponent },
-    { path: 'contacto',     component: ContactComponent },
-    { path: 'registro',     component: RegisterComponent },
-    { path: 'login',        component: LoginComponent },
+    { path: '', component: HomeComponent },
+    { path: 'catalogo', component: CatalogComponent },
+    { path: 'eligenos', component: SelectusComponent },
+    { path: 'rutas', component: RoutesComponent },
+    { path: 'contacto', component: ContactComponent },
+    { path: 'registro', component: RegisterComponent },
+    { path: 'login', component: LoginComponent },
 
 ];

@@ -10,5 +10,8 @@
     flex: 1;
     width: 100%;
     position: relative;
+}
+
+:host-context(.navbar-visible) .main-content {
     padding-top: 80px; // Espacio para el navbar fijo
 }
