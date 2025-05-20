@@ -181,3 +181,22 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
+.logo {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    width: 100px;
+    height: auto;
+    z-index: 10;
+    transition: transform 0.3s ease;
+
+    img {
+        width: 100%;
+        height: auto;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+    }
+}
