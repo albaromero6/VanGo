@@ -6,9 +6,9 @@
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 $spacing-medium;
+    padding: 0 $spacing-large;
 }
 
 .section-header {
@@ -35,7 +35,7 @@
 
 .locations-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: $spacing-large;
 }
 
@@ -67,7 +67,7 @@
         padding: $spacing-large;
         height: auto;
         bottom: 0;
-    background: linear-gradient(to top, $secondary-color, rgba($secondary-color, 0.9) 70%, transparent);
+        background: linear-gradient(to top, $secondary-color, rgba($secondary-color, 0.9) 70%, transparent);
 
         h3 {
             font-size: $font-size-xlarge;
