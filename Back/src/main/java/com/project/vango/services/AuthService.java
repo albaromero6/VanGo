@@ -8,9 +8,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class AuthService {
+    private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,9 +31,16 @@ public class AuthService {
     }
 
     public String login(String email, String password) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(email, password));
-        return jwtUtil.generateToken(email);
+        logger.info("Intentando login para email: {}", email);
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password));
+            logger.info("Autenticación exitosa para email: {}", email);
+            return jwtUtil.generateToken(email);
+        } catch (Exception e) {
+            logger.error("Error en autenticación para email {}: {}", email, e.getMessage());
+            throw e;
+        }
     }
 
     public Usuario register(Usuario usuario) {

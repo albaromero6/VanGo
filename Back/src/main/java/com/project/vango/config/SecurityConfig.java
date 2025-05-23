@@ -31,7 +31,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // Endpoints públicos
@@ -39,18 +39,18 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
 
                         // Endpoints de administrador
-                        .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
-                        .requestMatchers("/api/vehiculos/**").hasRole("ADMIN")
-                        .requestMatchers("/api/marcas/**").hasRole("ADMIN")
-                        .requestMatchers("/api/modelos/**").hasRole("ADMIN")
-                        .requestMatchers("/api/sedes/**").hasRole("ADMIN")
-                        .requestMatchers("/api/reservas/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/resenias/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/vehiculos/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/marcas/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/modelos/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/sedes/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/reservas/admin/**").hasRole("ADMINISTRADOR")
+                        .requestMatchers("/api/resenias/admin/**").hasRole("ADMINISTRADOR")
 
                         // Endpoints de clientes (accesibles solo a sus propios datos)
-                        .requestMatchers("/api/reservas/cliente/**").hasRole("CLIENT")
-                        .requestMatchers("/api/resenias/cliente/**").hasRole("CLIENT")
-                        .requestMatchers("/api/usuarios/perfil/**").hasRole("CLIENT")
+                        .requestMatchers("/api/reservas/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/api/resenias/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/api/usuarios/perfil/**").hasRole("CLIENTE")
 
                         // Endpoints compartidos
                         .requestMatchers("/api/reservas/{id}").authenticated()
@@ -67,10 +67,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // URL específica del frontend
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

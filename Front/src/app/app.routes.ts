@@ -19,4 +19,5 @@ export const routes: Routes = [
     { path: 'registro',      component: RegisterComponent },
     { path: 'login',         component: LoginComponent },
 
+
 ];

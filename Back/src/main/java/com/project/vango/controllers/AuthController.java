@@ -15,9 +15,9 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         String token = authService.login(request.email(), request.password());
-        return ResponseEntity.ok(token);
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
@@ -27,4 +27,7 @@ public class AuthController {
 }
 
 record LoginRequest(String email, String password) {
+}
+
+record LoginResponse(String token) {
 }
