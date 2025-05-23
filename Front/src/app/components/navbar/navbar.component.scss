@@ -100,9 +100,32 @@
     }
 }
 
-.welcome-message {
-    color: $primary-color;
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     margin-right: 1rem;
+}
+
+.user-avatar-link {
+    display: block;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.welcome-message {
+    color: $text-body;
     font-weight: $font-weight-medium;
 }
 
@@ -122,3 +145,33 @@
         color: white;
     }
 }
+
+.user-avatar-link {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltiptext {
+    visibility: hidden;
+    background-color: white;
+    color: $primary-color;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 7px;
+    position: absolute;
+    bottom: -80%; 
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    pointer-events: none;
+    white-space: nowrap; 
+    z-index: 10;
+  }
+  
+  .user-avatar-link:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
