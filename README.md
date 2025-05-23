@@ -103,9 +103,8 @@ Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponib
 ## 🔄 FUNCIONALIDADES PENDIENTES
 
 - Integración del frontend con el backend  
-- Sistema de reservas por horas  
 - Registro e inicio de sesión con JWT  
-- Panel de control de usuarios y propietarios  
+- Panel de control de usuarios y administradores  
 - Valoraciones y comentarios de usuarios  
 - Despliegue en AWS  
 - Configuración de NGINX  
