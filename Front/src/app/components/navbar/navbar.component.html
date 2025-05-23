@@ -15,8 +15,14 @@
     </ul>
 
     <div class="navbar__actions">
-      <a routerLink="/registro" class="navbar__actions--register">Regístrate</a>
-      <a routerLink="/login" class="navbar__actions--login">Iniciar sesión</a>
+      <ng-container *ngIf="authService.isLoggedIn(); else notLoggedIn">
+        <span class="welcome-message">Bienvenid&#64;, {{ (authService.currentUser$ | async)?.nombre }}</span>
+        <button class="btn-logout" (click)="authService.logout()">Cerrar sesión</button>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <a routerLink="/registro" class="navbar__actions--register">Regístrate</a>
+        <a routerLink="/login" class="navbar__actions--login">Iniciar sesión</a>
+      </ng-template>
     </div>
   </div>
 </nav>

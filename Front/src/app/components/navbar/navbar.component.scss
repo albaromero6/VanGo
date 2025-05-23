@@ -99,3 +99,26 @@
         }
     }
 }
+
+.welcome-message {
+    color: $primary-color;
+    margin-right: 1rem;
+    font-weight: $font-weight-medium;
+}
+
+.btn-logout {
+    font-size: $font-size-base;
+    padding: $spacing-small $spacing-medium;
+    border-radius: 5px;
+    background-color: $secondary-color;
+    color: $primary-color;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: $font-weight-bold;
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: $primary-color;
+        color: white;
+    }
+}

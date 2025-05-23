@@ -36,7 +36,13 @@ public class AuthService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password));
             logger.info("Autenticación exitosa para email: {}", email);
-            return jwtUtil.generateToken(email);
+
+            // Obtener el usuario de la base de datos
+            Usuario usuario = usuarioRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            // Generar el token con el nombre del usuario
+            return jwtUtil.generateToken(usuario.getNombre());
         } catch (Exception e) {
             logger.error("Error en autenticación para email {}: {}", email, e.getMessage());
             throw e;
