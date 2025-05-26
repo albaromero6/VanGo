@@ -13,11 +13,11 @@
                         <p>{{ sede.direccion }}</p>
                         <p>{{ sede.telefono }}</p>
                     </div>
-                    <button class="btn-map">
+                    <button class="btn-map" (click)="verEnMapa(sede.direccion, sede.ciudad)">
                         Ver en el mapa
                     </button>
                 </div>
-                <img [src]="'http://localhost:8080/uploads/sedes/' + sede.imagen">
+                <img [src]="'http://localhost:8080/uploads/sedes/' + sede.imagen" [alt]="'Sede ' + sede.ciudad">
             </div>
         </div>
 

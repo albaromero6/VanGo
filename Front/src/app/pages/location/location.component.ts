@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SedeService, Sede } from '../../services/sede.service';
+import { MapsService } from '../../services/maps.service';
 
 @Component({
   selector: 'app-location',
@@ -13,7 +14,10 @@ import { SedeService, Sede } from '../../services/sede.service';
 export class LocationComponent implements OnInit {
   sedes: Sede[] = [];
 
-  constructor(private sedeService: SedeService) { }
+  constructor(
+    private sedeService: SedeService,
+    private mapsService: MapsService
+  ) { }
 
   ngOnInit(): void {
     this.cargarSedes();
@@ -28,5 +32,10 @@ export class LocationComponent implements OnInit {
         console.error('Error al cargar las sedes:', error);
       }
     });
+  }
+
+  verEnMapa(direccion: string, ciudad: string): void {
+    const url = this.mapsService.getGoogleMapsUrl(direccion, ciudad);
+    window.open(url, '_blank');
   }
 }
