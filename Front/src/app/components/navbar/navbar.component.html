@@ -17,7 +17,7 @@
     <div class="navbar__actions">
       <ng-container *ngIf="authService.isLoggedIn(); else notLoggedIn">
         <div class="user-info">
-          <span class="welcome-message">Bienvenid&#64;, {{ (authService.currentUser$ | async)?.nombre }}</span>
+          <span class="welcome-message">Bienvenido, {{ (authService.currentUser$ | async)?.nombre }}</span>
           <a routerLink="/perfil" class="user-avatar-link tooltip">
             <img src="assets/img/Usuario.png" alt="Usuario" class="user-avatar">
             <span class="tooltiptext">Ver perfil</span>

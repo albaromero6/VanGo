@@ -26,4 +26,7 @@ public class Sede {
     @Telefono(message = "El formato del teléfono no es válido")
     @Column(length = 15)
     private String telefono;
+
+    @Column(length = 255)
+    private String imagen;
 }
