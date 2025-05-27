@@ -3,6 +3,7 @@ package com.project.vango.controllers;
 import com.project.vango.models.Vehiculo;
 import com.project.vango.services.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,11 +36,6 @@ public class VehiculoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/disponibles")
-    public ResponseEntity<List<Vehiculo>> getVehiculosDisponibles() {
-        return ResponseEntity.ok(vehiculoService.findAll());
-    }
-
     @PostMapping
     public ResponseEntity<Vehiculo> createVehiculo(@RequestBody Vehiculo vehiculo) {
         return ResponseEntity.ok(vehiculoService.save(vehiculo));
@@ -65,16 +61,17 @@ public class VehiculoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}/disponibilidad")
-    public ResponseEntity<Vehiculo> updateDisponibilidad(
-            @PathVariable Integer id,
-            @RequestParam Vehiculo.Disponibilidad disponibilidad) {
-        return vehiculoService.findById(id)
-                .map(vehiculo -> {
-                    vehiculo.setDisponibilidad(disponibilidad);
-                    return ResponseEntity.ok(vehiculoService.save(vehiculo));
-                })
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/imagen/{filename}")
+    public ResponseEntity<byte[]> getImagen(@PathVariable String filename) {
+        try {
+            Path filePath = uploadDir.resolve(filename);
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/{id}/imagen")

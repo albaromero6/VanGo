@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
 
 @Component({
@@ -14,7 +15,10 @@ export class CatalogComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
 
-  constructor(private vehicleService: VehicleService) { }
+  constructor(
+    private vehicleService: VehicleService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -40,7 +44,7 @@ export class CatalogComponent implements OnInit {
     if (!vehicle.imagen) {
       return 'assets/img/placeholder-vehicle.jpg';
     }
-    return `http://localhost:8080/uploads/vehiculos/${vehicle.imagen}`;
+    return `http://localhost:8080/api/vehiculos/imagen/${vehicle.imagen}`;
   }
 
   getVehicleName(vehicle: Vehicle): string {
@@ -58,8 +62,36 @@ export class CatalogComponent implements OnInit {
     return `${marcaNombre} ${modeloNombre}`;
   }
 
+  formatCombustible(combustible: string): string {
+    switch (combustible.toUpperCase()) {
+      case 'GASOLINA':
+        return 'Gasolina';
+      case 'DIESEL':
+        return 'Diésel';
+      default:
+        return combustible;
+    }
+  }
+
+  formatTransmision(transmision: string): string {
+    switch (transmision.toUpperCase()) {
+      case 'MANUAL':
+        return 'Manual';
+      case 'AUTOMATICO':
+        return 'Automático';
+      default:
+        return transmision;
+    }
+  }
+
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-vehicle.jpg';
+    imgElement.onerror = null; // Prevent infinite loop
+  }
+
+  verDetalles(vehicleId: number): void {
+    console.log('Navegando a detalles del vehículo:', vehicleId);
+    this.router.navigate(['/detalles', vehicleId]);
   }
 }

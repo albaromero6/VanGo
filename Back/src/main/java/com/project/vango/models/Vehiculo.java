@@ -27,7 +27,7 @@ public class Vehiculo {
     @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 
-    @Column(length = 150)
+    @Column(length = 500)
     private String descripcion;
 
     @Column(length = 255)
@@ -46,13 +46,26 @@ public class Vehiculo {
     @Column(nullable = false)
     private Integer pasajeros;
 
+    @Min(value = 3, message = "El número de puertas debe ser al menos 3")
+    @Max(value = 5, message = "El número de puertas no puede ser mayor a 5")
+    @Column(nullable = false)
+    private Integer puertas;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    @Builder.Default
-    private Disponibilidad disponibilidad = Disponibilidad.DISPONIBLE;
+    private Transmision transmision;
 
-    public enum Disponibilidad {
-        DISPONIBLE,
-        INDISPONIBLE
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Combustible combustible;
+
+    public enum Transmision {
+        MANUAL,
+        AUTOMATICO
+    }
+
+    public enum Combustible {
+        GASOLINA,
+        DIESEL
     }
 }

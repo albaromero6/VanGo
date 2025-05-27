@@ -22,7 +22,9 @@ export interface Vehicle {
     precio: number;
     anio: number;
     pasajeros: number;
-    disponibilidad: 'DISPONIBLE' | 'INDISPONIBLE';
+    puertas: number;
+    transmision: 'MANUAL' | 'AUTOMATICO';
+    combustible: 'GASOLINA' | 'DIESEL';
 }
 
 @Injectable({

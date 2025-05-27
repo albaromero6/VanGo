@@ -1,7 +1,7 @@
 <section class="catalog-section">
 
     <div class="catalog-content">
-        
+
         <!-- Cargando -->
         <div *ngIf="loading" class="loading-container">
             <div class="loading-spinner"></div>
@@ -22,23 +22,41 @@
                 </div>
                 <div class="vehicle-info">
                     <h3 class="vehicle-name">{{ getVehicleName(vehicle) }}</h3>
-                    <p class="vehicle-description">{{ vehicle.descripcion }}</p>
                     <div class="vehicle-details">
-                        <span class="vehicle-year">
-                            <img src="assets/img/Calendario3.png" alt="Año" class="detail-icon">
-                            {{ vehicle.anio }}
-                        </span>
-                        <span class="vehicle-passengers">
-                            <img src="assets/img/Pasajeros.png" alt="Pasajeros" class="detail-icon">
-                            {{ vehicle.pasajeros }} pasajeros
-                        </span>
+                        <div class="details-top">
+                            <span class="vehicle-fuel">
+                                <img src="assets/img/Combustible.png" alt="Combustible" class="detail-icon">
+                                {{ formatCombustible(vehicle.combustible) }}
+                            </span>
+                            <span class="vehicle-transmission">
+                                <img src="assets/img/Transmision.png" alt="Transmision" class="detail-icon">
+                                {{ formatTransmision(vehicle.transmision) }}
+                            </span>
+                        </div>
+                        <div class="details-bottom">
+                            <span class="vehicle-door">
+                                <img src="assets/img/Puertas.png" alt="Puertas" class="detail-icon">
+                                {{ vehicle.puertas }}
+                            </span>
+                            <span class="vehicle-year">
+                                <img src="assets/img/Calendario3.png" alt="Año" class="detail-icon">
+                                {{ vehicle.anio }}
+                            </span>
+                            <span class="vehicle-passengers">
+                                <img src="assets/img/Pasajeros.png" alt="Pasajeros" class="detail-icon">
+                                {{ vehicle.pasajeros }}
+                            </span>
+                        </div>
                     </div>
                     <div class="vehicle-price">
-                        <span class="price-amount">{{ vehicle.precio }}€</span>
-                        <span class="price-period">/día</span>
+                        <span class="price-label">Precio</span>
+                        <div class="price-content">
+                            <span class="price-amount">{{ vehicle.precio }}€</span>
+                            <span class="price-period">/día</span>
+                        </div>
                     </div>
-                    <button class="btn-alquilar" [disabled]="vehicle.disponibilidad !== 'DISPONIBLE'">
-                        {{ vehicle.disponibilidad === 'DISPONIBLE' ? 'Ver detalles' : 'No disponible' }}
+                    <button class="btn-alquilar" (click)="verDetalles(vehicle.idVeh)">
+                        Ver detalles
                     </button>
                 </div>
             </div>

@@ -1,0 +1,83 @@
+<div *ngIf="!loading && !error && vehicle" class="vehicle-detail">
+    <div class="vehicle-detail__left">
+        <div class="vehicle-detail__header">
+            <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
+            <div class="vehicle-detail__price">
+                <span class="vehicle-detail__price-amount">{{ vehicle.precio }}€<span
+                        class="vehicle-detail__price-period">/día</span></span>
+            </div>
+        </div>
+
+        <div class="vehicle-detail__main-image">
+            <img [src]="getVehicleImage()" [alt]="getVehicleName()" (error)="onImageError($event)">
+        </div>
+
+        <button class="vehicle-detail__button" (click)="reservar()">Reservar</button>
+    </div>
+
+    <div class="vehicle-detail__right">
+        <div class="vehicle-detail__specs">
+            <div class="vehicle-detail__specs-item">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Combustible.png" alt="Combustible">
+                </div>
+                <div class="vehicle-detail__specs-content">
+                    <p>{{ formatCombustible(vehicle.combustible) }}</p>
+                </div>
+            </div>
+            <div class="vehicle-detail__specs-item">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Transmision.png" alt="Transmisión">
+                </div>
+                <div class="vehicle-detail__specs-content">
+                    <p>{{ formatTransmision(vehicle.transmision) }}</p>
+                </div>
+            </div>
+            <div class="vehicle-detail__specs-item">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Puertas.png" alt="Puertas">
+                </div>
+                <div class="vehicle-detail__specs-content">
+                    <p>{{ vehicle.puertas }}</p>
+                </div>
+            </div>
+            <div class="vehicle-detail__specs-item">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Pasajeros.png" alt="Pasajeros">
+                </div>
+                <div class="vehicle-detail__specs-content">
+                    <p>{{ vehicle.pasajeros }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="vehicle-detail__equipment">
+            <div class="vehicle-detail__equipment-grid">
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Aire acondicionado</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Bluetooth</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">GPS</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Radio</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">USB</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Volante multifunción</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
