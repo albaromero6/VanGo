@@ -5,8 +5,13 @@ import com.project.vango.services.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/vehiculos")
@@ -15,6 +20,8 @@ public class VehiculoController {
 
     @Autowired
     private VehiculoService vehiculoService;
+
+    private final Path uploadDir = Paths.get("uploads/vehiculos");
 
     @GetMapping
     public ResponseEntity<List<Vehiculo>> getAllVehiculos() {
@@ -68,5 +75,32 @@ public class VehiculoController {
                     return ResponseEntity.ok(vehiculoService.save(vehiculo));
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/{id}/imagen")
+    public ResponseEntity<Vehiculo> uploadImagen(
+            @PathVariable Integer id,
+            @RequestParam("imagen") MultipartFile imagen) {
+
+        try {
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
+            String filename = UUID.randomUUID().toString() + "_" + imagen.getOriginalFilename();
+            Path filePath = uploadDir.resolve(filename);
+
+            Files.copy(imagen.getInputStream(), filePath);
+
+            return vehiculoService.findById(id)
+                    .map(vehiculo -> {
+                        vehiculo.setImagen(filename);
+                        return ResponseEntity.ok(vehiculoService.save(vehiculo));
+                    })
+                    .orElse(ResponseEntity.notFound().build());
+
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }

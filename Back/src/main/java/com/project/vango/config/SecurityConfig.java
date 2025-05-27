@@ -39,10 +39,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/sedes/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/api/vehiculos/**").permitAll()
 
                         // Endpoints de administrador
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/api/vehiculos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/marcas/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/modelos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/reservas/admin/**").hasRole("ADMINISTRADOR")
@@ -68,7 +68,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); 
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);

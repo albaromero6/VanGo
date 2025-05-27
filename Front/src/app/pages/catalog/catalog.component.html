@@ -1,1 +1,51 @@
-<p>catalog works!</p>
+<section class="catalog-section">
+
+    <div class="catalog-content">
+        
+        <!-- Cargando -->
+        <div *ngIf="loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Cargando vehículos...</p>
+        </div>
+
+        <!-- Error -->
+        <div *ngIf="error" class="error-container">
+            <p class="error-message">{{ error }}</p>
+            <button class="btn-retry" (click)="loadVehicles()">Reintentar</button>
+        </div>
+
+        <div *ngIf="!loading && !error" class="vehicles-grid">
+            <div *ngFor="let vehicle of vehicles" class="vehicle-card">
+                <div class="vehicle-image">
+                    <img [src]="getVehicleImage(vehicle)" [alt]="getVehicleName(vehicle)"
+                        (error)="onImageError($event)">
+                </div>
+                <div class="vehicle-info">
+                    <h3 class="vehicle-name">{{ getVehicleName(vehicle) }}</h3>
+                    <p class="vehicle-description">{{ vehicle.descripcion }}</p>
+                    <div class="vehicle-details">
+                        <span class="vehicle-year">
+                            <img src="assets/img/Calendario3.png" alt="Año" class="detail-icon">
+                            {{ vehicle.anio }}
+                        </span>
+                        <span class="vehicle-passengers">
+                            <img src="assets/img/Pasajeros.png" alt="Pasajeros" class="detail-icon">
+                            {{ vehicle.pasajeros }} pasajeros
+                        </span>
+                    </div>
+                    <div class="vehicle-price">
+                        <span class="price-amount">{{ vehicle.precio }}€</span>
+                        <span class="price-period">/día</span>
+                    </div>
+                    <button class="btn-alquilar" [disabled]="vehicle.disponibilidad !== 'DISPONIBLE'">
+                        {{ vehicle.disponibilidad === 'DISPONIBLE' ? 'Ver detalles' : 'No disponible' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!loading && !error && vehicles.length === 0" class="no-vehicles">
+            <p>No hay vehículos disponibles en este momento</p>
+        </div>
+    </div>
+</section>

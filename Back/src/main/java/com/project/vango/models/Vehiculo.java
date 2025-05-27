@@ -2,6 +2,7 @@ package com.project.vango.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 import com.project.vango.validation.Matricula;
 import lombok.*;
 
@@ -39,6 +40,11 @@ public class Vehiculo {
     @Min(value = 2000, message = "El año debe ser 2000 o posterior")
     @Column(nullable = false)
     private Integer anio;
+
+    @Min(value = 1, message = "El número de pasajeros debe ser al menos 1")
+    @Max(value = 6, message = "El número de pasajeros no puede ser mayor a 6")
+    @Column(nullable = false)
+    private Integer pasajeros;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

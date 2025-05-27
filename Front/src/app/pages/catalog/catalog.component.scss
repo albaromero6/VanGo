@@ -1,0 +1,182 @@
+@import '../../../styles/variables';
+
+.catalog-section {
+    padding: $spacing-large;
+    background-color: $color-background;
+    min-height: 100vh;
+
+    .catalog-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        margin-top: $spacing-large*3;
+    }
+
+    .vehicles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: $spacing-large;
+        padding: $spacing-medium;
+    }
+
+    .vehicle-card {
+        background: $color-background;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+            0 1px 3px rgba(0, 0, 0, 0.1),
+            0 1px 2px rgba(0, 0, 0, 0.06);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1),
+                0 4px 6px rgba(0, 0, 0, 0.05),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .vehicle-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+            padding: $spacing-medium;
+            background-color: $color-background;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                transition: transform 0.3s ease;
+            }
+        }
+
+        .vehicle-info {
+            padding: $spacing-medium;
+
+            .vehicle-name {
+                color: $text-title;
+                font-family: $font-family-body;
+                font-size: $font-size-large;
+                margin-bottom: $spacing-small;
+                font-weight: $font-weight-semibold;
+            }
+
+            .vehicle-description {
+                color: $text-body;
+                font-family: $font-family-body;
+                font-size: $font-size-small;
+                margin-bottom: $spacing-medium;
+                line-height: 1.4;
+            }
+
+            .vehicle-details {
+                display: flex;
+                gap: $spacing-medium;
+                margin-bottom: $spacing-medium;
+                color: $text-body;
+                font-size: $font-size-base;
+                padding-bottom: $spacing-medium;
+                border-bottom: 1px solid rgba($text-body, 0.1);
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+
+                    .detail-icon {
+                        width: 20px;
+                        height: 20px;
+                        object-fit: contain;
+                    }
+                }
+            }
+
+            .vehicle-price {
+                margin-bottom: $spacing-medium;
+                color: $primary-color;
+                font-weight: $font-weight-semibold;
+
+                .price-amount {
+                    font-size: $font-size-xlarge;
+                }
+
+                .price-period {
+                    font-size: $font-size-base;
+                    font-weight: $font-weight-regular;
+                    color: $text-body;
+                }
+            }
+
+            .btn-alquilar {
+                width: 100%;
+                padding: $spacing-small $spacing-medium;
+                background-color: $primary-color;
+                color: $color-background;
+                border: none;
+                border-radius: 4px;
+                font-weight: $font-weight-medium;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover:not(:disabled) {
+                    background-color: darken($primary-color, 10%);
+                }
+
+                &:disabled {
+                    background-color: $text-body;
+                    cursor: not-allowed;
+                    opacity: 0.7;
+                }
+            }
+        }
+    }
+
+    .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: $spacing-large;
+        color: $text-body;
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid $secondary-color;
+            border-top: 4px solid $primary-color;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: $spacing-medium;
+        }
+    }
+
+    .error-container {
+        text-align: center;
+        padding: $spacing-large;
+        color: $text-body;
+
+        .error-message {
+            margin-bottom: $spacing-medium;
+        }
+
+        .btn-retry {
+            padding: $spacing-small $spacing-medium;
+            background-color: $primary-color;
+            color: $color-background;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: darken($primary-color, 10%);
+            }
+        }
+    }
+
+    .no-vehicles {
+        text-align: center;
+        padding: $spacing-large;
+        color: $text-body;
+    }
+}
