@@ -50,7 +50,6 @@ export class AuthService {
     }
 
     private decodeToken(token: string): User {
-        
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
@@ -58,10 +57,10 @@ export class AuthService {
         }).join(''));
 
         const payload = JSON.parse(jsonPayload);
-        console.log('Token payload:', payload); 
+        console.log('Token payload:', payload);
         return {
-            nombre: payload.sub || payload.nombre || 'Usuario', 
-            email: payload.sub || payload.email
+            nombre: payload.nombre || 'Usuario',
+            email: payload.sub
         };
     }
 }

@@ -1,4 +1,4 @@
-INSERT INTO usuario (nombre, apellido, email, password, telefono, registro, rol, dni) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', 'password123', '600123456', '2025-05-07', 'CLIENTE', '79954430J'), ('Ana', 'Gómez', 'ana.gomez@example.com', 'password123', '611234567', '2025-04-20', 'ADMINISTRADOR', '19338585R'), ('Carlos', 'López', 'carlos.lopez@example.com', 'password123', '622345678', '2025-03-15', 'CLIENTE', '32550686M');
+INSERT INTO usuario (nombre, apellido, email, password, telefono, registro, rol, dni) VALUES ('Juan', 'Pérez', 'juan.perez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '600123456', '2025-05-07', 'CLIENTE', '79954430J'), ('Ana', 'Gómez', 'ana.gomez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '611234567', '2025-04-20', 'ADMINISTRADOR', '19338585R'), ('Carlos', 'López', 'carlos.lopez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '622345678', '2025-03-15', 'CLIENTE', '32550686M');
 
 INSERT INTO marca (nombre) VALUES ('Volkswagen'), ('Mercedes-Benz'), ('Ford'), ('Peugeot'), ('Renault'), ('Citroën'), ('Fiat'), ('Toyota'), ('Hymer');
 

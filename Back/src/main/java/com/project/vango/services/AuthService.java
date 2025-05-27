@@ -33,18 +33,30 @@ public class AuthService {
     public String login(String email, String password) {
         logger.info("Intentando login para email: {}", email);
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(email, password));
-            logger.info("Autenticación exitosa para email: {}", email);
-
-            // Obtener el usuario de la base de datos
+            // Verificar si el usuario existe antes de intentar autenticar
             Usuario usuario = usuarioRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                    .orElseThrow(() -> {
+                        logger.error("Usuario no encontrado en la base de datos: {}", email);
+                        return new RuntimeException("Usuario no encontrado");
+                    });
+            logger.debug("Usuario encontrado en la base de datos: {}", usuario.getNombre());
 
-            // Generar el token con el nombre del usuario
-            return jwtUtil.generateToken(usuario.getNombre());
+            logger.debug("Iniciando autenticación con AuthenticationManager");
+            try {
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(email, password));
+                logger.info("Autenticación exitosa para email: {}", email);
+            } catch (Exception e) {
+                logger.error("Error en la autenticación: {}", e.getMessage());
+                throw new RuntimeException("Credenciales inválidas");
+            }
+
+            // Generar el token con el email del usuario y su nombre
+            String token = jwtUtil.generateToken(email, usuario.getNombre());
+            logger.debug("Token generado exitosamente para usuario: {}", usuario.getNombre());
+            return token;
         } catch (Exception e) {
-            logger.error("Error en autenticación para email {}: {}", email, e.getMessage());
+            logger.error("Error en el proceso de login para email {}: {}", email, e.getMessage(), e);
             throw e;
         }
     }
