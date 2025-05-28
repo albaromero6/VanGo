@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-catalog',
@@ -11,22 +12,31 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss'
 })
-export class CatalogComponent implements OnInit {
+export class CatalogComponent implements OnInit, OnDestroy {
   vehicles: Vehicle[] = [];
   loading: boolean = true;
   error: string | null = null;
   isAdmin: boolean = false;
+  private authSubscription: Subscription;
 
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
     private authService: AuthService
-  ) { }
+  ) {
+    this.authSubscription = this.authService.currentUser$.subscribe(user => {
+      this.isAdmin = !!user; // Actualizo isAdmin cuando cambia el estado de autenticación
+    });
+  }
 
   ngOnInit(): void {
     this.loadVehicles();
-    // Check if user is admin (you'll need to implement this in your auth service)
-    this.isAdmin = this.authService.isLoggedIn(); // For now, we'll consider logged in users as admins
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 
   loadVehicles(): void {
@@ -92,7 +102,7 @@ export class CatalogComponent implements OnInit {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-vehicle.jpg';
-    imgElement.onerror = null; // Prevent infinite loop
+    imgElement.onerror = null; 
   }
 
   verDetalles(vehicleId: number): void {
@@ -106,7 +116,6 @@ export class CatalogComponent implements OnInit {
 
   eliminarVehiculo(vehicleId: number): void {
     if (confirm('¿Estás seguro de que deseas eliminar este vehículo?')) {
-      // Implement delete functionality when you have the API endpoint
       console.log('Eliminar vehículo:', vehicleId);
     }
   }
