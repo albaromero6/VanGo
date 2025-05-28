@@ -40,6 +40,7 @@ public class AuthService {
                         return new RuntimeException("Usuario no encontrado");
                     });
             logger.debug("Usuario encontrado en la base de datos: {}", usuario.getNombre());
+            logger.debug("Rol del usuario: {}", usuario.getRol());
 
             logger.debug("Iniciando autenticación con AuthenticationManager");
             try {
@@ -51,9 +52,11 @@ public class AuthService {
                 throw new RuntimeException("Credenciales inválidas");
             }
 
-            // Generar el token con el email del usuario y su nombre
-            String token = jwtUtil.generateToken(email, usuario.getNombre());
-            logger.debug("Token generado exitosamente para usuario: {}", usuario.getNombre());
+            // Generar el token con el email del usuario, su nombre y su rol
+            String rol = usuario.getRol().name();
+            logger.debug("Generando token con rol: {}", rol);
+            String token = jwtUtil.generateToken(email, usuario.getNombre(), rol);
+            logger.debug("Token generado exitosamente para usuario: {} con rol: {}", usuario.getNombre(), rol);
             return token;
         } catch (Exception e) {
             logger.error("Error en el proceso de login para email {}: {}", email, e.getMessage(), e);

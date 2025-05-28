@@ -5,19 +5,23 @@ import { VehicleService, Vehicle } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
 declare const anime: any;
 import { HostListener } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, AfterViewInit {
+  editMode: boolean = false;
   vehicle: Vehicle | null = null;
   loading: boolean = true;
   error: string | null = null;
   galleryImages: string[] = [];
+  isAdmin: boolean = false;
+  originalVehicle: Vehicle | null = null;
   @ViewChildren('galleryItem') galleryItems!: QueryList<ElementRef>;
 
   showLightbox: boolean = false;
@@ -33,6 +37,21 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const vehicleId = +params['id'];
+
+      this.route.queryParams.subscribe(queryParams => {
+        this.editMode = queryParams['edit'] === 'true';
+        // Verifica si el usuario es administrador
+        this.isAdmin = this.authService.isAdmin();
+        console.log('Is admin:', this.isAdmin);
+        console.log('Edit mode:', this.editMode);
+        console.log('Current user:', this.authService.currentUser$);
+
+        if (this.editMode && !this.isAdmin) {
+          console.log('Redirigiendo: usuario no es admin');
+          this.router.navigate(['/detalles', vehicleId]);
+        }
+      });
+
       this.loadVehicleDetails(vehicleId);
     });
   }
@@ -51,40 +70,46 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (items.length === 0) return;
 
     console.log('Initializing gallery animation with', items.length, 'items');
-    // Animación inicial 
-    anime({
-      targets: items.map(item => item.nativeElement),
-      translateY: [50, 0],
-      opacity: [0, 1],
-      duration: 800,
-      delay: anime.stagger(100),
-      easing: 'easeOutExpo'
-    });
 
-    // Añade hover a cada imagen
-    items.forEach(item => {
-      const element = item.nativeElement;
-
-      element.addEventListener('mouseenter', () => {
-        anime({
-          targets: element,
-          scale: 1.05,
-          rotate: 2,
-          duration: 400,
-          easing: 'easeOutQuad'
-        });
+    // Verificar si anime está disponible
+    if (typeof anime !== 'undefined') {
+      // Animación inicial 
+      anime({
+        targets: items.map(item => item.nativeElement),
+        translateY: [50, 0],
+        opacity: [0, 1],
+        duration: 800,
+        delay: anime.stagger(100),
+        easing: 'easeOutExpo'
       });
 
-      element.addEventListener('mouseleave', () => {
-        anime({
-          targets: element,
-          scale: 1,
-          rotate: 0,
-          duration: 400,
-          easing: 'easeOutQuad'
+      // Añade hover a cada imagen
+      items.forEach(item => {
+        const element = item.nativeElement;
+
+        element.addEventListener('mouseenter', () => {
+          anime({
+            targets: element,
+            scale: 1.05,
+            rotate: 2,
+            duration: 400,
+            easing: 'easeOutQuad'
+          });
+        });
+
+        element.addEventListener('mouseleave', () => {
+          anime({
+            targets: element,
+            scale: 1,
+            rotate: 0,
+            duration: 400,
+            easing: 'easeOutQuad'
+          });
         });
       });
-    });
+    } else {
+      console.log('anime.js no está disponible, omitiendo animaciones');
+    }
   }
 
   loadVehicleDetails(id: number): void {
@@ -92,6 +117,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.vehicleService.getVehicleById(id).subscribe({
       next: (data) => {
         this.vehicle = data;
+        // Guardar una copia del vehículo original para poder cancelar cambios
+        this.originalVehicle = JSON.parse(JSON.stringify(data));
         this.galleryImages = [
           this.vehicle.detalles1,
           this.vehicle.detalles2,
@@ -167,7 +194,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-vehicle.jpg';
-    imgElement.onerror = null; // Prevent infinite loop
+    imgElement.onerror = null; 
   }
 
   reservar(): void {
@@ -180,6 +207,30 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         // Redirigir al login si no está logueado
         this.router.navigate(['/login']);
       }
+    }
+  }
+
+  guardarCambios(): void {
+    if (!this.vehicle) return;
+
+    this.vehicleService.updateVehicle(this.vehicle).subscribe({
+      next: (updatedVehicle: Vehicle) => {
+        this.vehicle = updatedVehicle;
+        this.originalVehicle = JSON.parse(JSON.stringify(updatedVehicle));
+        this.editMode = false;
+        alert('Vehículo actualizado correctamente');
+      },
+      error: (error: any) => {
+        console.error('Error updating vehicle:', error);
+        alert('Error al actualizar el vehículo. Por favor, inténtalo de nuevo.');
+      }
+    });
+  }
+
+  cancelarEdicion(): void {
+    if (this.originalVehicle) {
+      this.vehicle = JSON.parse(JSON.stringify(this.originalVehicle));
+      this.editMode = false;
     }
   }
 

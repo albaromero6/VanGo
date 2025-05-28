@@ -1,8 +1,25 @@
 <div *ngIf="!loading && !error && vehicle" class="vehicle-detail">
     <div class="vehicle-detail__left">
         <div class="vehicle-detail__header">
-            <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
-            <div class="vehicle-detail__price">
+            <div *ngIf="!editMode">
+                <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
+            </div>
+            <div *ngIf="editMode && isAdmin" class="edit-fields">
+                <input type="text" [(ngModel)]="vehicle.modelo.nombre" placeholder="Nombre modelo" class="edit-input" />
+                <input type="number" [(ngModel)]="vehicle.precio" placeholder="Precio por día" class="edit-input" />
+                <select [(ngModel)]="vehicle.combustible" class="edit-input">
+                    <option value="GASOLINA">Gasolina</option>
+                    <option value="DIESEL">Diésel</option>
+                </select>
+                <select [(ngModel)]="vehicle.transmision" class="edit-input">
+                    <option value="MANUAL">Manual</option>
+                    <option value="AUTOMATICO">Automático</option>
+                </select>
+                <input type="number" [(ngModel)]="vehicle.puertas" placeholder="Número de puertas" class="edit-input" />
+                <input type="number" [(ngModel)]="vehicle.pasajeros" placeholder="Número de pasajeros"
+                    class="edit-input" />
+            </div>
+            <div class="vehicle-detail__price" *ngIf="!editMode">
                 <span class="vehicle-detail__price-amount">{{ vehicle.precio }}€<span
                         class="vehicle-detail__price-period">/día</span></span>
             </div>
@@ -29,7 +46,12 @@
             </div>
         </div>
 
-        <button class="vehicle-detail__button" (click)="reservar()">Reservar</button>
+        <button class="vehicle-detail__button" (click)="reservar()" *ngIf="!editMode">Reservar</button>
+
+        <div *ngIf="editMode && isAdmin" class="edit-actions">
+            <button class="edit-button save" (click)="guardarCambios()">Guardar cambios</button>
+            <button class="edit-button cancel" (click)="cancelarEdicion()">Cancelar</button>
+        </div>
     </div>
 
     <div class="vehicle-detail__right">
@@ -39,7 +61,11 @@
                     <img src="assets/img/Combustible.png" alt="Combustible">
                 </div>
                 <div class="vehicle-detail__specs-content">
-                    <p>{{ formatCombustible(vehicle.combustible) }}</p>
+                    <p *ngIf="!editMode">{{ formatCombustible(vehicle.combustible) }}</p>
+                    <select *ngIf="editMode" [(ngModel)]="vehicle.combustible" class="edit-input">
+                        <option value="GASOLINA">Gasolina</option>
+                        <option value="DIESEL">Diésel</option>
+                    </select>
                 </div>
             </div>
             <div class="vehicle-detail__specs-item">
@@ -47,7 +73,11 @@
                     <img src="assets/img/Transmision.png" alt="Transmisión">
                 </div>
                 <div class="vehicle-detail__specs-content">
-                    <p>{{ formatTransmision(vehicle.transmision) }}</p>
+                    <p *ngIf="!editMode">{{ formatTransmision(vehicle.transmision) }}</p>
+                    <select *ngIf="editMode" [(ngModel)]="vehicle.transmision" class="edit-input">
+                        <option value="MANUAL">Manual</option>
+                        <option value="AUTOMATICO">Automático</option>
+                    </select>
                 </div>
             </div>
             <div class="vehicle-detail__specs-item">
@@ -55,7 +85,8 @@
                     <img src="assets/img/Puertas.png" alt="Puertas">
                 </div>
                 <div class="vehicle-detail__specs-content">
-                    <p>{{ vehicle.puertas }}</p>
+                    <p *ngIf="!editMode">{{ vehicle.puertas }}</p>
+                    <input *ngIf="editMode" type="number" [(ngModel)]="vehicle.puertas" class="edit-input" />
                 </div>
             </div>
             <div class="vehicle-detail__specs-item">
@@ -63,7 +94,8 @@
                     <img src="assets/img/Pasajeros.png" alt="Pasajeros">
                 </div>
                 <div class="vehicle-detail__specs-content">
-                    <p>{{ vehicle.pasajeros }}</p>
+                    <p *ngIf="!editMode">{{ vehicle.pasajeros }}</p>
+                    <input *ngIf="editMode" type="number" [(ngModel)]="vehicle.pasajeros" class="edit-input" />
                 </div>
             </div>
         </div>

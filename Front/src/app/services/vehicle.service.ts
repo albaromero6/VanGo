@@ -68,4 +68,8 @@ export class VehicleService {
             })
         );
     }
+
+    updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
+        return this.http.put<Vehicle>(`${this.apiUrl}/vehiculos/${vehicle.idVeh}`, vehicle);
+    }
 } 

@@ -107,13 +107,14 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   verDetalles(vehicleId: number): void {
-    console.log('Navegando a detalles del vehículo:', vehicleId);
     this.router.navigate(['/detalles', vehicleId]);
   }
+  
 
   editarVehiculo(vehicleId: number): void {
-    this.router.navigate(['/admin/vehiculos/editar', vehicleId]);
+    this.router.navigate(['/detalles', vehicleId], { queryParams: { edit: 'true' } });
   }
+  
 
   eliminarVehiculo(vehicleId: number): void {
     Swal.fire({
