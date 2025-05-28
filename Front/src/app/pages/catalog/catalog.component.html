@@ -2,6 +2,13 @@
 
     <div class="catalog-content">
 
+        <!-- CRUD admin -->
+        <div *ngIf="isAdmin" class="admin-controls">
+            <button class="btn-admin btn-anadir" (click)="anadirVehiculo()">
+                <img src="assets/img/Añadir.png" alt="Añadir" class="admin-icon">
+            </button>
+        </div>
+
         <!-- Cargando -->
         <div *ngIf="loading" class="loading-container">
             <div class="loading-spinner"></div>
@@ -19,6 +26,16 @@
                 <div class="vehicle-image">
                     <img [src]="getVehicleImage(vehicle)" [alt]="getVehicleName(vehicle)"
                         (error)="onImageError($event)">
+
+                    <!-- CRUD admin -->
+                    <div *ngIf="isAdmin" class="admin-actions">
+                        <button class="btn-admin btn-editar" (click)="editarVehiculo(vehicle.idVeh)">
+                            <img src="assets/img/Lapiz.png" alt="Editar" class="admin-icon">
+                        </button>
+                        <button class="btn-admin btn-eliminar" (click)="eliminarVehiculo(vehicle.idVeh)">
+                            <img src="assets/img/Basura.png" alt="Eliminar" class="admin-icon">
+                        </button>
+                    </div>
                 </div>
                 <div class="vehicle-info">
                     <h3 class="vehicle-name">{{ getVehicleName(vehicle) }}</h3>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-catalog',
@@ -14,14 +15,18 @@ export class CatalogComponent implements OnInit {
   vehicles: Vehicle[] = [];
   loading: boolean = true;
   error: string | null = null;
+  isAdmin: boolean = false;
 
   constructor(
     private vehicleService: VehicleService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.loadVehicles();
+    // Check if user is admin (you'll need to implement this in your auth service)
+    this.isAdmin = this.authService.isLoggedIn(); // For now, we'll consider logged in users as admins
   }
 
   loadVehicles(): void {
@@ -93,5 +98,20 @@ export class CatalogComponent implements OnInit {
   verDetalles(vehicleId: number): void {
     console.log('Navegando a detalles del vehículo:', vehicleId);
     this.router.navigate(['/detalles', vehicleId]);
+  }
+
+  editarVehiculo(vehicleId: number): void {
+    this.router.navigate(['/admin/vehiculos/editar', vehicleId]);
+  }
+
+  eliminarVehiculo(vehicleId: number): void {
+    if (confirm('¿Estás seguro de que deseas eliminar este vehículo?')) {
+      // Implement delete functionality when you have the API endpoint
+      console.log('Eliminar vehículo:', vehicleId);
+    }
+  }
+
+  anadirVehiculo(): void {
+    this.router.navigate(['/admin/vehiculos/nuevo']);
   }
 }

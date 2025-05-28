@@ -9,6 +9,46 @@
         max-width: 1200px;
         margin: 0 auto;
         margin-top: $spacing-large*3;
+
+        .admin-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: $spacing-large;
+            padding: 0 $spacing-medium;
+
+            .btn-admin {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                border: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background-color: rgba(255, 255, 255, 0.9);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                .admin-icon {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                &.btn-anadir {
+                    &:hover {
+                        background-color: $primary-color;
+
+                        .admin-icon {
+                            filter: brightness(0) invert(1);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .vehicles-grid {
@@ -44,6 +84,58 @@
                 height: 100%;
                 object-fit: contain;
                 transition: transform 0.3s ease;
+            }
+
+            .admin-actions {
+                position: absolute;
+                top: $spacing-small;
+                right: $spacing-small;
+                display: flex;
+                gap: $spacing-small;
+                z-index: 2;
+
+                .btn-admin {
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    border: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    background-color: rgba(255, 255, 255, 0.9);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+
+                    .admin-icon {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    &.btn-editar {
+                        &:hover {
+                            background-color: $primary-color;
+
+                            .admin-icon {
+                                filter: brightness(0) invert(1);
+                            }
+                        }
+                    }
+
+                    &.btn-eliminar {
+                        &:hover {
+                            background-color: #dc3545;
+
+                            .admin-icon {
+                                filter: brightness(0) invert(1);
+                            }
+                        }
+                    }
+                }
             }
         }
 
