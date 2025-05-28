@@ -18,7 +18,6 @@ export interface Vehicle {
     idVeh: number;
     modelo: Modelo;
     matricula: string;
-    descripcion: string;
     imagen: string;
     precio: number;
     anio: number;

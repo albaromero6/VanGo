@@ -27,9 +27,6 @@ public class Vehiculo {
     @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 
-    @Column(length = 500)
-    private String descripcion;
-
     @Column(length = 255)
     private String imagen;
 
