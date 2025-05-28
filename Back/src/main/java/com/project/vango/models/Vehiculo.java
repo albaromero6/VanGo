@@ -59,6 +59,18 @@ public class Vehiculo {
     @Column(nullable = false)
     private Combustible combustible;
 
+    @Column(length = 255)
+    private String detalles1;
+
+    @Column(length = 255)
+    private String detalles2;
+
+    @Column(length = 255)
+    private String detalles3;
+
+    @Column(length = 255)
+    private String detalles4;
+
     public enum Transmision {
         MANUAL,
         AUTOMATICO

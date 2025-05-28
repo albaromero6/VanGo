@@ -12,6 +12,23 @@
             <img [src]="getVehicleImage()" [alt]="getVehicleName()" (error)="onImageError($event)">
         </div>
 
+        <div class="vehicle-detail__gallery" *ngIf="galleryImages.length > 0">
+            <div class="vehicle-detail__gallery-item" *ngFor="let image of galleryImages; let i = index" #galleryItem
+                (click)="openLightbox(i)">
+                <img [src]="getGalleryImage(image)" [alt]="getVehicleName()" (error)="onImageError($event)">
+            </div>
+        </div>
+
+        <div class="lightbox" *ngIf="showLightbox" (click)="closeLightbox()">
+            <div class="lightbox__content" (click)="$event.stopPropagation()">
+                <button class="lightbox__close" (click)="closeLightbox()"></button>
+                <button class="lightbox__prev" (click)="prevImage()" *ngIf="currentImageIndex > 0">‹</button>
+                <button class="lightbox__next" (click)="nextImage()"
+                    *ngIf="currentImageIndex < galleryImages.length - 1">›</button>
+                <img [src]="getGalleryImage(galleryImages[currentImageIndex])" [alt]="getVehicleName()">
+            </div>
+        </div>
+
         <button class="vehicle-detail__button" (click)="reservar()">Reservar</button>
     </div>
 
@@ -76,6 +93,18 @@
                 <div class="vehicle-detail__equipment-item">
                     <span class="vehicle-detail__equipment-check">✓</span>
                     <span class="vehicle-detail__equipment-text">Volante multifunción</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Cámara trasera</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Panel solar</span>
+                </div>
+                <div class="vehicle-detail__equipment-item">
+                    <span class="vehicle-detail__equipment-check">✓</span>
+                    <span class="vehicle-detail__equipment-text">Calefacción estacionaria</span>
                 </div>
             </div>
         </div>

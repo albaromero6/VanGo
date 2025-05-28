@@ -25,6 +25,10 @@ export interface Vehicle {
     puertas: number;
     transmision: 'MANUAL' | 'AUTOMATICO';
     combustible: 'GASOLINA' | 'DIESEL';
+    detalles1: string;
+    detalles2: string;
+    detalles3: string;
+    detalles4: string;
 }
 
 @Injectable({
