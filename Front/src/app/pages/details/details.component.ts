@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList }
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
+import { AuthService } from '../../services/auth.service';
 declare const anime: any;
 import { HostListener } from '@angular/core';
 
@@ -25,7 +26,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +51,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (items.length === 0) return;
 
     console.log('Initializing gallery animation with', items.length, 'items');
-
     // Animación inicial 
     anime({
       targets: items.map(item => item.nativeElement),
@@ -96,7 +97,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           this.vehicle.detalles2,
           this.vehicle.detalles3,
           this.vehicle.detalles4
-        ].filter(img => img); 
+        ].filter(img => img);
         this.loading = false;
 
         // Reinicializa las animaciones después de cargar los datos
@@ -171,22 +172,26 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
   reservar(): void {
     if (this.vehicle) {
-      // Aquí irá la lógica de reserva
-      console.log('Reservando vehículo:', this.vehicle.idVeh);
-      // Por ahora solo redirijo al catálogo
-      this.router.navigate(['/catalogo']);
+      if (this.authService.isLoggedIn()) {
+        // Aquí irá la lógica de reserva
+        console.log('Reservando vehículo:', this.vehicle.idVeh);
+        this.router.navigate(['/catalogo']);
+      } else {
+        // Redirigir al login si no está logueado
+        this.router.navigate(['/login']);
+      }
     }
   }
 
   openLightbox(index: number): void {
     this.currentImageIndex = index;
     this.showLightbox = true;
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
   }
 
   closeLightbox(): void {
     this.showLightbox = false;
-    document.body.style.overflow = ''; 
+    document.body.style.overflow = '';
   }
 
   nextImage(): void {
