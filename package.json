@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "animejs": "^4.0.2"
+    "animejs": "^4.0.2",
+    "sweetalert2": "^11.22.0"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.13"

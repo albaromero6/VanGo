@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface Marca {
     idMar: number;
@@ -49,5 +50,23 @@ export class VehicleService {
 
     getAvailableVehicles(): Observable<Vehicle[]> {
         return this.http.get<Vehicle[]>(`${this.apiUrl}/disponibles`);
+    }
+
+    deleteVehicle(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+            catchError((error: HttpErrorResponse) => {
+                let errorMessage = 'Error al eliminar el vehículo';
+
+                if (error.status === 500) {
+                    errorMessage = 'No se puede eliminar este vehículo porque tiene reservas asociadas';
+                } else if (error.status === 404) {
+                    errorMessage = 'El vehículo no existe';
+                } else if (error.status === 403) {
+                    errorMessage = 'No tienes permisos para eliminar vehículos';
+                }
+
+                return throwError(() => errorMessage);
+            })
+        );
     }
 } 

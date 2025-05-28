@@ -1,0 +1,85 @@
+@import 'variables';
+
+.swal2-popup {
+    font-family: $font-family-body !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    width: 50rem !important;
+}
+
+.swal2-title {
+    color: $text-title !important;
+    font-family: $font-family-body !important;
+    font-size: $font-size-xlarge !important;
+    font-weight: $font-weight-semibold !important;
+}
+
+.swal2-html-container {
+    color: $text-body !important;
+    font-size: $font-size-base !important;
+}
+
+.swal2-actions {
+    gap: 1rem !important;
+    justify-content: center !important;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+    font-family: $font-family-body !important;
+    font-weight: $font-weight-medium !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    width: 140px !important;
+    margin: 0 !important;
+}
+
+.swal2-confirm {
+    background-color: $primary-color !important;
+
+    &:hover {
+        background-color: darken($primary-color, 5%) !important;
+        transform: translateY(-2px);
+    }
+}
+
+.swal2-cancel {
+    background-color: $secondary-color !important;
+
+    &:hover {
+        background-color: darken($secondary-color, 5%) !important;
+        transform: translateY(-2px);
+    }
+}
+
+.swal2-icon {
+    border-width: 3px !important;
+
+    &.swal2-warning {
+        border-color: $primary-color !important;
+        color: $primary-color !important;
+    }
+
+    &.swal2-success {
+        border-color: $primary-color !important;
+        color: $primary-color !important;
+
+        [class^='swal2-success-line'] {
+            background-color: $primary-color !important;
+        }
+
+        .swal2-success-ring {
+            border-color: $primary-color !important;
+        }
+    }
+
+    &.swal2-error {
+        border-color: $primary-color !important;
+        color: $primary-color !important;
+
+        [class^='swal2-x-mark-line'] {
+            background-color: $primary-color !important;
+        }
+    }
+}

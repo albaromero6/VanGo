@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-catalog',
@@ -102,7 +103,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-vehicle.jpg';
-    imgElement.onerror = null; 
+    imgElement.onerror = null;
   }
 
   verDetalles(vehicleId: number): void {
@@ -115,9 +116,65 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   eliminarVehiculo(vehicleId: number): void {
-    if (confirm('¿Estás seguro de que deseas eliminar este vehículo?')) {
-      console.log('Eliminar vehículo:', vehicleId);
-    }
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esta acción",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#05889C',
+      cancelButtonColor: '#EFBF14',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Volver',
+      customClass: {
+        popup: 'swal2-popup',
+        title: 'swal2-title',
+        htmlContainer: 'swal2-html-container',
+        confirmButton: 'swal2-confirm',
+        cancelButton: 'swal2-cancel'
+      },
+      buttonsStyling: true,
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.vehicleService.deleteVehicle(vehicleId).subscribe({
+          next: () => {
+            // Elimina el vehículo del array
+            this.vehicles = this.vehicles.filter(v => v.idVeh !== vehicleId);
+            // Muestra el mensaje de éxito
+            Swal.fire({
+              title: '¡Eliminado!',
+              text: 'El vehículo ha sido eliminado correctamente',
+              icon: 'success',
+              confirmButtonColor: '#05889C',
+              confirmButtonText: 'Aceptar',
+              customClass: {
+                popup: 'swal2-popup',
+                title: 'swal2-title',
+                htmlContainer: 'swal2-html-container',
+                confirmButton: 'swal2-confirm'
+              },
+              buttonsStyling: true
+            });
+          },
+          error: (errorMessage: string) => {
+            console.error('Error al eliminar el vehículo:', errorMessage);
+            Swal.fire({
+              title: 'Error',
+              text: errorMessage,
+              icon: 'error',
+              confirmButtonColor: '#05889C',
+              customClass: {
+                popup: 'swal2-popup',
+                title: 'swal2-title',
+                htmlContainer: 'swal2-html-container',
+                confirmButton: 'swal2-confirm'
+              },
+              buttonsStyling: true
+            });
+          }
+        });
+      }
+    });
   }
 
   anadirVehiculo(): void {
