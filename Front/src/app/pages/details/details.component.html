@@ -19,9 +19,18 @@
             <img [src]="getVehicleImage()" [alt]="getVehicleName()" (error)="onImageError($event)">
         </div>
 
-        <div class="vehicle-detail__gallery" *ngIf="galleryImages.length > 0">
+        <div class="vehicle-detail__gallery" *ngIf="galleryImages.length > 0 && !editMode">
             <div class="vehicle-detail__gallery-item" *ngFor="let image of galleryImages; let i = index" #galleryItem
                 (click)="openLightbox(i)">
+                <img [src]="getGalleryImage(image)" [alt]="getVehicleName()" (error)="onImageError($event)">
+            </div>
+        </div>
+
+        <div class="vehicle-detail__gallery-edit" *ngIf="galleryImages.length > 0 && editMode">
+            <div class="vehicle-detail__gallery-item" *ngFor="let image of galleryImages; let i = index">
+                <div class="gallery-item-overlay">
+                    <button class="modify-button">Modificar</button>
+                </div>
                 <img [src]="getGalleryImage(image)" [alt]="getVehicleName()" (error)="onImageError($event)">
             </div>
         </div>

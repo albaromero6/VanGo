@@ -64,7 +64,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   initializeGalleryAnimation(): void {
-    if (!this.galleryItems) return;
+    if (!this.galleryItems || this.editMode) return;
 
     const items = this.galleryItems.toArray();
     if (items.length === 0) return;
@@ -194,7 +194,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-vehicle.jpg';
-    imgElement.onerror = null; 
+    imgElement.onerror = null;
   }
 
   reservar(): void {
