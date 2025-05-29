@@ -155,12 +155,88 @@
             align-items: center;
             gap: 0.5rem;
             white-space: nowrap;
+            position: relative;
+            width: 100%;
 
             p {
                 font-size: $font-size-base;
                 font-weight: $font-weight-regular;
                 color: $text-title;
                 margin: 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            select {
+                width: 100%;
+                text-align: center;
+                border: none;
+                background: transparent;
+                font-size: $font-size-base;
+                font-weight: $font-weight-regular;
+                color: $text-title;
+                cursor: pointer;
+                outline: none !important;
+                padding: 0;
+                padding-right: 20px;
+                margin: 0;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+
+                &:focus {
+                    outline: none !important;
+                    -webkit-focus-ring-color: transparent !important;
+                    -webkit-tap-highlight-color: transparent !important;
+                    box-shadow: none !important;
+                }
+
+                &::-ms-expand {
+                    display: none;
+                }
+
+                &::-webkit-focus-ring-color {
+                    outline: none !important;
+                }
+
+                &:-moz-focusring {
+                    color: transparent !important;
+                    text-shadow: 0 0 0 $text-title !important;
+                }
+
+                option {
+                    background-color: white;
+                    color: $text-title;
+                    padding: 10px;
+                    font-size: $font-size-base;
+                    text-align: center;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $secondary-color;
+                        color: white;
+                    }
+
+                    &:checked {
+                        background-color: $primary-color;
+                        color: white;
+                    }
+                }
+            }
+
+            &::after {
+                content: '▼';
+                font-size: 12px;
+                color: $text-title;
+                position: absolute;
+                right: 0;
+                pointer-events: none;
+                opacity: 0.5;
+                display: none;
+            }
+
+            &.edit-mode::after {
+                display: block;
             }
         }
     }
@@ -230,7 +306,6 @@
     }
 }
 
-// Lightbox styles
 .lightbox {
     position: fixed;
     top: 0;
