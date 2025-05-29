@@ -212,19 +212,85 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  onImageUpload(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Crear un FormData para enviar el archivo
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Llamar al servicio para subir la imagen
+      this.vehicleService.uploadImage(formData).subscribe({
+        next: (response: { nombreArchivo: string }) => {
+          if (response && response.nombreArchivo) {
+            // Actualizar la imagen correspondiente en el vehículo
+            switch (index) {
+              case 0:
+                this.vehicle!.detalles1 = response.nombreArchivo;
+                break;
+              case 1:
+                this.vehicle!.detalles2 = response.nombreArchivo;
+                break;
+              case 2:
+                this.vehicle!.detalles3 = response.nombreArchivo;
+                break;
+              case 3:
+                this.vehicle!.detalles4 = response.nombreArchivo;
+                break;
+            }
+
+            // Actualiza el array de imágenes de la galería
+            this.galleryImages[index] = response.nombreArchivo;
+          }
+        },
+        error: (error: Error) => {
+          console.error('Error al subir la imagen:', error);
+        }
+      });
+    }
+  }
+
   guardarCambios(): void {
     if (!this.vehicle) return;
 
-    this.vehicleService.updateVehicle(this.vehicle).subscribe({
-      next: (updatedVehicle: Vehicle) => {
-        this.vehicle = updatedVehicle;
-        this.originalVehicle = JSON.parse(JSON.stringify(updatedVehicle));
-        this.editMode = false;
-        alert('Vehículo actualizado correctamente');
-      },
-      error: (error: any) => {
-        console.error('Error updating vehicle:', error);
-        alert('Error al actualizar el vehículo. Por favor, inténtalo de nuevo.');
+    // Primero subo las imágenes si hay cambios
+    const uploadPromises = this.galleryImages.map((image, index) => {
+      const currentImage = this.vehicle![`detalles${index + 1}` as keyof Vehicle] as string;
+      if (image !== currentImage) {
+        // Si la imagen ha cambiado, la subo
+        const formData = new FormData();
+        formData.append('file', image);
+        return this.vehicleService.uploadImage(formData).toPromise();
+      }
+      return Promise.resolve(null);
+    });
+
+    // Esperamos a que todas las imágenes se suban
+    Promise.all(uploadPromises).then(() => {
+      // Luego actualizamos el vehículo
+      if (this.vehicle) {
+        this.vehicleService.updateVehicle(this.vehicle).subscribe({
+          next: (updatedVehicle: Vehicle) => {
+            this.vehicle = updatedVehicle;
+            this.originalVehicle = JSON.parse(JSON.stringify(updatedVehicle));
+            this.editMode = false;
+
+            Swal.fire({
+              icon: 'success',
+              title: '¡Cambios guardados!',
+              text: 'El vehículo ha sido actualizado correctamente',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#3085d6'
+            }).then(() => {
+              this.router.navigate(['/catalogo']);
+            });
+          },
+          error: (error: any) => {
+            console.error('Error updating vehicle:', error);
+          }
+        });
       }
     });
   }
@@ -232,7 +298,16 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   cancelarEdicion(): void {
     if (this.originalVehicle) {
       this.vehicle = JSON.parse(JSON.stringify(this.originalVehicle));
+      if (this.vehicle) {
+        this.galleryImages = [
+          this.vehicle.detalles1,
+          this.vehicle.detalles2,
+          this.vehicle.detalles3,
+          this.vehicle.detalles4
+        ].filter(img => img);
+      }
       this.editMode = false;
+      this.router.navigate(['/catalogo']);
     }
   }
 
@@ -273,56 +348,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       case 'ArrowLeft':
         this.prevImage();
         break;
-    }
-  }
-
-  onImageUpload(event: Event, index: number): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-
-      // Crear un FormData para enviar el archivo
-      const formData = new FormData();
-      formData.append('file', file);
-
-      // Llamar al servicio para subir la imagen
-      this.vehicleService.uploadImage(formData).subscribe({
-        next: (response: { nombreArchivo: string }) => {
-          if (response && response.nombreArchivo) {
-            // Actualizar la imagen correspondiente en el vehículo
-            switch (index) {
-              case 0:
-                this.vehicle!.detalles1 = response.nombreArchivo;
-                break;
-              case 1:
-                this.vehicle!.detalles2 = response.nombreArchivo;
-                break;
-              case 2:
-                this.vehicle!.detalles3 = response.nombreArchivo;
-                break;
-              case 3:
-                this.vehicle!.detalles4 = response.nombreArchivo;
-                break;
-            }
-
-            // Actualizar el array de imágenes de la galería
-            this.galleryImages[index] = response.nombreArchivo;
-
-            // Actualizar el vehículo en el servidor
-            this.vehicleService.updateVehicle(this.vehicle!).subscribe({
-              next: (updatedVehicle) => {
-                this.vehicle = updatedVehicle;
-              },
-              error: (error: Error) => {
-                console.error('Error al actualizar el vehículo:', error);
-              }
-            });
-          }
-        },
-        error: (error: Error) => {
-          console.error('Error al subir la imagen:', error);
-        }
-      });
     }
   }
 }
