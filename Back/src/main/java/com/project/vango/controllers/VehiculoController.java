@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/vehiculos")
@@ -95,6 +97,27 @@ public class VehiculoController {
                         return ResponseEntity.ok(vehiculoService.save(vehiculo));
                     })
                     .orElse(ResponseEntity.notFound().build());
+
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<Map<String, String>> uploadDetalleImagen(@RequestParam("file") MultipartFile file) {
+        try {
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
+            String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = uploadDir.resolve(filename);
+
+            Files.copy(file.getInputStream(), filePath);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("nombreArchivo", filename);
+            return ResponseEntity.ok(response);
 
         } catch (IOException e) {
             return ResponseEntity.internalServerError().build();

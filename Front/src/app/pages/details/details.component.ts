@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 declare const anime: any;
 import { HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-details',
@@ -23,6 +24,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   isAdmin: boolean = false;
   originalVehicle: Vehicle | null = null;
   @ViewChildren('galleryItem') galleryItems!: QueryList<ElementRef>;
+  @ViewChildren('fileInput') fileInputs!: QueryList<ElementRef>;
 
   showLightbox: boolean = false;
   currentImageIndex: number = 0;
@@ -271,6 +273,56 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       case 'ArrowLeft':
         this.prevImage();
         break;
+    }
+  }
+
+  onImageUpload(event: Event, index: number): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Crear un FormData para enviar el archivo
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Llamar al servicio para subir la imagen
+      this.vehicleService.uploadImage(formData).subscribe({
+        next: (response: { nombreArchivo: string }) => {
+          if (response && response.nombreArchivo) {
+            // Actualizar la imagen correspondiente en el vehículo
+            switch (index) {
+              case 0:
+                this.vehicle!.detalles1 = response.nombreArchivo;
+                break;
+              case 1:
+                this.vehicle!.detalles2 = response.nombreArchivo;
+                break;
+              case 2:
+                this.vehicle!.detalles3 = response.nombreArchivo;
+                break;
+              case 3:
+                this.vehicle!.detalles4 = response.nombreArchivo;
+                break;
+            }
+
+            // Actualizar el array de imágenes de la galería
+            this.galleryImages[index] = response.nombreArchivo;
+
+            // Actualizar el vehículo en el servidor
+            this.vehicleService.updateVehicle(this.vehicle!).subscribe({
+              next: (updatedVehicle) => {
+                this.vehicle = updatedVehicle;
+              },
+              error: (error: Error) => {
+                console.error('Error al actualizar el vehículo:', error);
+              }
+            });
+          }
+        },
+        error: (error: Error) => {
+          console.error('Error al subir la imagen:', error);
+        }
+      });
     }
   }
 }

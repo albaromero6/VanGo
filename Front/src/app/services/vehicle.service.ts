@@ -70,6 +70,10 @@ export class VehicleService {
     }
 
     updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
-        return this.http.put<Vehicle>(`${this.apiUrl}/vehiculos/${vehicle.idVeh}`, vehicle);
+        return this.http.put<Vehicle>(`${this.apiUrl}/${vehicle.idVeh}`, vehicle);
+    }
+
+    uploadImage(formData: FormData): Observable<{ nombreArchivo: string }> {
+        return this.http.post<{ nombreArchivo: string }>(`${this.apiUrl}/upload`, formData);
     }
 } 

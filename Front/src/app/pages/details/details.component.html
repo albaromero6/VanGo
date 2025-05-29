@@ -29,7 +29,11 @@
         <div class="vehicle-detail__gallery-edit" *ngIf="galleryImages.length > 0 && editMode">
             <div class="vehicle-detail__gallery-item" *ngFor="let image of galleryImages; let i = index">
                 <div class="gallery-item-overlay">
-                    <button class="modify-button">Modificar</button>
+                    <input type="file" [id]="'image-upload-' + i" class="image-upload-input" accept="image/*"
+                        (change)="onImageUpload($event, i)" #fileInput>
+                    <label [for]="'image-upload-' + i" class="modify-button">
+                        Modificar
+                    </label>
                 </div>
                 <img [src]="getGalleryImage(image)" [alt]="getVehicleName()" (error)="onImageError($event)">
             </div>
