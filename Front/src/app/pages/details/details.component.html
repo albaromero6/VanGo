@@ -1,16 +1,40 @@
 <div *ngIf="!loading && !error && vehicle" class="vehicle-detail">
     <div class="vehicle-detail__left">
-        <div class="vehicle-detail__header">
-            <div>
+        <div class="vehicle-detail__header" *ngIf="!isNewVehicle">
+            <div class="vehicle-detail__title-container">
                 <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
             </div>
             <div class="vehicle-detail__price">
-                <span *ngIf="!editMode" class="vehicle-detail__price-amount">{{ vehicle.precio }}€<span
-                        class="vehicle-detail__price-period">/día</span></span>
-                <div *ngIf="editMode" class="vehicle-detail__price-edit">
+                <ng-container *ngIf="!editMode">
+                    <span class="vehicle-detail__price-amount">{{ vehicle?.precio }}€<span
+                            class="vehicle-detail__price-period">/día</span></span>
+                </ng-container>
+                <div class="vehicle-detail__price-edit" *ngIf="editMode">
                     <img src="assets/img/Lapiz.png" alt="Editar" class="admin-icon">
-                    <input type="number" [(ngModel)]="vehicle.precio" class="edit-input" />
-                    <span class="vehicle-detail__price-period">€/día</span>
+                    <input type="number" [(ngModel)]="vehicle!.precio" min="0" step="0.01">
+                    <span>€/día</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="vehicle-detail__header new-vehicle" *ngIf="isNewVehicle">
+            <div class="vehicle-detail__title-container">
+                <div class="modelo-selects">
+                    <select [(ngModel)]="selectedMarca" (change)="onMarcaChange()">
+                        <option [ngValue]="null" disabled>Marca</option>
+                        <option *ngFor="let marca of marcas" [value]="marca.idMar">{{ marca.nombre }}</option>
+                    </select>
+                    <select [(ngModel)]="selectedModelo" (change)="onModeloChange()" [disabled]="!selectedMarca">
+                        <option [ngValue]="null" disabled>Modelo</option>
+                        <option *ngFor="let modelo of modelos" [value]="modelo.idMod">{{ modelo.nombre }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="vehicle-detail__price">
+                <div class="vehicle-detail__price-edit">
+                    <img src="assets/img/Lapiz.png" alt="Editar" class="admin-icon">
+                    <input type="number" [(ngModel)]="vehicle!.precio" min="0" step="0.01">
+                    <span>€/día</span>
                 </div>
             </div>
         </div>
@@ -66,6 +90,7 @@
                 <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
                     <p *ngIf="!editMode">{{ formatCombustible(vehicle.combustible) }}</p>
                     <select *ngIf="editMode" [(ngModel)]="vehicle.combustible" class="edit-input">
+                        <option value="" disabled selected>Combustible</option>
                         <option value="GASOLINA">Gasolina</option>
                         <option value="DIESEL">Diésel</option>
                     </select>
@@ -78,6 +103,7 @@
                 <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
                     <p *ngIf="!editMode">{{ formatTransmision(vehicle.transmision) }}</p>
                     <select *ngIf="editMode" [(ngModel)]="vehicle.transmision" class="edit-input">
+                        <option value="" disabled selected>Transmisión</option>
                         <option value="MANUAL">Manual</option>
                         <option value="AUTOMATICO">Automático</option>
                     </select>
@@ -90,9 +116,10 @@
                 <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
                     <p *ngIf="!editMode">{{ vehicle.puertas }}</p>
                     <select *ngIf="editMode" [(ngModel)]="vehicle.puertas" class="edit-input">
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option [ngValue]="null" disabled>Puertas</option>
+                        <option [ngValue]="3">3</option>
+                        <option [ngValue]="4">4</option>
+                        <option [ngValue]="5">5</option>
                     </select>
                 </div>
             </div>
@@ -103,13 +130,36 @@
                 <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
                     <p *ngIf="!editMode">{{ vehicle.pasajeros }}</p>
                     <select *ngIf="editMode" [(ngModel)]="vehicle.pasajeros" class="edit-input">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
+                        <option [ngValue]="0" disabled>Pasajeros</option>
+                        <option [ngValue]="1">1</option>
+                        <option [ngValue]="2">2</option>
+                        <option [ngValue]="3">3</option>
+                        <option [ngValue]="4">4</option>
+                        <option [ngValue]="5">5</option>
+                        <option [ngValue]="6">6</option>
                     </select>
+                </div>
+            </div>
+            <div class="vehicle-detail__specs-item" *ngIf="vehicle?.idVeh === 0">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Calendario3.png" alt="Año">
+                </div>
+                <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
+                    <p *ngIf="!editMode">{{ vehicle.anio }}</p>
+                    <select *ngIf="editMode" [(ngModel)]="vehicle.anio" class="edit-input">
+                        <option [ngValue]="null" disabled selected>Año</option>
+                        <option *ngFor="let year of getYears()" [ngValue]="year">{{year}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="vehicle-detail__specs-item" *ngIf="vehicle?.idVeh === 0">
+                <div class="vehicle-detail__specs-icon">
+                    <img src="assets/img/Caravana.png" alt="Matrícula">
+                </div>
+                <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
+                    <p *ngIf="!editMode">{{ vehicle.matricula }}</p>
+                    <input *ngIf="editMode" type="text" [(ngModel)]="vehicle.matricula" class="edit-input" maxlength="8"
+                        placeholder="Matrícula">
                 </div>
             </div>
         </div>

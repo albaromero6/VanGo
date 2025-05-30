@@ -109,12 +109,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
   verDetalles(vehicleId: number): void {
     this.router.navigate(['/detalles', vehicleId]);
   }
-  
+
 
   editarVehiculo(vehicleId: number): void {
     this.router.navigate(['/detalles', vehicleId], { queryParams: { edit: 'true' } });
   }
-  
+
 
   eliminarVehiculo(vehicleId: number): void {
     Swal.fire({
@@ -179,6 +179,6 @@ export class CatalogComponent implements OnInit, OnDestroy {
   }
 
   anadirVehiculo(): void {
-    this.router.navigate(['/admin/vehiculos/nuevo']);
+    this.router.navigate(['/detalles/new']);
   }
 }

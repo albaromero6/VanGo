@@ -40,11 +40,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/sedes/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/api/vehiculos/**").permitAll()
+                        .requestMatchers("/api/marcas/**").permitAll()
+                        .requestMatchers("/api/modelos/**").permitAll()
 
                         // Endpoints de administrador
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/api/marcas/**").hasRole("ADMINISTRADOR")
-                        .requestMatchers("/api/modelos/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/reservas/admin/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/resenias/admin/**").hasRole("ADMINISTRADOR")
 

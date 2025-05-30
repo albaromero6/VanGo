@@ -28,7 +28,24 @@
         align-items: flex-start;
         margin-bottom: $spacing-large;
         padding-bottom: $spacing-medium;
-        border-bottom: 1px solid rgba($primary-color, 0.2);
+
+        &:not(.new-vehicle) {
+            border-bottom: 1px solid rgba($primary-color, 0.2);
+        }
+    }
+
+    &__title-container {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+
+        &.with-box {
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
     }
 
     &__title {
@@ -77,13 +94,15 @@
                 font-size: $font-size-xlarge;
                 font-weight: $font-weight-bold;
                 color: $primary-color;
-                border: none;
+                border: 1px solid $secondary-color;
                 background: transparent;
                 padding: 0;
                 margin: 0;
+                border-radius: 4px;
 
                 &:focus {
                     outline: none;
+                    border-color: $primary-color;
                 }
 
                 &::-webkit-inner-spin-button,
@@ -259,10 +278,8 @@
 
         &-content {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             gap: 0.5rem;
-            white-space: nowrap;
-            position: relative;
             width: 100%;
 
             p {
@@ -274,76 +291,29 @@
                 text-align: center;
             }
 
-            select {
+            input.edit-input,
+            select.edit-input {
                 width: 100%;
                 text-align: center;
                 border: none;
                 background: transparent;
                 font-size: $font-size-base;
-                font-weight: $font-weight-regular;
                 color: $text-title;
-                cursor: pointer;
-                outline: none !important;
+                display: block !important;
                 padding: 0;
-                padding-right: 20px;
                 margin: 0;
-                appearance: none;
-                -webkit-appearance: none;
-                -moz-appearance: none;
+                cursor: pointer;
 
                 &:focus {
-                    outline: none !important;
-                    -webkit-focus-ring-color: transparent !important;
-                    -webkit-tap-highlight-color: transparent !important;
-                    box-shadow: none !important;
+                    outline: none;
+                    box-shadow: none;
                 }
 
-                &::-ms-expand {
-                    display: none;
+                &::-webkit-inner-spin-button,
+                &::-webkit-outer-spin-button {
+                    -webkit-appearance: none;
+                    margin: 0;
                 }
-
-                &::-webkit-focus-ring-color {
-                    outline: none !important;
-                }
-
-                &:-moz-focusring {
-                    color: transparent !important;
-                    text-shadow: 0 0 0 $text-title !important;
-                }
-
-                option {
-                    background-color: white;
-                    color: $text-title;
-                    padding: 10px;
-                    font-size: $font-size-base;
-                    text-align: center;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: $secondary-color;
-                        color: white;
-                    }
-
-                    &:checked {
-                        background-color: $primary-color;
-                        color: white;
-                    }
-                }
-            }
-
-            &::after {
-                content: '▼';
-                font-size: 12px;
-                color: $primary-color;
-                position: absolute;
-                right: 0;
-                pointer-events: none;
-                opacity: 0.5;
-                display: none;
-            }
-
-            &.edit-mode::after {
-                display: block;
             }
         }
     }
@@ -561,5 +531,38 @@
         outline: none;
         border-color: $primary-color;
         box-shadow: 0 0 0 2px rgba($primary-color, 0.1);
+    }
+}
+
+.modelo-selects {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+    select {
+        width: 200px;
+        text-align: center;
+        border: none;
+        padding: 0.5rem;
+        font-size: 1rem;
+        color: #333;
+        background-color: transparent;
+        cursor: pointer;
+        outline: none;
+        transition: all 0.3s ease;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &:focus {
+            outline: none;
+        }
+
+        option {
+            background-color: white;
+            color: #333;
+        }
     }
 }

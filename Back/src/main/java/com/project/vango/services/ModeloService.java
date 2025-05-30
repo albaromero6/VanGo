@@ -13,23 +13,23 @@ public class ModeloService {
     @Autowired
     private ModeloRepository modeloRepository;
 
-    public List<Modelo> findAll() 
-    {
+    public List<Modelo> findAll() {
         return modeloRepository.findAll();
     }
 
-    public Optional<Modelo> findById(Integer id) 
-    {
+    public Optional<Modelo> findById(Integer id) {
         return modeloRepository.findById(id);
     }
 
-    public Modelo save(Modelo modelo) 
-    {
+    public Modelo save(Modelo modelo) {
         return modeloRepository.save(modelo);
     }
 
-    public void deleteById(Integer id) 
-    {
+    public void deleteById(Integer id) {
         modeloRepository.deleteById(id);
+    }
+
+    public List<Modelo> findByMarcaId(Integer marcaId) {
+        return modeloRepository.findByMarcaIdMar(marcaId);
     }
 }

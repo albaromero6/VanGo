@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 export interface Marca {
     idMar: number;
@@ -20,11 +20,11 @@ export interface Vehicle {
     matricula: string;
     imagen: string;
     precio: number;
-    anio: number;
+    anio: number | null;
     pasajeros: number;
-    puertas: number;
-    transmision: 'MANUAL' | 'AUTOMATICO';
-    combustible: 'GASOLINA' | 'DIESEL';
+    puertas: number | null;
+    transmision: 'MANUAL' | 'AUTOMATICO' | '';
+    combustible: 'GASOLINA' | 'DIESEL' | '';
     detalles1: string;
     detalles2: string;
     detalles3: string;
@@ -45,6 +45,28 @@ export class VehicleService {
 
     getVehicleById(id: number): Observable<Vehicle> {
         return this.http.get<Vehicle>(`${this.apiUrl}/${id}`);
+    }
+
+    getAllMarcas(): Observable<Marca[]> {
+        console.log('Llamando a getAllMarcas...');
+        return this.http.get<Marca[]>(`http://localhost:8080/api/marcas`).pipe(
+            tap(response => console.log('Respuesta de getAllMarcas:', response)),
+            catchError(error => {
+                console.error('Error en getAllMarcas:', error);
+                return throwError(() => error);
+            })
+        );
+    }
+
+    getModelosByMarca(marcaId: number): Observable<Modelo[]> {
+        console.log('Llamando a getModelosByMarca con ID:', marcaId);
+        return this.http.get<Modelo[]>(`http://localhost:8080/api/marcas/${marcaId}/modelos`).pipe(
+            tap(response => console.log('Respuesta de getModelosByMarca:', response)),
+            catchError(error => {
+                console.error('Error en getModelosByMarca:', error);
+                return throwError(() => error);
+            })
+        );
     }
 
     getAvailableVehicles(): Observable<Vehicle[]> {
@@ -75,5 +97,9 @@ export class VehicleService {
 
     uploadImage(formData: FormData): Observable<{ nombreArchivo: string }> {
         return this.http.post<{ nombreArchivo: string }>(`${this.apiUrl}/upload`, formData);
+    }
+
+    createVehicle(vehicle: Vehicle): Observable<Vehicle> {
+        return this.http.post<Vehicle>(this.apiUrl, vehicle);
     }
 } 

@@ -1,7 +1,9 @@
 package com.project.vango.controllers;
 
 import com.project.vango.models.Marca;
+import com.project.vango.models.Modelo;
 import com.project.vango.services.MarcaService;
+import com.project.vango.services.ModeloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,17 @@ public class MarcaController {
     @Autowired
     private MarcaService marcaService;
 
+    @Autowired
+    private ModeloService modeloService;
+
     @GetMapping
     public ResponseEntity<List<Marca>> getAllMarcas() {
         return ResponseEntity.ok(marcaService.findAll());
+    }
+
+    @GetMapping("/{marcaId}/modelos")
+    public ResponseEntity<List<Modelo>> getModelosByMarca(@PathVariable Integer marcaId) {
+        return ResponseEntity.ok(modeloService.findByMarcaId(marcaId));
     }
 
     @GetMapping("/{id}")
