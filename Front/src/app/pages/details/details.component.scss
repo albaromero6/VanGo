@@ -537,15 +537,17 @@
 .modelo-selects {
     display: flex;
     gap: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
 
     select {
-        width: 200px;
+        width: 270px;
         text-align: center;
         border: none;
         padding: 0.5rem;
-        font-size: 1rem;
-        color: #333;
+        font-size: $font-size-xlarge;
+        font-weight: $font-weight-bold;
+        font-family: $font-family-body;
+        color: $text-title;
         background-color: transparent;
         cursor: pointer;
         outline: none;
@@ -562,7 +564,9 @@
 
         option {
             background-color: white;
-            color: #333;
+            color: $text-title;
+            font-size: $font-size-base;
+            font-weight: $font-weight-regular;
         }
     }
 }
