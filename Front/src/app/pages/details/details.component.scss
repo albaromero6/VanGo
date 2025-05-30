@@ -26,11 +26,13 @@
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        margin-bottom: $spacing-large;
-        padding-bottom: $spacing-medium;
+        margin-bottom: $spacing-medium;
+        border-bottom: 2px solid rgba($primary-color, 0.4);
 
-        &:not(.new-vehicle) {
-            border-bottom: 1px solid rgba($primary-color, 0.2);
+        &.new-vehicle {
+            margin-bottom: $spacing-medium;
+            padding-bottom: 4px;
+            border-bottom: 2px solid rgba($primary-color, 0.4);
         }
     }
 
@@ -118,6 +120,7 @@
         width: 100%;
         height: 280px;
         overflow: hidden;
+        margin-top: $spacing-medium;
         margin-bottom: $spacing-medium;
         display: flex;
         align-items: center;
@@ -132,6 +135,57 @@
 
         &:hover img {
             transform: scale(1.05);
+        }
+
+        .image-upload-container {
+            width: 100%;
+            height: 100%;
+            border: 2px dashed $primary-color;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba($primary-color, 0.05);
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: rgba($primary-color, 0.1);
+            }
+
+            .image-upload-input {
+                display: none;
+            }
+
+            .upload-button {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: $spacing-small;
+                cursor: pointer;
+                padding: $spacing-small $spacing-large;
+                border-radius: 8px;
+                background-color: $primary-color;
+                transition: all 0.3s ease;
+                border: none;
+
+                &:hover {
+                    transform: scale(1.05);
+                    background-color: darken($primary-color, 5%);
+                }
+
+                .upload-icon {
+                    width: 24px;
+                    height: 24px;
+                    opacity: 1;
+                    filter: brightness(0) invert(1);
+                }
+
+                span {
+                    color: white;
+                    font-size: $font-size-base;
+                    font-weight: $font-weight-medium;
+                }
+            }
         }
     }
 
@@ -234,6 +288,57 @@
 
                 .image-upload-input {
                     display: none;
+                }
+            }
+
+            .image-upload-container {
+                width: 100%;
+                height: 100%;
+                border: 2px dashed $primary-color;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba($primary-color, 0.05);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background-color: rgba($primary-color, 0.1);
+                }
+
+                .image-upload-input {
+                    display: none;
+                }
+
+                .upload-button {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: $spacing-small;
+                    cursor: pointer;
+                    padding: $spacing-small $spacing-large;
+                    border-radius: 8px;
+                    background-color: $primary-color;
+                    transition: all 0.3s ease;
+                    border: none;
+
+                    &:hover {
+                        transform: scale(1.05);
+                        background-color: darken($primary-color, 5%);
+                    }
+
+                    .upload-icon {
+                        width: 24px;
+                        height: 24px;
+                        opacity: 1;
+                        filter: brightness(0) invert(1);
+                    }
+
+                    span {
+                        color: white;
+                        font-size: $font-size-base;
+                        font-weight: $font-weight-medium;
+                    }
                 }
             }
         }
@@ -387,6 +492,17 @@
         gap: 1rem;
         justify-content: center;
         width: 100%;
+
+        &.new-vehicle-actions {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.5rem;
+            margin-top: 0;
+
+            .edit-button {
+                width: 100%;
+            }
+        }
     }
 
     .edit-button {

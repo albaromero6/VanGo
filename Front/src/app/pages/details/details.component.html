@@ -1,15 +1,21 @@
 <div *ngIf="!loading && !error && vehicle" class="vehicle-detail">
     <div class="vehicle-detail__left">
-        <div class="vehicle-detail__header" *ngIf="!isNewVehicle">
+        <div class="vehicle-detail__header" *ngIf="!isNewVehicle && !editMode">
             <div class="vehicle-detail__title-container">
                 <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
             </div>
             <div class="vehicle-detail__price">
-                <ng-container *ngIf="!editMode">
-                    <span class="vehicle-detail__price-amount">{{ vehicle?.precio }}€<span
-                            class="vehicle-detail__price-period">/día</span></span>
-                </ng-container>
-                <div class="vehicle-detail__price-edit" *ngIf="editMode">
+                <span class="vehicle-detail__price-amount">{{ vehicle?.precio }}€<span
+                        class="vehicle-detail__price-period">/día</span></span>
+            </div>
+        </div>
+
+        <div class="vehicle-detail__header" *ngIf="!isNewVehicle && editMode">
+            <div class="vehicle-detail__title-container">
+                <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
+            </div>
+            <div class="vehicle-detail__price">
+                <div class="vehicle-detail__price-edit">
                     <img src="assets/img/Lapiz.png" alt="Editar" class="admin-icon">
                     <input type="number" [(ngModel)]="vehicle!.precio" min="0" step="0.01">
                     <span>€/día</span>
@@ -17,7 +23,7 @@
             </div>
         </div>
 
-        <div class="vehicle-detail__header new-vehicle" *ngIf="isNewVehicle">
+        <div class="vehicle-detail__header" [class.new-vehicle]="isNewVehicle" *ngIf="isNewVehicle">
             <div class="vehicle-detail__title-container">
                 <div class="modelo-selects">
                     <select [(ngModel)]="selectedMarca" (change)="onMarcaChange()">
@@ -40,7 +46,16 @@
         </div>
 
         <div class="vehicle-detail__main-image">
-            <img [src]="getVehicleImage()" [alt]="getVehicleName()" (error)="onImageError($event)">
+            <ng-container *ngIf="!isNewVehicle || (isNewVehicle && vehicle?.imagen)">
+                <img [src]="getVehicleImage()" [alt]="getVehicleName()" (error)="onImageError($event)">
+            </ng-container>
+            <div *ngIf="isNewVehicle && !vehicle?.imagen" class="image-upload-container">
+                <input type="file" id="main-image-upload" class="image-upload-input" accept="image/*"
+                    (change)="onMainImageUpload($event)" #mainFileInput>
+                <label for="main-image-upload" class="upload-button">
+                    <span>Añadir</span>
+                </label>
+            </div>
         </div>
 
         <div class="vehicle-detail__gallery" *ngIf="galleryImages.length > 0 && !editMode">
@@ -50,7 +65,7 @@
             </div>
         </div>
 
-        <div class="vehicle-detail__gallery-edit" *ngIf="galleryImages.length > 0 && editMode">
+        <div class="vehicle-detail__gallery-edit" *ngIf="galleryImages.length > 0 && editMode && !isNewVehicle">
             <div class="vehicle-detail__gallery-item" *ngFor="let image of galleryImages; let i = index">
                 <div class="gallery-item-overlay">
                     <input type="file" [id]="'image-upload-' + i" class="image-upload-input" accept="image/*"
@@ -60,6 +75,22 @@
                     </label>
                 </div>
                 <img [src]="getGalleryImage(image)" [alt]="getVehicleName()" (error)="onImageError($event)">
+            </div>
+        </div>
+
+        <div class="vehicle-detail__gallery-edit" *ngIf="isNewVehicle">
+            <div class="vehicle-detail__gallery-item" *ngFor="let i of [0,1,2,3]">
+                <ng-container *ngIf="galleryImages[i]">
+                    <img [src]="getGalleryImage(galleryImages[i])" [alt]="getVehicleName()"
+                        (error)="onImageError($event)">
+                </ng-container>
+                <div *ngIf="!galleryImages[i]" class="image-upload-container">
+                    <input type="file" [id]="'image-upload-' + i" class="image-upload-input" accept="image/*"
+                        (change)="onImageUpload($event, i)" #fileInput>
+                    <label [for]="'image-upload-' + i" class="upload-button">
+                        <span>Añadir</span>
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -75,7 +106,7 @@
 
         <button class="vehicle-detail__button" (click)="reservar()" *ngIf="!editMode">Reservar</button>
 
-        <div *ngIf="editMode && isAdmin" class="edit-actions">
+        <div *ngIf="editMode && isAdmin" class="edit-actions" [class.new-vehicle-actions]="isNewVehicle">
             <button class="edit-button save" (click)="guardarCambios()">Guardar</button>
             <button class="edit-button cancel" (click)="cancelarEdicion()">Cancelar</button>
         </div>

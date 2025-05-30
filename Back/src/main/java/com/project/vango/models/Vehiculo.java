@@ -27,7 +27,7 @@ public class Vehiculo {
     @Column(length = 15, nullable = false, unique = true)
     private String matricula;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String imagen;
 
     @Min(value = 0, message = "El precio debe ser un número positivo")
@@ -56,16 +56,16 @@ public class Vehiculo {
     @Column(nullable = false)
     private Combustible combustible;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String detalles1;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String detalles2;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String detalles3;
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String detalles4;
 
     public enum Transmision {

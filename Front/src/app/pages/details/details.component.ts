@@ -31,6 +31,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   selectedModelo: number | null = null;
   @ViewChildren('galleryItem') galleryItems!: QueryList<ElementRef>;
   @ViewChildren('fileInput') fileInputs!: QueryList<ElementRef>;
+  @ViewChild('mainFileInput') mainFileInput!: ElementRef;
 
   showLightbox: boolean = false;
   currentImageIndex: number = 0;
@@ -167,7 +168,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         matricula: ''
       };
       this.originalVehicle = JSON.parse(JSON.stringify(this.vehicle));
-      this.galleryImages = [];
+      this.galleryImages = ['', '', '', '']; // Inicializar con strings vacíos
       this.loading = false;
       return;
     }
@@ -277,15 +278,23 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (input.files && input.files[0]) {
       const file = input.files[0];
 
-      // Crear un FormData para enviar el archivo
+      // Valida el tipo de archivo
+      if (!file.type.startsWith('image/')) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Por favor, selecciona un archivo de imagen válido.',
+          icon: 'error',
+          confirmButtonColor: '#05889C'
+        });
+        return;
+      }
+
       const formData = new FormData();
       formData.append('file', file);
 
-      // Llamar al servicio para subir la imagen
       this.vehicleService.uploadImage(formData).subscribe({
         next: (response: { nombreArchivo: string }) => {
           if (response && response.nombreArchivo) {
-            // Actualizar la imagen correspondiente en el vehículo
             switch (index) {
               case 0:
                 this.vehicle!.detalles1 = response.nombreArchivo;
@@ -301,12 +310,78 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 break;
             }
 
-            // Actualiza el array de imágenes de la galería
             this.galleryImages[index] = response.nombreArchivo;
+            Swal.fire({
+              title: '¡Genial!',
+              text: 'La imagen se ha subido correctamente',
+              icon: 'success',
+              confirmButtonColor: '#05889C'
+            });
           }
         },
-        error: (error: Error) => {
+        error: (error: HttpErrorResponse) => {
           console.error('Error al subir la imagen:', error);
+          Swal.fire({
+            title: 'Error',
+            text: 'Por favor, inténtalo de nuevo',
+            icon: 'error',
+            confirmButtonColor: '#05889C'
+          });
+        }
+      });
+    }
+  }
+
+  onMainImageUpload(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      // Valida el tipo de archivo
+      if (!file.type.startsWith('image/')) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Por favor, selecciona un archivo de imagen válido.',
+          icon: 'error',
+          confirmButtonColor: '#05889C'
+        });
+        return;
+      }
+
+      // Crea un FormData para enviar el archivo
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // Llama al servicio para subir la imagen
+      this.vehicleService.uploadImage(formData).subscribe({
+        next: (response: { nombreArchivo: string }) => {
+          if (response && response.nombreArchivo) {
+            // Actualiza la imagen principal del vehículo
+            this.vehicle!.imagen = response.nombreArchivo;
+            Swal.fire({
+              title: '¡Éxito!',
+              text: 'La imagen se ha subido correctamente.',
+              icon: 'success',
+              confirmButtonColor: '#05889C'
+            });
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error('Error al subir la imagen principal:', error);
+          let errorMessage = 'Error al subir la imagen principal. Por favor, inténtalo de nuevo.';
+
+          if (error.status === 400) {
+            errorMessage = 'El archivo seleccionado no es válido. Por favor, selecciona una imagen.';
+          } else if (error.status === 413) {
+            errorMessage = 'El archivo es demasiado grande. Por favor, selecciona una imagen más pequeña.';
+          }
+
+          Swal.fire({
+            title: 'Error',
+            text: errorMessage,
+            icon: 'error',
+            confirmButtonColor: '#05889C'
+          });
         }
       });
     }
@@ -314,6 +389,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
   guardarCambios(): void {
     if (!this.vehicle) return;
+
+    console.log('Iniciando guardado de vehículo:', this.vehicle);
+    console.log('Marca seleccionada:', this.selectedMarca);
+    console.log('Modelo seleccionado:', this.selectedModelo);
 
     // Convertir matrícula a mayúsculas
     if (this.vehicle.matricula) {
@@ -326,84 +405,94 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         title: 'Error en la matrícula',
         text: 'La matrícula debe tener 4 números seguidos de 3 letras mayúsculas',
         icon: 'error',
-        confirmButtonColor: '#05889C',
-        customClass: {
-          popup: 'swal2-popup',
-          title: 'swal2-title',
-          htmlContainer: 'swal2-html-container',
-          confirmButton: 'swal2-confirm'
-        },
-        buttonsStyling: true
+        confirmButtonColor: '#05889C'
       });
       return;
     }
 
-    // Validar campos requeridos
+    // Valida campos requeridos
     const camposFaltantes = [];
-    if (!this.vehicle.modelo?.nombre) camposFaltantes.push('Modelo');
+    if (!this.selectedMarca) camposFaltantes.push('Marca');
+    if (!this.selectedModelo) camposFaltantes.push('Modelo');
     if (!this.vehicle.matricula) camposFaltantes.push('Matrícula');
     if (!this.vehicle.precio) camposFaltantes.push('Precio');
     if (!this.vehicle.combustible) camposFaltantes.push('Combustible');
     if (!this.vehicle.transmision) camposFaltantes.push('Transmisión');
     if (!this.vehicle.puertas) camposFaltantes.push('Puertas');
     if (!this.vehicle.pasajeros) camposFaltantes.push('Pasajeros');
+    if (!this.vehicle.anio) camposFaltantes.push('Año');
+
+    // Valida imágenes
+    const imagenesFaltantes = [];
+    if (!this.vehicle.imagen) imagenesFaltantes.push('principal');
+    if (!this.vehicle.detalles1) imagenesFaltantes.push('detalle 1');
+    if (!this.vehicle.detalles2) imagenesFaltantes.push('detalle 2');
+    if (!this.vehicle.detalles3) imagenesFaltantes.push('detalle 3');
+    if (!this.vehicle.detalles4) imagenesFaltantes.push('detalle 4');
+
+    if (imagenesFaltantes.length > 0) {
+      camposFaltantes.push(`Imágenes`);
+    }
+
+    console.log('Campos faltantes:', camposFaltantes);
 
     if (camposFaltantes.length > 0) {
       Swal.fire({
         title: 'Campos obligatorios',
         html: `Por favor, completa los siguientes campos:<br><br>${camposFaltantes.join('<br>')}`,
         icon: 'error',
-        confirmButtonColor: '#05889C',
-        customClass: {
-          popup: 'swal2-popup',
-          title: 'swal2-title',
-          htmlContainer: 'swal2-html-container',
-          confirmButton: 'swal2-confirm'
-        },
-        buttonsStyling: true
+        confirmButtonColor: '#05889C'
       });
       return;
     }
 
+    if (this.selectedModelo && this.modelos) {
+      const modeloSeleccionado = this.modelos.find(m => m.idMod === this.selectedModelo);
+      if (modeloSeleccionado) {
+        this.vehicle.modelo = modeloSeleccionado;
+        console.log('Modelo asignado:', this.vehicle.modelo);
+      }
+    }
+
     if (this.vehicle.idVeh === 0) {
-      // Crear nuevo vehículo
+      console.log('Enviando vehículo al servidor:', this.vehicle);
+      // Crea un nuevo vehículo
       this.vehicleService.createVehicle(this.vehicle).subscribe({
         next: (response: Vehicle) => {
+          console.log('Respuesta del servidor:', response);
           Swal.fire({
             title: '¡Éxito!',
             text: 'El vehículo ha sido creado correctamente',
             icon: 'success',
-            confirmButtonColor: '#05889C',
-            customClass: {
-              popup: 'swal2-popup',
-              title: 'swal2-title',
-              htmlContainer: 'swal2-html-container',
-              confirmButton: 'swal2-confirm'
-            },
-            buttonsStyling: true
+            confirmButtonColor: '#05889C'
           }).then(() => {
             this.router.navigate(['/catalogo']);
           });
         },
         error: (error: HttpErrorResponse) => {
-          console.error('Error al crear el vehículo:', error);
+          console.error('Error completo:', error);
+          console.error('Error status:', error.status);
+          console.error('Error message:', error.message);
+          console.error('Error response:', error.error);
+
+          let errorMessage = 'Error al crear el vehículo. Por favor, inténtalo de nuevo.';
+
+          if (error.status === 400) {
+            errorMessage = 'Los datos del vehículo no son válidos. Por favor, revisa los campos.';
+          } else if (error.status === 409) {
+            errorMessage = 'Ya existe un vehículo con esta matrícula.';
+          }
+
           Swal.fire({
             title: 'Error',
-            text: 'Error al crear el vehículo. Por favor, inténtalo de nuevo.',
+            text: errorMessage,
             icon: 'error',
-            confirmButtonColor: '#05889C',
-            customClass: {
-              popup: 'swal2-popup',
-              title: 'swal2-title',
-              htmlContainer: 'swal2-html-container',
-              confirmButton: 'swal2-confirm'
-            },
-            buttonsStyling: true
+            confirmButtonColor: '#05889C'
           });
         }
       });
     } else {
-      // Actualizar vehículo existente
+      // Actualiza el vehículo existente
       this.vehicleService.updateVehicle(this.vehicle).subscribe({
         next: (response: Vehicle) => {
           Swal.fire({

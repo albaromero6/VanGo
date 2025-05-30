@@ -26,6 +26,16 @@ public class VehiculoController {
 
     private final Path uploadDir = Paths.get("uploads/vehiculos");
 
+    public VehiculoController() {
+        try {
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @GetMapping
     public ResponseEntity<List<Vehiculo>> getAllVehiculos() {
         return ResponseEntity.ok(vehiculoService.findAll());
@@ -110,8 +120,17 @@ public class VehiculoController {
                 Files.createDirectories(uploadDir);
             }
 
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
             String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
             Path filePath = uploadDir.resolve(filename);
+
+            // Asegura que el archivo no existe
+            if (Files.exists(filePath)) {
+                Files.delete(filePath);
+            }
 
             Files.copy(file.getInputStream(), filePath);
 
@@ -120,6 +139,7 @@ public class VehiculoController {
             return ResponseEntity.ok(response);
 
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
     }
