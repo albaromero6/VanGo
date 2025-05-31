@@ -28,11 +28,11 @@
                 <div class="modelo-selects">
                     <select [(ngModel)]="selectedMarca" (change)="onMarcaChange()">
                         <option [ngValue]="null" disabled>Marca</option>
-                        <option *ngFor="let marca of marcas" [value]="marca.idMar">{{ marca.nombre }}</option>
+                        <option *ngFor="let marca of marcas" [ngValue]="marca.idMar">{{ marca.nombre }}</option>
                     </select>
                     <select [(ngModel)]="selectedModelo" (change)="onModeloChange()" [disabled]="!selectedMarca">
                         <option [ngValue]="null" disabled>Modelo</option>
-                        <option *ngFor="let modelo of modelos" [value]="modelo.idMod">{{ modelo.nombre }}</option>
+                        <option *ngFor="let modelo of modelos" [ngValue]="modelo.idMod">{{ modelo.nombre }}</option>
                     </select>
                 </div>
             </div>

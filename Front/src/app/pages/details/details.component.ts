@@ -390,9 +390,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   guardarCambios(): void {
     if (!this.vehicle) return;
 
-    console.log('Iniciando guardado de vehículo:', this.vehicle);
-    console.log('Marca seleccionada:', this.selectedMarca);
-    console.log('Modelo seleccionado:', this.selectedModelo);
+    if (!this.vehicle.modelo || !this.vehicle.modelo.idMod) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, selecciona un modelo válido',
+        icon: 'error',
+        confirmButtonColor: '#05889C'
+      });
+      return;
+    }
 
     // Convertir matrícula a mayúsculas
     if (this.vehicle.matricula) {
@@ -434,8 +440,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       camposFaltantes.push(`Imágenes`);
     }
 
-    console.log('Campos faltantes:', camposFaltantes);
-
     if (camposFaltantes.length > 0) {
       Swal.fire({
         title: 'Campos obligatorios',
@@ -446,20 +450,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return;
     }
 
+    // Asegurarse de que el modelo está correctamente asignado
     if (this.selectedModelo && this.modelos) {
       const modeloSeleccionado = this.modelos.find(m => m.idMod === this.selectedModelo);
       if (modeloSeleccionado) {
-        this.vehicle.modelo = modeloSeleccionado;
-        console.log('Modelo asignado:', this.vehicle.modelo);
+        this.vehicle.modelo = {
+          idMod: modeloSeleccionado.idMod,
+          nombre: modeloSeleccionado.nombre,
+          marca: {
+            idMar: modeloSeleccionado.marca.idMar,
+            nombre: modeloSeleccionado.marca.nombre
+          }
+        };
       }
     }
 
     if (this.vehicle.idVeh === 0) {
-      console.log('Enviando vehículo al servidor:', this.vehicle);
-      // Crea un nuevo vehículo
       this.vehicleService.createVehicle(this.vehicle).subscribe({
         next: (response: Vehicle) => {
-          console.log('Respuesta del servidor:', response);
           Swal.fire({
             title: '¡Éxito!',
             text: 'El vehículo ha sido creado correctamente',
@@ -470,10 +478,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           });
         },
         error: (error: HttpErrorResponse) => {
+          console.error('=== ERROR AL CREAR VEHÍCULO ===');
           console.error('Error completo:', error);
           console.error('Error status:', error.status);
           console.error('Error message:', error.message);
           console.error('Error response:', error.error);
+          console.error('Datos enviados:', JSON.stringify(this.vehicle, null, 2));
 
           let errorMessage = 'Error al crear el vehículo. Por favor, inténtalo de nuevo.';
 
@@ -597,13 +607,13 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   loadMarcas(): void {
-    console.log('Iniciando carga de marcas...');
     this.vehicleService.getAllMarcas().subscribe({
       next: (marcas) => {
-        console.log('Respuesta del servidor (marcas):', marcas);
         if (Array.isArray(marcas)) {
-          this.marcas = marcas;
-          console.log('Marcas cargadas correctamente:', this.marcas);
+          this.marcas = marcas.map(marca => ({
+            idMar: marca.idMar,
+            nombre: marca.nombre
+          }));
         } else {
           console.error('La respuesta no es un array de marcas:', marcas);
         }
@@ -621,19 +631,39 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   loadModelos(marcaId: number): void {
-    console.log('Cargando modelos para marca ID:', marcaId);
     this.vehicleService.getModelosByMarca(marcaId).subscribe({
       next: (modelos) => {
-        console.log('Respuesta del servidor (modelos):', modelos);
         if (Array.isArray(modelos)) {
-          this.modelos = modelos;
-          console.log('Modelos cargados correctamente:', this.modelos);
+          this.modelos = modelos.map(modelo => ({
+            idMod: modelo.idMod,
+            nombre: modelo.nombre,
+            marca: {
+              idMar: modelo.marca.idMar,
+              nombre: modelo.marca.nombre
+            }
+          }));
+
+          if (this.modelos.length === 0) {
+            Swal.fire({
+              title: 'Información',
+              text: 'No hay modelos disponibles para esta marca',
+              icon: 'info',
+              confirmButtonColor: '#05889C'
+            });
+          }
         } else {
-          console.error('La respuesta no es un array de modelos:', modelos);
+          this.modelos = [];
+          Swal.fire({
+            title: 'Error',
+            text: 'Error al cargar los modelos',
+            icon: 'error',
+            confirmButtonColor: '#05889C'
+          });
         }
       },
       error: (error) => {
         console.error('Error al cargar modelos:', error);
+        this.modelos = [];
         Swal.fire({
           title: 'Error',
           text: 'No se pudieron cargar los modelos. Por favor, inténtalo de nuevo.',
@@ -645,10 +675,31 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   onMarcaChange(): void {
-    console.log('Marca seleccionada:', this.selectedMarca);
     if (this.selectedMarca) {
-      this.loadModelos(this.selectedMarca);
-      this.selectedModelo = null;
+      const marcaId = Number(this.selectedMarca);
+      const marcaSeleccionada = this.marcas.find(m => m.idMar === marcaId);
+
+      if (marcaSeleccionada) {
+        this.loadModelos(marcaSeleccionada.idMar);
+        this.selectedModelo = null;
+        if (this.vehicle) {
+          this.vehicle.modelo = {
+            idMod: 0,
+            nombre: '',
+            marca: {
+              idMar: marcaSeleccionada.idMar,
+              nombre: marcaSeleccionada.nombre
+            }
+          };
+        }
+      } else {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se encontró la marca seleccionada',
+          icon: 'error',
+          confirmButtonColor: '#05889C'
+        });
+      }
     } else {
       this.modelos = [];
       this.selectedModelo = null;
@@ -656,12 +707,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   onModeloChange(): void {
-    console.log('Modelo seleccionado:', this.selectedModelo);
     if (this.selectedModelo && this.vehicle) {
       const modeloSeleccionado = this.modelos.find(m => m.idMod === this.selectedModelo);
       if (modeloSeleccionado) {
-        this.vehicle.modelo = modeloSeleccionado;
-        console.log('Modelo actualizado en el vehículo:', this.vehicle.modelo);
+        const marcaSeleccionada = this.marcas.find(m => m.idMar === this.selectedMarca);
+        this.vehicle.modelo = {
+          idMod: modeloSeleccionado.idMod,
+          nombre: modeloSeleccionado.nombre,
+          marca: {
+            idMar: marcaSeleccionada ? marcaSeleccionada.idMar : modeloSeleccionado.marca.idMar,
+            nombre: marcaSeleccionada ? marcaSeleccionada.nombre : modeloSeleccionado.marca.nombre
+          }
+        };
       }
     }
   }

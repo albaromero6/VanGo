@@ -48,9 +48,7 @@ export class VehicleService {
     }
 
     getAllMarcas(): Observable<Marca[]> {
-        console.log('Llamando a getAllMarcas...');
         return this.http.get<Marca[]>(`http://localhost:8080/api/marcas`).pipe(
-            tap(response => console.log('Respuesta de getAllMarcas:', response)),
             catchError(error => {
                 console.error('Error en getAllMarcas:', error);
                 return throwError(() => error);
@@ -59,9 +57,8 @@ export class VehicleService {
     }
 
     getModelosByMarca(marcaId: number): Observable<Modelo[]> {
-        console.log('Llamando a getModelosByMarca con ID:', marcaId);
-        return this.http.get<Modelo[]>(`http://localhost:8080/api/marcas/${marcaId}/modelos`).pipe(
-            tap(response => console.log('Respuesta de getModelosByMarca:', response)),
+        const url = `http://localhost:8080/api/marcas/${marcaId}/modelos`;
+        return this.http.get<Modelo[]>(url).pipe(
             catchError(error => {
                 console.error('Error en getModelosByMarca:', error);
                 return throwError(() => error);
