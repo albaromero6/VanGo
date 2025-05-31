@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/vehiculos/**").permitAll()
                         .requestMatchers("/api/marcas/**").permitAll()
                         .requestMatchers("/api/modelos/**").permitAll()
+                        .requestMatchers("/api/test/**").permitAll() // Añadido para pruebas
 
                         // Endpoints de administrador
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
@@ -55,7 +56,6 @@ public class SecurityConfig {
 
                         // Endpoints compartidos
                         .requestMatchers("/api/reservas/{id}").authenticated()
-                        .requestMatchers("/api/resenias/{id}").authenticated()
 
                         // Cualquier otra petición requiere autenticación
                         .anyRequest().authenticated())
@@ -70,7 +70,8 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setAllowedHeaders(
+                Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept-Language"));
         configuration.setAllowCredentials(true);
         configuration.setExposedHeaders(Arrays.asList("Authorization"));
 

@@ -8,9 +8,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = TelefonoValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Telefono 
-{
-    String message() default "El formato del teléfono no es válido";
+public @interface Telefono {
+    String message() default "{validation.telefono}";
 
     Class<?>[] groups() default {};
 

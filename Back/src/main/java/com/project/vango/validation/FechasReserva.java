@@ -8,9 +8,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = FechasReservaValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FechasReserva 
-{
-    String message() default "Las fechas de la reserva no son válidas";
+public @interface FechasReserva {
+    String message() default "{validation.fechas.reserva}";
 
     Class<?>[] groups() default {};
 

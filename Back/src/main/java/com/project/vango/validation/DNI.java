@@ -8,9 +8,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = DNIValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DNI 
-{
-    String message() default "El DNI no es válido";
+public @interface DNI {
+    String message() default "{validation.dni}";
 
     Class<?>[] groups() default {};
 

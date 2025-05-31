@@ -8,9 +8,8 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = MatriculaValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Matricula 
-{
-    String message() default "El formato de la matrícula no es válido";
+public @interface Matricula {
+    String message() default "{validation.matricula}";
 
     Class<?>[] groups() default {};
 
