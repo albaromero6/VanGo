@@ -390,16 +390,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   guardarCambios(): void {
     if (!this.vehicle) return;
 
-    if (!this.vehicle.modelo || !this.vehicle.modelo.idMod) {
-      Swal.fire({
-        title: 'Error',
-        text: 'Por favor, selecciona un modelo válido',
-        icon: 'error',
-        confirmButtonColor: '#05889C'
-      });
-      return;
-    }
-
     // Convertir matrícula a mayúsculas
     if (this.vehicle.matricula) {
       this.vehicle.matricula = this.vehicle.matricula.toUpperCase();
@@ -418,8 +408,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
     // Valida campos requeridos
     const camposFaltantes = [];
-    if (!this.selectedMarca) camposFaltantes.push('Marca');
-    if (!this.selectedModelo) camposFaltantes.push('Modelo');
+    if (this.isNewVehicle) {
+      if (!this.selectedMarca) camposFaltantes.push('Marca');
+      if (!this.selectedModelo) camposFaltantes.push('Modelo');
+    }
     if (!this.vehicle.matricula) camposFaltantes.push('Matrícula');
     if (!this.vehicle.precio) camposFaltantes.push('Precio');
     if (!this.vehicle.combustible) camposFaltantes.push('Combustible');
@@ -450,22 +442,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    // Asegurarse de que el modelo está correctamente asignado
-    if (this.selectedModelo && this.modelos) {
-      const modeloSeleccionado = this.modelos.find(m => m.idMod === this.selectedModelo);
-      if (modeloSeleccionado) {
-        this.vehicle.modelo = {
-          idMod: modeloSeleccionado.idMod,
-          nombre: modeloSeleccionado.nombre,
-          marca: {
-            idMar: modeloSeleccionado.marca.idMar,
-            nombre: modeloSeleccionado.marca.nombre
-          }
-        };
-      }
-    }
-
     if (this.vehicle.idVeh === 0) {
+      // Crea un nuevo vehículo
       this.vehicleService.createVehicle(this.vehicle).subscribe({
         next: (response: Vehicle) => {
           Swal.fire({
@@ -478,13 +456,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           });
         },
         error: (error: HttpErrorResponse) => {
-          console.error('=== ERROR AL CREAR VEHÍCULO ===');
-          console.error('Error completo:', error);
-          console.error('Error status:', error.status);
-          console.error('Error message:', error.message);
-          console.error('Error response:', error.error);
-          console.error('Datos enviados:', JSON.stringify(this.vehicle, null, 2));
-
+          console.error('Error al crear vehículo:', error);
           let errorMessage = 'Error al crear el vehículo. Por favor, inténtalo de nuevo.';
 
           if (error.status === 400) {
@@ -509,14 +481,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             title: '¡Éxito!',
             text: 'Los cambios han sido guardados correctamente',
             icon: 'success',
-            confirmButtonColor: '#05889C',
-            customClass: {
-              popup: 'swal2-popup',
-              title: 'swal2-title',
-              htmlContainer: 'swal2-html-container',
-              confirmButton: 'swal2-confirm'
-            },
-            buttonsStyling: true
+            confirmButtonColor: '#05889C'
           }).then(() => {
             this.router.navigate(['/catalogo']);
           });
@@ -527,14 +492,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             title: 'Error',
             text: 'Error al guardar los cambios. Por favor, inténtalo de nuevo.',
             icon: 'error',
-            confirmButtonColor: '#05889C',
-            customClass: {
-              popup: 'swal2-popup',
-              title: 'swal2-title',
-              htmlContainer: 'swal2-html-container',
-              confirmButton: 'swal2-confirm'
-            },
-            buttonsStyling: true
+            confirmButtonColor: '#05889C'
           });
         }
       });
