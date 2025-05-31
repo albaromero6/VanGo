@@ -95,7 +95,7 @@ public class ReseniaController {
                     // Verificar si el usuario es admin o el propietario de la reseña
                     if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
                             existingResenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
-                        resenia.setIdResen(id);
+                        resenia.setIdRese(id);
                         resenia.setReserva(existingResenia.getReserva()); // Mantener la reserva original
                         return ResponseEntity.ok(reseniaService.save(resenia));
                     }
@@ -111,7 +111,7 @@ public class ReseniaController {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         return reseniaService.findById(id)
-                .map(resenia -> { 
+                .map(resenia -> {
                     // Verificar si el usuario es admin o el propietario de la reseña
                     if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
                             resenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {

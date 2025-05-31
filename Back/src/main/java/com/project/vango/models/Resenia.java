@@ -18,7 +18,8 @@ public class Resenia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idResen;
+    @Column(name = "id_rese")
+    private Integer idRese;
 
     @Column(length = 255)
     private String comentario;
@@ -33,6 +34,6 @@ public class Resenia {
     private LocalDate fecha;
 
     @OneToOne
-    @JoinColumn(name = "idReser", nullable = false, unique = true)
+    @JoinColumn(name = "id_reser", nullable = false, unique = true)
     private Reserva reserva;
 }

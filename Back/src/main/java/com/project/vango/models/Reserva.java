@@ -18,6 +18,7 @@ public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_res")
     private Integer idReser;
 
     @Column(nullable = false)
@@ -27,7 +28,7 @@ public class Reserva {
     private LocalDate fin;
 
     @Min(value = 0, message = "El total debe ser un número positivo")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double total;
 
     @Enumerated(EnumType.STRING)

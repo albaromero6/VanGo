@@ -31,7 +31,7 @@ public class Vehiculo {
     private String imagen;
 
     @Min(value = 0, message = "El precio debe ser un número positivo")
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double precio;
 
     @Min(value = 2000, message = "El año debe ser 2000 o posterior")
