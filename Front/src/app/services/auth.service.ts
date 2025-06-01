@@ -9,6 +9,7 @@ interface LoginResponse {
 
 interface User {
     nombre: string;
+    apellido: string;
     email: string;
     rol?: string;
 }
@@ -85,6 +86,7 @@ export class AuthService {
 
             const user = {
                 nombre: payload.nombre || 'Usuario',
+                apellido: payload.apellido || '',
                 email: payload.sub,
                 rol: payload.rol
             };
@@ -94,6 +96,7 @@ export class AuthService {
             console.error('Error decoding token:', error);
             return {
                 nombre: 'Usuario',
+                apellido: '',
                 email: '',
                 rol: 'USER'
             };

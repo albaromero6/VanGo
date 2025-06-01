@@ -17,12 +17,9 @@
     <div class="navbar__actions">
       <ng-container *ngIf="authService.isLoggedIn(); else notLoggedIn">
         <div class="user-info">
-          <span class="welcome-message">Bienvenido, {{ (authService.currentUser$ | async)?.nombre }}</span>
-          <a routerLink="/perfil" class="user-avatar-link tooltip">
-            <img src="assets/img/Usuario.png" alt="Usuario" class="user-avatar">
-            <span class="tooltiptext">Ver perfil</span>
-          </a>
-          
+          <span class="welcome-message">¡Hola!,</span>
+          <a routerLink="/perfil" class="welcome-message-link">{{ (authService.currentUser$ | async)?.nombre }} {{
+            (authService.currentUser$ | async)?.apellido }}</a>
         </div>
         <button class="btn-logout" (click)="authService.logout()">Cerrar sesión</button>
       </ng-container>

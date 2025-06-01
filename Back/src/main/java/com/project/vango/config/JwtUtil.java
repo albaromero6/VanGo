@@ -20,10 +20,11 @@ public class JwtUtil {
     }
 
     // Método generador del Token usando el email
-    public String generateToken(String email, String nombre, String rol) {
+    public String generateToken(String email, String nombre, String apellido, String rol) {
         return Jwts.builder()
                 .setSubject(email)
                 .claim("nombre", nombre)
+                .claim("apellido", apellido)
                 .claim("rol", rol)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
@@ -54,6 +55,20 @@ public class JwtUtil {
                     .parseClaimsJws(token)
                     .getBody()
                     .get("nombre", String.class);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // Método para extraer el apellido desde el Token
+    public String extractApellido(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .get("apellido", String.class);
         } catch (Exception e) {
             return null;
         }

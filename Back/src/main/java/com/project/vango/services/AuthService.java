@@ -55,7 +55,7 @@ public class AuthService {
             // Generar el token con el email del usuario, su nombre y su rol
             String rol = usuario.getRol().name();
             logger.debug("Generando token con rol: {}", rol);
-            String token = jwtUtil.generateToken(email, usuario.getNombre(), rol);
+            String token = jwtUtil.generateToken(email, usuario.getNombre(), usuario.getApellido(), rol);
             logger.debug("Token generado exitosamente para usuario: {} con rol: {}", usuario.getNombre(), rol);
             return token;
         } catch (Exception e) {
