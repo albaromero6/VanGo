@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { VehicleService, Vehicle } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 
 @Component({
   selector: 'app-catalog',
@@ -135,7 +135,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
       },
       buttonsStyling: true,
       reverseButtons: true
-    }).then((result) => {
+    }).then((result: SweetAlertResult) => {
       if (result.isConfirmed) {
         this.vehicleService.deleteVehicle(vehicleId).subscribe({
           next: () => {

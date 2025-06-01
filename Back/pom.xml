@@ -41,7 +41,7 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 
-		<!-- JJWT  -->
+		<!-- JWT  -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -99,18 +99,25 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<!-- Dependencia para realizar pruebas unitarias con Spring Boot -->
+		<!-- Dependencia para pruebas unitarias con Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope> 
 		</dependency>
 		
-		<!-- Dependencia para realizar pruebas de seguridad con Spring Security -->
+		<!-- Dependencia para pruebas de seguridad con Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope> 
+		</dependency>
+		
+		<!-- Dependencia para SpringDoc OpenAPI -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.3.0</version>
 		</dependency>
 		
 	</dependencies>

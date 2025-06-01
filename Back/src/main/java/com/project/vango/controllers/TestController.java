@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleResolver;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Locale;
@@ -16,6 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/test")
+@Tag(name = "Pruebas", description = "Endpoints de prueba para desarrollo y depuración")
 public class TestController {
         private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
@@ -27,6 +33,11 @@ public class TestController {
                 this.localeResolver = localeResolver;
         }
 
+        @Operation(summary = "Probar mensajes de internacionalización", description = "Retorna los mensajes de internacionalización cargados para el locale actual")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Mensajes obtenidos exitosamente", content = @Content(schema = @Schema(implementation = Map.class))),
+                        @ApiResponse(responseCode = "500", description = "Error al cargar los mensajes")
+        })
         @GetMapping("/messages")
         public ResponseEntity<Map<String, String>> getMessages(HttpServletRequest request) {
                 try {
@@ -96,6 +107,10 @@ public class TestController {
                 }
         }
 
+        @Operation(summary = "Probar manejo de errores", description = "Genera un error de prueba para verificar el manejo de excepciones")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "500", description = "Error de prueba generado exitosamente")
+        })
         @GetMapping("/error-test")
         public ResponseEntity<String> testError() {
                 throw new RuntimeException("Test error");

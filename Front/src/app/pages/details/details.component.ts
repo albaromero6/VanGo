@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 declare const anime: any;
 import { HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
+import Swal, { SweetAlertResult } from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -451,8 +451,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             text: 'El vehículo ha sido creado correctamente',
             icon: 'success',
             confirmButtonColor: '#05889C'
-          }).then(() => {
-            this.router.navigate(['/catalogo']);
+          }).then((result: SweetAlertResult) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/catalogo']);
+            }
           });
         },
         error: (error: HttpErrorResponse) => {
@@ -482,8 +484,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             text: 'Los cambios han sido guardados correctamente',
             icon: 'success',
             confirmButtonColor: '#05889C'
-          }).then(() => {
-            this.router.navigate(['/catalogo']);
+          }).then((result: SweetAlertResult) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/catalogo']);
+            }
           });
         },
         error: (error: HttpErrorResponse) => {

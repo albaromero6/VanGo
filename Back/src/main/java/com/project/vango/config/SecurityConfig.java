@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                
                         // Endpoints públicos
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
@@ -42,7 +43,15 @@ public class SecurityConfig {
                         .requestMatchers("/api/vehiculos/**").permitAll()
                         .requestMatchers("/api/marcas/**").permitAll()
                         .requestMatchers("/api/modelos/**").permitAll()
-                        .requestMatchers("/api/test/**").permitAll() // Añadido para pruebas
+                        .requestMatchers("/api/test/**").permitAll()
+
+                        // Swagger UI endpoints
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
 
                         // Endpoints de administrador
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
