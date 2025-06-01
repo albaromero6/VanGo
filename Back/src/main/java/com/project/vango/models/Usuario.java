@@ -43,6 +43,12 @@ public class Usuario {
     @Column(length = 15)
     private String telefono;
 
+    @Column(length = 255, nullable = true)
+    private String direccion;
+
+    @Column(nullable = true)
+    private LocalDate fechaNacimiento;
+
     private LocalDate registro;
 
     @Enumerated(EnumType.STRING)

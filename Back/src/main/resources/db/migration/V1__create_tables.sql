@@ -6,6 +6,8 @@ CREATE TABLE usuario (
     email VARCHAR(45) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     telefono VARCHAR(15),
+    direccion VARCHAR(255) NULL,
+    fecha_nacimiento DATE NULL,
     registro DATE,
     rol ENUM('ADMINISTRADOR', 'CLIENTE') NOT NULL DEFAULT 'CLIENTE',
     dni VARCHAR(9) NOT NULL UNIQUE
