@@ -16,41 +16,42 @@
     }
 
     &__section {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 1.5rem;
-        width: 100%;
+        background: #fff;
+        border-radius: 18px;
+        border: 5px solid $secondary-color;
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        transition: box-shadow 0.2s, border-color 0.2s;
+        position: relative;
+    }
 
-        &--danger {
-            border: 1px solid #ff4444;
-        }
+    &__section:hover {
+        border-color: $primary-color;
     }
 
     &__section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1.5rem;
-
-        h2 {
-            margin: 0;
-            color: $text-title;
-            font-family: $font-family-body;
-            font-size: 1.5rem;
-        }
+        margin-bottom: 2rem;
+        padding-bottom: 1.2rem;
     }
 
     &__info-display {
         display: grid;
-        gap: 1rem;
+        gap: 1.2rem;
+        margin-bottom: -1rem;
     }
 
     &__info-item {
         display: flex;
         justify-content: space-between;
-        padding: 0.5rem 0;
-        border-bottom: 1px solid #eee;
+        align-items: center;
+        padding: 0.7rem 0;
+        border-bottom: 1px solid #f5f6fa;
+        font-size: $font-size-base;
+        font-weight: 400;
+        color: #3c4858;
 
         &:last-child {
             border-bottom: none;
@@ -67,60 +68,99 @@
     }
 
     &__form-group {
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+        font-family: $font-family-body;
+
+        label {
+            display: block;
+            margin-bottom: 0.1rem;
+            font-weight: $font-weight-regular;
+            color: $primary-color;
+        }
     }
 
     &__form-input {
         width: 100%;
-        padding: 0.75rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font-size: 1rem;
+        padding: 0.2rem 1rem;
+        border: 1.5px solid #e3e8ee;
+        border-radius: 8px;
+        font-size: $font-size-base;
+        background: #f9fafb;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        margin-top: $spacing-unit;
+        color: $text-body;
+        font-family: $font-family-body;
 
         &:focus {
             outline: none;
             border-color: #4a90e2;
+            background: #fff;
+            box-shadow: 0 0 0 2px #e3e8ee;
         }
     }
 
     &__button-edit,
     &__button-save,
     &__button-delete {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
+        border-radius: 8px;
         font-weight: 600;
-        transition: all 0.3s ease;
+        transition: all 0.2s;
+        box-shadow: 0 1px 4px 0 rgba(60, 72, 88, 0.08);
+    }
 
-        &:hover {
-            opacity: 0.9;
-        }
+    &__button-edit {
+        margin-left: auto;
+        background: none;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
     }
 
     &__button-save {
-        background-color: #28a745;
+        background-color: $primary-color;
         color: white;
         width: 100%;
-        padding: 0.75rem;
-        margin-top: 1rem;
+        padding: 0.40rem;
+        border: none;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: darken($primary-color, 5%);
+            color: white;
+        }
     }
 
     &__button-delete {
         background-color: #dc3545;
         color: white;
+        padding: 0.6rem 1.2rem;
+        border: none;
+        font-size: $font-size-base;
+        font-weight: $font-weight-medium;
     }
 
     &__reservations {
         display: grid;
-        gap: 1rem;
+        gap: 1.2rem;
     }
 
     &__reservation {
         background: #f8f9fa;
-        border-radius: 6px;
-        padding: 1rem;
-        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 1.2rem;
+        border: 1.5px solid #e3e8ee;
+        box-shadow: 0 1px 4px 0 rgba(60, 72, 88, 0.06);
+        transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    &__reservation:hover {
+        box-shadow: 0 4px 16px 0 rgba(60, 72, 88, 0.12);
+        border-color: #b6c2d1;
     }
 
     &__reservation-header {
@@ -132,35 +172,24 @@
         h3 {
             margin: 0;
             color: #333;
+            font-size: 1.15rem;
         }
     }
 
     &__reservations-status {
         padding: 0.25rem 0.75rem;
         border-radius: 20px;
-        font-size: 0.875rem;
+        font-size: $font-size-base;
         font-weight: 600;
-
-        &--activa {
-            background-color: #28a745;
-            color: white;
-        }
-
-        &--completada {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        &--cancelada {
-            background-color: #dc3545;
-            color: white;
-        }
+        background: #e3e8ee;
+        color: #3c4858;
+        border: 1px solid #d1d9e6;
     }
 
     &__reservation-details {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 0.7rem;
     }
 
     &__reservation-detail {
@@ -168,18 +197,17 @@
         align-items: center;
         gap: 0.5rem;
         color: #666;
-
-        i {
-            color: #4a90e2;
-        }
+        font-size: $font-size-base;
     }
 
     &__reservations-empty {
         text-align: center;
         padding: 2rem;
         color: #666;
+        font-size: $font-size-base;
 
-        i {
+        i,
+        .profile__reservations-emoji {
             font-size: 2rem;
             color: #ddd;
             margin-bottom: 1rem;
@@ -192,6 +220,7 @@
 
         p {
             margin-bottom: 1.5rem;
+            font-size: $font-size-base;
         }
     }
 
@@ -202,6 +231,7 @@
         justify-content: center;
         min-height: 200px;
         color: #666;
+        font-size: $font-size-base;
     }
 
     &__spinner {
@@ -221,6 +251,7 @@
         justify-content: center;
         min-height: 200px;
         color: #dc3545;
+        font-size: $font-size-base;
 
         i {
             font-size: 2rem;
@@ -240,20 +271,13 @@
         filter: grayscale(0) brightness(1.2);
     }
 
-    &__button-edit {
-        margin-left: auto;
-        background: none;
-        border: none;
-        box-shadow: none;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
-
     &__icon-edit--cruz {
         width: 18px;
         height: 18px;
+    }
+
+    &__section--danger {
+        border: none;
     }
 }
 
@@ -274,7 +298,7 @@
     border-radius: 6px;
     font-weight: 600;
     text-align: center;
-    font-size: 1rem;
+    font-size: $font-size-base;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: opacity 0.3s;
 }
@@ -289,4 +313,9 @@
     background: #ffeaea;
     color: #b91c1c;
     border: 1px solid #f5c2c7;
+}
+
+.profile__section-header h2,
+.profile__section h3 {
+    font-family: $font-family-body;
 }

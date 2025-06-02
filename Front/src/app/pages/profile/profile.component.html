@@ -1,19 +1,20 @@
 <div class="profile__container">
-    <!-- Loading State -->
+
+    <!-- Cargando -->
     <div class="profile__loading" *ngIf="isLoading">
         <div class="profile__spinner"></div>
         <p>Cargando perfil...</p>
     </div>
 
-    <!-- Error State -->
+    <!-- Error -->
     <div class="profile__error" *ngIf="error">
         <span class="profile__error-icon">&#9888;</span>
         <p>{{ error }}</p>
     </div>
 
-    <!-- Main Content -->
     <div class="profile__grid" *ngIf="!isLoading && !error">
-        <!-- Personal Information -->
+
+        <!-- Perfil -->
         <div class="profile__section">
             <div class="profile__section-header">
                 <h2>Perfil</h2>
@@ -90,11 +91,11 @@
                     <input type="text" id="direccion" class="profile__form-input" [(ngModel)]="personalInfo.direccion"
                         name="direccion" required>
                 </div>
-                <button type="submit" class="profile__button-save">Guardar Cambios</button>
+                <button type="submit" class="profile__button-save">Guardar</button>
             </form>
         </div>
 
-        <!-- Reservations -->
+        <!-- Reservas -->
         <div class="profile__section">
             <div class="profile__section-header">
                 <h2>Reservas</h2>
@@ -129,18 +130,16 @@
                 </div>
             </div>
             <div class="profile__reservations-empty" *ngIf="reservas.length === 0">
-                <span class="profile__reservations-emoji">📅</span>
                 <p>No tienes reservas activas</p>
             </div>
         </div>
 
-        <!-- Danger Zone -->
+        <!-- Eliminar -->
         <div class="profile__section profile__section--danger">
             <div class="profile__danger-content">
                 <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, ten cuidado.</p>
                 <button class="profile__button-delete" (click)="confirmDelete()">
-                    <span class="profile__danger-emoji">🗑️</span>
-                    Eliminar Cuenta
+                    Eliminar
                 </button>
             </div>
         </div>
