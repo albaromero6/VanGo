@@ -30,9 +30,9 @@ export class LoginComponent {
   onSubmit() {
     const { email, password } = this.form.value;
     this.authService.login(email, password).subscribe({
-      next: (token: string) => {
-        if (token) {
-          localStorage.setItem('token', token);
+      next: (response) => {
+        if (response && response.token) {
+          // El token ya se guarda en el AuthService
           this.router.navigate(['/']);
         }
       },

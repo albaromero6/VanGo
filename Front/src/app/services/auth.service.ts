@@ -1,67 +1,98 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { Observable, map, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { environment } from '../../environments/environment';
 
-interface LoginResponse {
-    token: string;
-}
-
-interface User {
+export interface User {
     nombre: string;
     apellido: string;
     email: string;
     rol?: string;
 }
 
+interface LoginResponse {
+    token: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private apiUrl = 'http://localhost:8080/api/auth';
+    private apiUrl = `${environment.apiUrl}/auth`;
     private currentUserSubject = new BehaviorSubject<User | null>(null);
     public currentUser$ = this.currentUserSubject.asObservable();
+    private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
-    constructor(private http: HttpClient) {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        console.log('Token from localStorage:', token);
-        console.log('User from localStorage:', user);
+    constructor(
+        private http: HttpClient,
+        @Inject(PLATFORM_ID) private platformId: Object
+    ) {
+        this.initializeAuth();
+    }
 
-        if (token && user) {
-            const decodedUser = this.decodeToken(token);
-            console.log('Decoded user on init:', decodedUser);
-            this.currentUserSubject.next(decodedUser);
+    private initializeAuth(): void {
+        if (isPlatformBrowser(this.platformId)) {
+            const storedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+
+            if (storedUser) {
+                this.currentUserSubject.next(JSON.parse(storedUser));
+            }
+            this.isAuthenticatedSubject.next(!!token);
         }
     }
 
-    login(email: string, password: string): Observable<string> {
-        return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password })
-            .pipe(
-                map(response => response.token),
-                tap(token => {
-                    console.log('Token recibido:', token);
-                    // Descodificar el token para obtener la información del usuario
-                    const userInfo = this.decodeToken(token);
+    login(email: string, password: string): Observable<any> {
+        return this.http.post<LoginResponse>(`${this.apiUrl}/login`, { email, password }).pipe(
+            tap((response: LoginResponse) => {
+                if (response && response.token) {
+                    if (isPlatformBrowser(this.platformId)) {
+                        localStorage.setItem('token', response.token);
+                    }
+                    this.isAuthenticatedSubject.next(true);
+                    const userInfo = this.decodeToken(response.token);
                     console.log('Usuario decodificado del token:', userInfo);
-
-                    // Verificar si el usuario es administrador
                     const isAdmin = userInfo.rol === 'ADMINISTRADOR';
                     console.log('¿Es administrador?:', isAdmin);
 
                     this.currentUserSubject.next(userInfo);
-                    localStorage.setItem('user', JSON.stringify(userInfo));
-                    localStorage.setItem('token', token);
-                })
-            );
+                    if (isPlatformBrowser(this.platformId)) {
+                        localStorage.setItem('user', JSON.stringify(userInfo));
+                    }
+                }
+            })
+        );
     }
 
-    logout() {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
+    logout(): void {
         this.currentUserSubject.next(null);
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+        }
+        this.isAuthenticatedSubject.next(false);
+    }
+
+    isAuthenticated(): boolean {
+        if (isPlatformBrowser(this.platformId)) {
+            return !!this.getToken();
+        }
+        return false;
     }
 
     isLoggedIn(): boolean {
-        return !!this.currentUserSubject.value;
+        return this.isAuthenticated();
+    }
+
+    getToken(): string | null {
+        if (isPlatformBrowser(this.platformId)) {
+            return localStorage.getItem('token');
+        }
+        return null;
+    }
+
+    getAuthStatus(): Observable<boolean> {
+        return this.isAuthenticatedSubject.asObservable();
     }
 
     isAdmin(): boolean {

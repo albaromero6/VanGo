@@ -8,17 +8,19 @@ import { HomeComponent } from './pages/home/home.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { LocationComponent } from './pages/location/location.component';
 import { DetailsComponent } from './pages/details/details.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
 
-    { path: '',             component: HomeComponent },
-    { path: 'catalogo',     component: CatalogComponent },
-    { path: 'eligenos',     component: SelectusComponent },
-    { path: 'rutas',        component: RoutesComponent },
-    { path: 'contacto',     component: ContactComponent },
-    { path: 'ubicacion',    component: LocationComponent },
-    { path: 'registro',     component: RegisterComponent },
-    { path: 'login',        component: LoginComponent },
+    { path: '', component: HomeComponent },
+    { path: 'catalogo', component: CatalogComponent },
+    { path: 'eligenos', component: SelectusComponent },
+    { path: 'rutas', component: RoutesComponent },
+    { path: 'contacto', component: ContactComponent },
+    { path: 'ubicacion', component: LocationComponent },
+    { path: 'registro', component: RegisterComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'detalles/:id', component: DetailsComponent },
+    { path: 'perfil', component: ProfileComponent },
 
 ];

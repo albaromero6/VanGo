@@ -1,0 +1,152 @@
+<div class="profile__container">
+    <!-- Loading State -->
+    <div class="profile__loading" *ngIf="isLoading">
+        <div class="profile__spinner"></div>
+        <p>Cargando perfil...</p>
+    </div>
+
+    <!-- Error State -->
+    <div class="profile__error" *ngIf="error">
+        <span class="profile__error-icon">&#9888;</span>
+        <p>{{ error }}</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="profile__grid" *ngIf="!isLoading && !error">
+        <!-- Personal Information -->
+        <div class="profile__section">
+            <div class="profile__section-header">
+                <h2>Perfil</h2>
+                <button class="profile__button-edit" (click)="toggleEdit('personal')"
+                    [attr.aria-label]="isEditingPersonal ? 'Cancelar edición' : 'Editar información personal'">
+                    <img [src]="isEditingPersonal ? 'assets/img/Cruz.png' : 'assets/img/Lapiz.png'"
+                        [alt]="isEditingPersonal ? 'Cancelar' : 'Editar'" class="profile__icon-edit"
+                        [ngClass]="{ 'profile__icon-edit--cruz': isEditingPersonal }" />
+                </button>
+            </div>
+            <div class="profile__info-display" *ngIf="!isEditingPersonal">
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Nombre:</span>
+                    <span class="profile__info-value">{{ personalInfo.nombre }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Apellido:</span>
+                    <span class="profile__info-value">{{ personalInfo.apellido }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Email:</span>
+                    <span class="profile__info-value">{{ personalInfo.email }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Teléfono:</span>
+                    <span class="profile__info-value">{{ personalInfo.telefono || 'No especificado' }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">DNI:</span>
+                    <span class="profile__info-value">{{ personalInfo.dni || 'No especificado' }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Fecha de nacimiento:</span>
+                    <span class="profile__info-value">{{ personalInfo.fechaNacimiento || 'No especificada' }}</span>
+                </div>
+                <div class="profile__info-item">
+                    <span class="profile__info-label">Dirección:</span>
+                    <span class="profile__info-value">{{ personalInfo.direccion || 'No especificada' }}</span>
+                </div>
+            </div>
+            <form (ngSubmit)="savePersonalInfo()" *ngIf="isEditingPersonal">
+                <div class="profile__form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="profile__form-input" [(ngModel)]="personalInfo.nombre"
+                        name="nombre" required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" class="profile__form-input" [(ngModel)]="personalInfo.apellido"
+                        name="apellido" required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="profile__form-input" [(ngModel)]="personalInfo.email"
+                        name="email" required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" class="profile__form-input" [(ngModel)]="personalInfo.telefono"
+                        name="telefono" required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" id="dni" class="profile__form-input" [(ngModel)]="personalInfo.dni" name="dni"
+                        required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                    <input type="date" id="fechaNacimiento" class="profile__form-input"
+                        [(ngModel)]="personalInfo.fechaNacimiento" name="fechaNacimiento" required>
+                </div>
+                <div class="profile__form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" class="profile__form-input" [(ngModel)]="personalInfo.direccion"
+                        name="direccion" required>
+                </div>
+                <button type="submit" class="profile__button-save">Guardar Cambios</button>
+            </form>
+        </div>
+
+        <!-- Reservations -->
+        <div class="profile__section">
+            <div class="profile__section-header">
+                <h2>Reservas</h2>
+            </div>
+            <div class="profile__reservations" *ngIf="reservas.length > 0">
+                <div class="profile__reservation" *ngFor="let reserva of reservas">
+                    <div class="profile__reservation-header">
+                        <h3>{{ reserva.camper }}</h3>
+                        <span class="profile__reservations-status"
+                            [ngClass]="'profile__reservations-status--' + reserva.estado.toLowerCase()">
+                            {{ reserva.estado }}
+                        </span>
+                    </div>
+                    <div class="profile__reservation-details">
+                        <div class="profile__reservation-detail">
+                            <span class="profile__reservation-emoji">📅</span>
+                            <span>{{ reserva.fecha }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <span class="profile__reservation-emoji">📍</span>
+                            <span>{{ reserva.ubicacion }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <span class="profile__reservation-emoji">👥</span>
+                            <span>{{ reserva.personas }} personas</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <span class="profile__reservation-emoji">💶</span>
+                            <span>{{ reserva.precio }}€ total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile__reservations-empty" *ngIf="reservas.length === 0">
+                <span class="profile__reservations-emoji">📅</span>
+                <p>No tienes reservas activas</p>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="profile__section profile__section--danger">
+            <div class="profile__danger-content">
+                <p>Una vez que elimines tu cuenta, no hay vuelta atrás. Por favor, ten cuidado.</p>
+                <button class="profile__button-delete" (click)="confirmDelete()">
+                    <span class="profile__danger-emoji">🗑️</span>
+                    Eliminar Cuenta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="alertMessage" class="profile__alert" [ngClass]="'profile__alert--' + alertType">
+        {{ alertMessage }}
+    </div>
+</div>
