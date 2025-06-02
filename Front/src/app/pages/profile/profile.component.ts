@@ -141,6 +141,13 @@ export class ProfileComponent implements OnInit {
 
   toggleEdit(section: string): void {
     if (section === 'personal') {
+      if (this.isEditingPersonal) {
+        // Si se cancela la edición, restaurar los datos originales
+        if (this.user) {
+          this.personalInfo = { ...this.user };
+          this.fieldErrors = {};
+        }
+      }
       this.isEditingPersonal = !this.isEditingPersonal;
     }
   }

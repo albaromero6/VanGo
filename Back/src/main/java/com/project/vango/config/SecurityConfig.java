@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                
+
                         // Endpoints públicos
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
@@ -53,15 +53,16 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
 
+                        // Endpoints de clientes (accesibles solo a sus propios datos)
+                        .requestMatchers("/api/usuarios/perfil", "/api/usuarios/perfil/**")
+                        .hasAnyRole("CLIENTE", "ADMINISTRADOR")
+                        .requestMatchers("/api/reservas/cliente/**").hasRole("CLIENTE")
+                        .requestMatchers("/api/resenias/cliente/**").hasRole("CLIENTE")
+
                         // Endpoints de administrador
                         .requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/reservas/admin/**").hasRole("ADMINISTRADOR")
                         .requestMatchers("/api/resenias/admin/**").hasRole("ADMINISTRADOR")
-
-                        // Endpoints de clientes (accesibles solo a sus propios datos)
-                        .requestMatchers("/api/reservas/cliente/**").hasRole("CLIENTE")
-                        .requestMatchers("/api/resenias/cliente/**").hasRole("CLIENTE")
-                        .requestMatchers("/api/usuarios/perfil/**").hasRole("CLIENTE")
 
                         // Endpoints compartidos
                         .requestMatchers("/api/reservas/{id}").authenticated()

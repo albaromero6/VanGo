@@ -211,7 +211,8 @@ export class ProfileService {
     }
 
     getReservations(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrl}/reservas`);
+        const headers = this.getHeaders();
+        return this.http.get<any[]>(`${environment.apiUrl}/reservas/cliente/mis-reservas`, { headers });
     }
 
     deleteAccount(): Observable<void> {

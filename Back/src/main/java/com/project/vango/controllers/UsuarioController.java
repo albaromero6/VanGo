@@ -39,6 +39,7 @@ public class UsuarioController {
         @PreAuthorize("isAuthenticated()")
         public ResponseEntity<Usuario> getPerfil() {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                System.out.println("Authorities: " + auth.getAuthorities());
                 String email = auth.getName();
                 return usuarioService.findByEmail(email)
                                 .map(ResponseEntity::ok)
@@ -147,7 +148,7 @@ public class UsuarioController {
                                 .map(existingUsuario -> {
                                         usuario.setIdUsu(existingUsuario.getIdUsu());
                                         usuario.setEmail(existingUsuario.getEmail()); // No permitir cambiar el email
-                                        usuario.setPassword(existingUsuario.getPassword()); // No permitir cambiar la contraseña 
+                                        usuario.setPassword(existingUsuario.getPassword()); // No permitir cambiar la contraseña
                                         usuario.setRol(existingUsuario.getRol()); // No permitir cambiar el rol
                                         return ResponseEntity.ok(usuarioService.save(usuario));
                                 })

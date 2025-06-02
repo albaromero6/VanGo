@@ -21,7 +21,7 @@
           <a routerLink="/perfil" class="welcome-message-link">{{ (authService.currentUser$ | async)?.nombre }} {{
             (authService.currentUser$ | async)?.apellido }}</a>
         </div>
-        <button class="btn-logout" (click)="authService.logout()">Cerrar sesión</button>
+        <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
       </ng-container>
       <ng-template #notLoggedIn>
         <a routerLink="/registro" class="navbar__actions--register">Regístrate</a>

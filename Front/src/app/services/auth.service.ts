@@ -4,6 +4,7 @@ import { Observable, map, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 export interface User {
     nombre: string;
@@ -25,7 +26,8 @@ export class AuthService {
 
     constructor(
         private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: Object
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private router: Router
     ) {
         this.initializeAuth();
     }
@@ -71,6 +73,7 @@ export class AuthService {
             localStorage.removeItem('token');
         }
         this.isAuthenticatedSubject.next(false);
+        this.router.navigate(['/']);
     }
 
     isAuthenticated(): boolean {
