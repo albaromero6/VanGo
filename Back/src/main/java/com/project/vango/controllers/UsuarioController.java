@@ -130,4 +130,27 @@ public class UsuarioController {
                                 })
                                 .orElse(ResponseEntity.notFound().build());
         }
+
+        @Operation(summary = "Actualizar perfil del usuario autenticado", description = "Actualiza los datos del usuario que ha iniciado sesión")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Perfil actualizado exitosamente", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Usuario.class))),
+                        @ApiResponse(responseCode = "400", description = "Datos de usuario inválidos"),
+                        @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
+                        @ApiResponse(responseCode = "500", description = "Error interno del servidor")
+        })
+        @PutMapping("/perfil")
+        @PreAuthorize("isAuthenticated()")
+        public ResponseEntity<Usuario> updatePerfil(@RequestBody Usuario usuario) {
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                String email = auth.getName();
+                return usuarioService.findByEmail(email)
+                                .map(existingUsuario -> {
+                                        usuario.setIdUsu(existingUsuario.getIdUsu());
+                                        usuario.setEmail(existingUsuario.getEmail()); // No permitir cambiar el email
+                                        usuario.setPassword(existingUsuario.getPassword()); // No permitir cambiar la contraseña 
+                                        usuario.setRol(existingUsuario.getRol()); // No permitir cambiar el rol
+                                        return ResponseEntity.ok(usuarioService.save(usuario));
+                                })
+                                .orElse(ResponseEntity.notFound().build());
+        }
 }

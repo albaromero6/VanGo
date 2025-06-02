@@ -40,58 +40,79 @@
                 </div>
                 <div class="profile__info-item">
                     <span class="profile__info-label">Teléfono:</span>
-                    <span class="profile__info-value">{{ personalInfo.telefono || 'No especificado' }}</span>
+                    <span class="profile__info-value">{{ personalInfo.telefono }}</span>
                 </div>
                 <div class="profile__info-item">
                     <span class="profile__info-label">DNI:</span>
-                    <span class="profile__info-value">{{ personalInfo.dni || 'No especificado' }}</span>
+                    <span class="profile__info-value">{{ personalInfo.dni }}</span>
                 </div>
                 <div class="profile__info-item">
                     <span class="profile__info-label">Fecha de nacimiento:</span>
-                    <span class="profile__info-value">{{ personalInfo.fechaNacimiento || 'No especificada' }}</span>
+                    <span class="profile__info-value">{{ formatFechaEuropea(personalInfo.fechaNacimiento) }}</span>
                 </div>
                 <div class="profile__info-item">
                     <span class="profile__info-label">Dirección:</span>
-                    <span class="profile__info-value">{{ personalInfo.direccion || 'No especificada' }}</span>
+                    <span class="profile__info-value">{{ personalInfo.direccion }}</span>
                 </div>
             </div>
             <form (ngSubmit)="savePersonalInfo()" *ngIf="isEditingPersonal">
                 <div class="profile__form-group">
                     <label for="nombre">Nombre</label>
                     <input type="text" id="nombre" class="profile__form-input" [(ngModel)]="personalInfo.nombre"
-                        name="nombre" required>
+                        name="nombre" required [disabled]="isLoading"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['nombre']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['nombre']">{{ fieldErrors['nombre']
+                        }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="apellido">Apellido</label>
                     <input type="text" id="apellido" class="profile__form-input" [(ngModel)]="personalInfo.apellido"
-                        name="apellido" required>
+                        name="apellido" required [disabled]="isLoading"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['apellido']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['apellido']">{{ fieldErrors['apellido']
+                        }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" class="profile__form-input" [(ngModel)]="personalInfo.email"
-                        name="email" required>
+                        name="email" required [disabled]="isLoading"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['email']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="telefono">Teléfono</label>
                     <input type="tel" id="telefono" class="profile__form-input" [(ngModel)]="personalInfo.telefono"
-                        name="telefono" required>
+                        name="telefono" required [disabled]="isLoading"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['telefono']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['telefono']">{{ fieldErrors['telefono']
+                        }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="dni">DNI</label>
                     <input type="text" id="dni" class="profile__form-input" [(ngModel)]="personalInfo.dni" name="dni"
-                        required>
+                        required [disabled]="isLoading" [ngClass]="{'profile__form-input--error': fieldErrors['dni']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['dni']">{{ fieldErrors['dni'] }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                    <input type="date" id="fechaNacimiento" class="profile__form-input"
-                        [(ngModel)]="personalInfo.fechaNacimiento" name="fechaNacimiento" required>
+                    <input type="date" id="fechaNacimiento" class="profile__form-input" [value]="fechaNacimientoInput"
+                        (change)="onFechaNacimientoChange($event)" name="fechaNacimiento" [disabled]="isLoading"
+                        [max]="fechaActual" [min]="fechaMinima"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['fechaNacimiento']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['fechaNacimiento']">{{
+                        fieldErrors['fechaNacimiento'] }}</span>
                 </div>
                 <div class="profile__form-group">
                     <label for="direccion">Dirección</label>
                     <input type="text" id="direccion" class="profile__form-input" [(ngModel)]="personalInfo.direccion"
-                        name="direccion" required>
+                        name="direccion" [disabled]="isLoading"
+                        [ngClass]="{'profile__form-input--error': fieldErrors['direccion']}">
+                    <span class="profile__error-message" *ngIf="fieldErrors['direccion']">{{ fieldErrors['direccion']
+                        }}</span>
                 </div>
-                <button type="submit" class="profile__button-save">Guardar</button>
+                <button type="submit" class="profile__button-save" [disabled]="isLoading">
+                    {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
+                </button>
             </form>
         </div>
 

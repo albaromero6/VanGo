@@ -68,7 +68,8 @@
     }
 
     &__form-group {
-        margin-bottom: 1.2rem;
+        position: relative;
+        margin-bottom: 1.1rem;
         font-family: $font-family-body;
 
         label {
@@ -77,25 +78,45 @@
             font-weight: $font-weight-regular;
             color: $primary-color;
         }
+
+        .profile__error-message {
+            display: block;
+            color: #e74c3c;
+            font-size: 0.95em;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+            padding-left: 2px;
+            line-height: 1.2;
+            position: static;
+        }
     }
 
     &__form-input {
         width: 100%;
-        padding: 0.2rem 1rem;
-        border: 1.5px solid #e3e8ee;
-        border-radius: 8px;
+        padding: 0.3rem $spacing-small;
+        border: 1px solid $secondary-color;
+        border-radius: 15px;
         font-size: $font-size-base;
-        background: #f9fafb;
-        transition: border-color 0.2s, box-shadow 0.2s;
-        margin-top: $spacing-unit;
-        color: $text-body;
+        outline: none;
         font-family: $font-family-body;
+        margin-bottom: 0.1rem;
 
         &:focus {
-            outline: none;
-            border-color: #4a90e2;
-            background: #fff;
-            box-shadow: 0 0 0 2px #e3e8ee;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+        }
+
+        &--error {
+            border-color: $secondary-color;
+
+            &:focus {
+                border-color: $primary-color;
+                box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+            }
+        }
+
+        &::placeholder {
+            color: $text-body;
         }
     }
 
@@ -278,6 +299,13 @@
 
     &__section--danger {
         border: none;
+    }
+
+    &__error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
     }
 }
 

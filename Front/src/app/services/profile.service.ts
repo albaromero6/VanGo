@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
 
 export interface ProfileData {
     id?: number;
@@ -103,22 +102,6 @@ export class ProfileService {
         console.error('Status:', error.status);
         console.error('Status Text:', error.statusText);
 
-        if (error.status === 403) {
-            console.error('Error 403 - Detalles adicionales:');
-            const token = localStorage.getItem('token');
-            console.error('Token actual:', token);
-            if (token) {
-                try {
-                    console.error('Token parseado:', JSON.parse(token));
-                } catch (e) {
-                    console.error('Token no es JSON válido');
-                }
-            } else {
-                console.error('No hay token almacenado');
-            }
-            console.error('Headers enviados:', error.headers);
-        }
-
         let errorMessage = 'Ha ocurrido un error al procesar la solicitud';
 
         if (error.error instanceof ErrorEvent) {
@@ -127,7 +110,6 @@ export class ProfileService {
             switch (error.status) {
                 case 403:
                     errorMessage = 'No tienes permisos para acceder a este recurso. Por favor, verifica tus credenciales.';
-                    // Limpiar el token si está inválido
                     localStorage.removeItem('token');
                     localStorage.removeItem('user');
                     break;
@@ -137,9 +119,11 @@ export class ProfileService {
                     localStorage.removeItem('user');
                     break;
                 case 500:
-                    const errorText = error.error?.toString() || '';
-                    if (errorText.includes('Error interno')) {
-                        errorMessage = errorText;
+                    // Manejar errores de texto plano
+                    if (typeof error.error === 'string') {
+                        errorMessage = error.error;
+                    } else if (error.error && error.error.message) {
+                        errorMessage = error.error.message;
                     } else {
                         errorMessage = 'Error interno del servidor. Por favor, inténtalo de nuevo más tarde.';
                     }
@@ -147,6 +131,8 @@ export class ProfileService {
                 default:
                     if (error.error && error.error.message) {
                         errorMessage = error.error.message;
+                    } else if (typeof error.error === 'string') {
+                        errorMessage = error.error;
                     }
             }
         }
@@ -159,7 +145,69 @@ export class ProfileService {
     }
 
     updatePersonalInfo(profileData: Partial<ProfileData>): Observable<ProfileData> {
-        return this.http.put<ProfileData>(`${this.apiUrl}/perfil`, profileData);
+        const headers = this.getHeaders();
+
+        // Asegurarnos de que los datos están en el formato correcto
+        const dataToSend = {
+            ...profileData,
+            // Convertir campos vacíos a null
+            telefono: profileData.telefono || null,
+            fechaNacimiento: profileData.fechaNacimiento || null,
+            direccion: profileData.direccion || null,
+            dni: profileData.dni || null
+        };
+
+        console.log('Datos a enviar:', dataToSend);
+        console.log('Headers:', headers);
+
+        return this.http.put<ProfileData>(`${this.apiUrl}/perfil`, dataToSend, {
+            headers,
+            observe: 'response',
+            responseType: 'text' as 'json'
+        }).pipe(
+            tap(response => {
+                console.log('Respuesta completa:', response);
+                console.log('Status:', response.status);
+                console.log('Headers:', response.headers);
+                console.log('Body:', response.body);
+            }),
+            map(response => {
+                try {
+                    // Parsear la respuesta como JSON
+                    return typeof response.body === 'string' ? JSON.parse(response.body) : response.body;
+                } catch (e) {
+                    console.error('Error al parsear la respuesta:', e);
+                    throw new Error('Error al procesar la respuesta del servidor');
+                }
+            }),
+            catchError(error => {
+                console.error('Error detallado:', {
+                    status: error.status,
+                    statusText: error.statusText,
+                    error: error.error,
+                    headers: error.headers,
+                    url: error.url
+                });
+
+                if (error.error instanceof ErrorEvent) {
+                    // Error del cliente
+                    console.error('Error del cliente:', error.error.message);
+                    return throwError(() => new Error('Error de conexión: ' + error.error.message));
+                } else {
+                    // Error del servidor
+                    let errorMessage = 'Error interno del servidor';
+
+                    if (typeof error.error === 'string') {
+                        errorMessage = error.error;
+                    } else if (error.error && error.error.message) {
+                        errorMessage = error.error.message;
+                    }
+
+                    console.error('Mensaje de error del servidor:', errorMessage);
+                    return throwError(() => new Error(errorMessage));
+                }
+            })
+        );
     }
 
     getReservations(): Observable<any[]> {
