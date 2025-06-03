@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   form: FormGroup;
+  serverError: string | null = null;
+  isSubmitting = false;
 
   constructor(
     private fb: FormBuilder,
@@ -28,18 +30,27 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.isSubmitting = true;
+    this.serverError = null;
+
     const { email, password } = this.form.value;
-    this.authService.login(email, password).subscribe({
-      next: (response) => {
-        if (response && response.token) {
-          // El token ya se guarda en el AuthService
-          this.router.navigate(['/']);
+
+    // Solo si ambos campos tienen contenido
+    if (email && password) {
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          if (response && response.token) {
+            this.router.navigate(['/']);
+          }
+        },
+        error: (err) => {
+          console.error('Error al iniciar sesión:', err);
+          this.serverError = 'Credenciales inválidas';
+          this.isSubmitting = false;
         }
-      },
-      error: (err) => {
-        console.error('Error al iniciar sesión:', err);
-        alert('Credenciales inválidas');
-      }
-    });
+      });
+    } else {
+      this.isSubmitting = false;
+    }
   }
 }

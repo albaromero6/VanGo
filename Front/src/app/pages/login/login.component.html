@@ -21,7 +21,13 @@
                 <input type="password" id="password" formControlName="password">
             </div>
 
-            <button type="submit" class="btn-enviar">Enviar</button>
+            <div class="server-error" *ngIf="serverError">
+                {{ serverError }}
+            </div>
+
+            <button type="submit" class="btn-enviar" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Iniciando sesión...' : 'Iniciar sesión' }}
+            </button>
 
             <div class="separator">
                 <span>o</span>

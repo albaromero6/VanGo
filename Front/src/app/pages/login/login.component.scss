@@ -202,9 +202,16 @@
     }
 }
 
-.error-message {
-    color: #ff0000;
-    font-size: 0.8rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.5rem;
+.server-error {
+    color: #ff4444;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: $spacing-small;
+    padding: $spacing-small;
+    background-color: rgba(255, 68, 68, 0.1);
+    border-radius: 6px;
+    width: 100%;
+    font-family: $font-family-body;
+    box-sizing: border-box;
+    margin-bottom: $spacing-medium;
 }
