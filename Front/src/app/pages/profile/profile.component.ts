@@ -5,14 +5,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileService, ProfileData } from '../../services/profile.service';
 import { Router } from '@angular/router';
 
+interface Sede {
+  idSed: number;
+  direccion: string;
+  ciudad: string;
+  telefono: string;
+  imagen: string;
+}
+
 interface Reserva {
-  id: number;
+  idReser: number;
   camper: string;
   estado: string;
-  fecha: string;
-  ubicacion: string;
-  personas: number;
-  precio: number;
+  inicio: string;
+  fin: string;
+  idSed_Salid: Sede;
+  idSed_Lleg: Sede;
+  total: number;
 }
 
 @Component({
@@ -51,6 +60,9 @@ export class ProfileComponent implements OnInit {
     anosExperiencia: 0
   };
   reservas: Reserva[] = [];
+  reservasEnCurso: Reserva[] = [];
+  reservasReservadas: Reserva[] = [];
+  reservasFinalizadas: Reserva[] = [];
   alertMessage: string | null = null;
   alertType: 'success' | 'error' | null = null;
   alertTimeout: any = null;
@@ -93,9 +105,10 @@ export class ProfileComponent implements OnInit {
   }
 
   // Método para formatear la fecha ISO a formato europeo 
-  formatFechaEuropea(fechaIso: string | null | undefined): string {
+  formatFechaEuropea(fechaIso: string | undefined): string {
     if (!fechaIso) return '';
     const date = new Date(fechaIso);
+    if (isNaN(date.getTime())) return '';
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
@@ -120,6 +133,10 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  get isClient(): boolean {
+    return this.user?.rol === 'CLIENTE';
+  }
+
   loadProfile(): void {
     this.isLoading = true;
     this.error = null;
@@ -128,7 +145,9 @@ export class ProfileComponent implements OnInit {
       next: (data: ProfileData) => {
         this.user = data;
         this.personalInfo = { ...data };
-        this.loadReservations();
+        if (this.isClient) {
+          this.loadReservations();
+        }
         this.isLoading = false;
       },
       error: (error: any) => {
@@ -275,7 +294,19 @@ export class ProfileComponent implements OnInit {
   loadReservations(): void {
     this.profileService.getReservations().subscribe({
       next: (data: Reserva[]) => {
+        console.log('Datos de reservas recibidos:', data);
         this.reservas = data;
+        this.reservas.forEach(r => {
+          console.log(`Reserva ID: ${r.idReser} | Estado: ${r.estado} | Inicio:`, r.inicio, '| Fin:', r.fin);
+        });
+        // Agrupar reservas por estado
+        this.reservasEnCurso = this.reservas.filter(r => r.estado === 'CURSO');
+        this.reservasReservadas = this.reservas.filter(r => r.estado === 'RESERVADA');
+        this.reservasFinalizadas = this.reservas.filter(r => r.estado === 'FINALIZADA');
+
+        console.log('Reservas en curso:', this.reservasEnCurso);
+        console.log('Reservas reservadas:', this.reservasReservadas);
+        console.log('Reservas finalizadas:', this.reservasFinalizadas);
       },
       error: (error: any) => {
         console.error('Error al cargar las reservas:', error);

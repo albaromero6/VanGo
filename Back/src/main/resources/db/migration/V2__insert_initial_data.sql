@@ -55,17 +55,18 @@ VALUES
 ('Calle Santa Engracia, 12', 'Toledo', '925123456', 'sede_toledo.jpg');
 
 -- Insertar reservas
-INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id_sed_salid) 
-VALUES 
-('2025-05-12', '2025-05-19', 380.00, 'RESERVADA', 1, 5, 1, 3),
-('2025-05-14', '2025-05-21', 520.00, 'CURSO', 2, 6, 2, 4),
-('2025-05-16', '2025-05-23', 400.00, 'FINALIZADA', 3, 7, 3, 1),
-('2025-05-18', '2025-05-25', 460.00, 'RESERVADA', 1, 8, 4, 2);
+INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id_sed_salid)    
+VALUES
+('2025-04-15', '2025-04-22', 380.00, 'FINALIZADA', 1, 5, 1, 3),
+('2025-05-15', '2025-05-22', 400.00, 'FINALIZADA', 3, 7, 3, 1),
+('2025-06-01', '2025-06-08', 460.00, 'CURSO', 1, 8, 4, 2),
+('2025-06-02', '2025-06-09', 390.00, 'CURSO', 1, 2, 5, 3),
+('2025-06-15', '2025-06-22', 450.00, 'RESERVADA', 1, 3, 4, 1),
+('2025-06-20', '2025-06-27', 410.00, 'RESERVADA', 1, 4, 2, 5);
 
--- Insertar reseñas (corregidos los IDs para que coincidan con las reservas)
-INSERT INTO resenia (comentario, puntuacion, fecha, id_reser) 
-VALUES 
-('Vehículo en excelente estado, todo perfecto.', 5, '2025-05-20', 1),
-('Buena experiencia aunque la entrega fue un poco lenta.', 4, '2025-05-22', 2),
-('Servicio aceptable, aunque el vehículo tenía algunos detalles.', 3, '2025-05-24', 3),
-('Muy satisfecho con el alquiler, repetiré sin duda.', 5, '2025-05-26', 4); 
+-- Insertar reseñas (solo para reservas finalizadas)
+INSERT INTO resenia (comentario, puntuacion, fecha, id_reser)
+VALUES
+('Vehículo en excelente estado, todo perfecto.', 5, '2025-04-23', 1),
+('Buena experiencia aunque la entrega fue un poco lenta.', 4, '2025-05-09', 2),
+('Servicio aceptable, aunque el vehículo tenía algunos detalles.', 3, '2025-05-23', 3); 

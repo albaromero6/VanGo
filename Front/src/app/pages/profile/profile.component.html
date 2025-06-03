@@ -117,40 +117,114 @@
         </div>
 
         <!-- Reservas -->
-        <div class="profile__section">
+        <div class="profile__section" *ngIf="isClient">
             <div class="profile__section-header">
                 <h2>Reservas</h2>
             </div>
-            <div class="profile__reservations" *ngIf="reservas.length > 0">
-                <div class="profile__reservation" *ngFor="let reserva of reservas">
+            <!-- Reservas en curso primero -->
+            <div class="profile__reservations" *ngIf="reservasEnCurso.length > 0">
+                <div class="profile__reservation" *ngFor="let reserva of reservasEnCurso">
                     <div class="profile__reservation-header">
                         <h3>{{ reserva.camper }}</h3>
                         <span class="profile__reservations-status"
-                            [ngClass]="'profile__reservations-status--' + reserva.estado.toLowerCase()">
-                            {{ reserva.estado }}
+                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
+                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
                         </span>
                     </div>
                     <div class="profile__reservation-details">
                         <div class="profile__reservation-detail">
-                            <span class="profile__reservation-emoji">📅</span>
-                            <span>{{ reserva.fecha }}</span>
+                            <label class="profile__reservation-label">Inicio</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
                         </div>
                         <div class="profile__reservation-detail">
-                            <span class="profile__reservation-emoji">📍</span>
-                            <span>{{ reserva.ubicacion }}</span>
+                            <label class="profile__reservation-label">Fin</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
                         </div>
                         <div class="profile__reservation-detail">
-                            <span class="profile__reservation-emoji">👥</span>
-                            <span>{{ reserva.personas }} personas</span>
+                            <label class="profile__reservation-label">Salida</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
                         </div>
                         <div class="profile__reservation-detail">
-                            <span class="profile__reservation-emoji">💶</span>
-                            <span>{{ reserva.precio }}€ total</span>
+                            <label class="profile__reservation-label">Llegada</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Total</label>
+                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="profile__reservations-empty" *ngIf="reservas.length === 0">
+            <!-- Reservas reservadas -->
+            <div class="profile__reservations" *ngIf="reservasReservadas.length > 0">
+                <div class="profile__reservation" *ngFor="let reserva of reservasReservadas">
+                    <div class="profile__reservation-header">
+                        <h3>{{ reserva.camper }}</h3>
+                        <span class="profile__reservations-status"
+                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
+                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
+                        </span>
+                    </div>
+                    <div class="profile__reservation-details">
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Inicio</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Fin</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Salida</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Llegada</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Total</label>
+                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Reservas finalizadas -->
+            <div class="profile__reservations" *ngIf="reservasFinalizadas.length > 0">
+                <div class="profile__reservation" *ngFor="let reserva of reservasFinalizadas">
+                    <div class="profile__reservation-header">
+                        <h3>{{ reserva.camper }}</h3>
+                        <span class="profile__reservations-status"
+                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
+                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
+                        </span>
+                    </div>
+                    <div class="profile__reservation-details">
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Inicio</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Fin</label>
+                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Salida</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Llegada</label>
+                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
+                        </div>
+                        <div class="profile__reservation-detail">
+                            <label class="profile__reservation-label">Total</label>
+                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="profile__reservations-empty"
+                *ngIf="reservasEnCurso.length === 0 && reservasReservadas.length === 0 && reservasFinalizadas.length === 0">
                 <p>No tienes reservas activas</p>
             </div>
         </div>
