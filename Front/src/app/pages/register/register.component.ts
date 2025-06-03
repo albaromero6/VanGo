@@ -40,7 +40,7 @@ export class RegisterComponent {
     },
     telefono: {
       required: 'El teléfono es obligatorio',
-      format: 'El teléfono debe tener exactamente 9 números'
+      format: 'El teléfono debe tener 9 números'
     },
     dni: {
       required: 'El DNI es obligatorio',

@@ -90,6 +90,7 @@
         bottom: 100%;
         left: 0;
         margin-bottom: 1px;
+        font-family: $font-family-body;
     }
 }
 
@@ -151,6 +152,7 @@
     padding: $spacing-small;
     background-color: rgba(255, 68, 68, 0.1);
     border-radius: 6px;
+    font-family: $font-family-body;
 }
 
 .separator {
