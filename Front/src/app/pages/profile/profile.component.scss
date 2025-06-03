@@ -387,3 +387,36 @@
 .profile__section h3 {
     font-family: $font-family-body;
 }
+
+.profile__danger-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    p {
+        color: #c53030;
+        margin: 0;
+    }
+}
+
+.profile__button-delete {
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #c53030;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.3);
+    }
+}

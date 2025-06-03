@@ -216,6 +216,12 @@ export class ProfileService {
     }
 
     deleteAccount(): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/perfil`);
+        const headers = this.getHeaders();
+        return this.http.delete<void>(`${this.apiUrl}/perfil`, { headers }).pipe(
+            catchError(error => {
+                console.error('Error al eliminar la cuenta:', error);
+                return this.handleError(error);
+            })
+        );
     }
 } 

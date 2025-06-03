@@ -3,8 +3,10 @@ package com.project.vango.services;
 import com.project.vango.models.Reserva;
 import com.project.vango.models.Usuario;
 import com.project.vango.repositories.ReservaRepository;
+import com.project.vango.repositories.ReseniaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,9 @@ public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
+
+    @Autowired
+    private ReseniaRepository reseniaRepository;
 
     public List<Reserva> findAll() {
         List<Reserva> reservas = reservaRepository.findAll();
@@ -48,6 +53,27 @@ public class ReservaService {
 
     public void deleteById(Integer id) {
         reservaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteByUsuarioId(Integer usuarioId) {
+        try {
+            List<Reserva> reservas = reservaRepository.findByUsuarioId(usuarioId);
+            for (Reserva reserva : reservas) {
+                try {
+                    // Primero eliminamos las reseñas asociadas a la reserva
+                    reseniaRepository.deleteByReservaId(reserva.getIdReser());
+                    // Luego eliminamos la reserva
+                    reservaRepository.delete(reserva);
+                } catch (Exception e) {
+                    throw new RuntimeException(
+                            "Error al eliminar la reserva " + reserva.getIdReser() + ": " + e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Error al eliminar las reservas del usuario " + usuarioId + ": " + e.getMessage());
+        }
     }
 
     private void actualizarEstadosReservas(List<Reserva> reservas) {

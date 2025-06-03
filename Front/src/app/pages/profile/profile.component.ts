@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileService, ProfileData } from '../../services/profile.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
 
 interface Sede {
   idSed: number;
@@ -97,7 +99,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -314,23 +317,40 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  confirmDelete(): void {
-    if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
-      this.deleteAccount();
-    }
-  }
-
   deleteAccount(): void {
-    this.profileService.deleteAccount().subscribe({
-      next: () => {
-        this.showAlert('Cuenta eliminada correctamente', 'success');
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
-      },
-      error: (error: any) => {
-        console.error('Error al eliminar la cuenta:', error);
-        this.showAlert('Error al eliminar la cuenta', 'error');
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Se eliminará tu cuenta y todas tus reservas',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteAccount().subscribe({
+          next: () => {
+            this.authService.logout();
+            Swal.fire({
+              title: '¡Cuenta eliminada!',
+              text: 'Tu cuenta ha sido eliminada correctamente',
+              icon: 'success',
+              confirmButtonColor: '#3085d6'
+            }).then(() => {
+              this.router.navigate(['/']);
+            });
+          },
+          error: (error) => {
+            console.error('Error al eliminar la cuenta:', error);
+            Swal.fire({
+              title: 'Error',
+              text: 'Ha ocurrido un error, por favor, inténtalo de nuevo más tarde',
+              icon: 'error',
+              confirmButtonColor: '#3085d6'
+            });
+          }
+        });
       }
     });
   }
