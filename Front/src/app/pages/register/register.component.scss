@@ -37,8 +37,9 @@
 }
 
 .form-group {
-    margin-bottom: $spacing-small;
+    margin-bottom: 20px;
     width: 100%;
+    position: relative;
 
     label {
         display: block;
@@ -51,16 +52,44 @@
 
     input {
         width: 100%;
-        padding: $spacing-small;
+        padding: $spacing-small 15px;
         border: 1px solid $secondary-color;
         border-radius: 15px;
         font-size: $font-size-base;
         outline: none;
         font-family: $font-family-body;
+        height: 35px;
+        box-sizing: border-box;
+
+        &.error {
+            border-color: $primary-color;
+        }
 
         &::placeholder {
             color: $text-body;
+            opacity: 0.8;
         }
+
+        &:focus {
+            border-color: $primary-color;
+
+            &::placeholder {
+                opacity: 0.6;
+            }
+        }
+    }
+
+    .error-message {
+        color: #ff4444;
+        font-size: 12px;
+        display: block;
+        text-align: left;
+        padding-left: 15px;
+        line-height: 1;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 1px;
     }
 }
 
@@ -84,6 +113,10 @@
         font-family: $font-family-body;
         text-align: left;
         margin-bottom: 0;
+
+        &.error {
+            color: #ff4444;
+        }
     }
 }
 
@@ -100,9 +133,24 @@
     margin-bottom: $spacing-medium;
     font-family: $font-family-body;
 
-    &:hover {
+    &:hover:not(:disabled) {
         background-color: darken($primary-color, 10%);
     }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+.server-error {
+    color: #ff4444;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: $spacing-small;
+    padding: $spacing-small;
+    background-color: rgba(255, 68, 68, 0.1);
+    border-radius: 6px;
 }
 
 .separator {
@@ -198,5 +246,39 @@
 
     &:hover {
         transform: scale(1.05);
+    }
+}
+
+.password-group {
+    position: relative;
+
+    .toggle-password {
+        position: absolute;
+        right: 15px;
+        top: 34%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: $primary-color;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        &:hover {
+            opacity: 1;
+        }
+
+        i {
+            font-size: 16px;
+            line-height: 1;
+        }
+    }
+
+    input {
+        padding-right: 35px;
     }
 }

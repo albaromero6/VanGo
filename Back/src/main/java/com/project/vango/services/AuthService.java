@@ -64,6 +64,16 @@ public class AuthService {
         }
     }
 
+    public boolean checkDniExists(String dni) {
+        logger.info("Verificando si existe el DNI: {}", dni);
+        return usuarioRepository.existsByDni(dni);
+    }
+
+    public boolean checkEmailExists(String email) {
+        logger.info("Verificando si existe el email: {}", email);
+        return usuarioRepository.existsByEmail(email);
+    }
+
     public Usuario register(Usuario usuario) {
         Assert.notNull(usuario.getPassword(), "La contraseña no puede ser nula");
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));

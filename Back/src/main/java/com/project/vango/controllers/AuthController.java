@@ -20,39 +20,61 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Tag(name = "Autenticación", description = "Endpoints para el registro y login de usuarios")
 public class AuthController {
 
-    private final AuthService authService;
+        private final AuthService authService;
 
-    @Operation(summary = "Iniciar sesión", description = "Autentica a un usuario y devuelve un token JWT")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Login exitoso", content = @Content(schema = @Schema(implementation = LoginResponse.class))),
-            @ApiResponse(responseCode = "401", description = "Credenciales inválidas"),
-            @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
-    })
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(
-            @Parameter(description = "Credenciales de usuario", required = true) @RequestBody LoginRequest request) {
-        String token = authService.login(request.email(), request.password());
-        return ResponseEntity.ok(new LoginResponse(token));
-    }
+        @Operation(summary = "Iniciar sesión", description = "Autentica a un usuario y devuelve un token JWT")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Login exitoso", content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+                        @ApiResponse(responseCode = "401", description = "Credenciales inválidas"),
+                        @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
+        })
+        @PostMapping("/login")
+        public ResponseEntity<LoginResponse> login(
+                        @Parameter(description = "Credenciales de usuario", required = true) @RequestBody LoginRequest request) {
+                String token = authService.login(request.email(), request.password());
+                return ResponseEntity.ok(new LoginResponse(token));
+        }
 
-    @Operation(summary = "Registrar nuevo usuario", description = "Crea una nueva cuenta de usuario en el sistema")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario registrado exitosamente", content = @Content(schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "400", description = "Datos de usuario inválidos"),
-            @ApiResponse(responseCode = "409", description = "El email ya está registrado")
-    })
-    @PostMapping("/register")
-    public ResponseEntity<Usuario> register(
-            @Parameter(description = "Datos del nuevo usuario", required = true) @RequestBody Usuario usuario) {
-        return ResponseEntity.ok(authService.register(usuario));
-    }
+        @Operation(summary = "Registrar nuevo usuario", description = "Crea una nueva cuenta de usuario en el sistema")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Usuario registrado exitosamente", content = @Content(schema = @Schema(implementation = Usuario.class))),
+                        @ApiResponse(responseCode = "400", description = "Datos de usuario inválidos"),
+                        @ApiResponse(responseCode = "409", description = "El email ya está registrado")
+        })
+        @PostMapping("/register")
+        public ResponseEntity<Usuario> register(
+                        @Parameter(description = "Datos del nuevo usuario", required = true) @RequestBody Usuario usuario) {
+                return ResponseEntity.ok(authService.register(usuario));
+        }
+
+        @Operation(summary = "Verificar si un DNI existe", description = "Comprueba si un DNI ya está registrado en el sistema")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Verificación exitosa"),
+                        @ApiResponse(responseCode = "400", description = "DNI inválido")
+        })
+        @GetMapping("/check-dni/{dni}")
+        public ResponseEntity<Boolean> checkDniExists(
+                        @Parameter(description = "DNI a verificar", required = true) @PathVariable String dni) {
+                return ResponseEntity.ok(authService.checkDniExists(dni));
+        }
+
+        @Operation(summary = "Verificar si un email existe", description = "Comprueba si un email ya está registrado en el sistema")
+        @ApiResponses(value = {
+                        @ApiResponse(responseCode = "200", description = "Verificación exitosa"),
+                        @ApiResponse(responseCode = "400", description = "Email inválido")
+        })
+        @GetMapping("/check-email/{email}")
+        public ResponseEntity<Boolean> checkEmailExists(
+                        @Parameter(description = "Email a verificar", required = true) @PathVariable String email) {
+                return ResponseEntity.ok(authService.checkEmailExists(email));
+        }
 }
 
 record LoginRequest(
-        @Parameter(description = "Email del usuario", example = "usuario@ejemplo.com") String email,
-        @Parameter(description = "Contraseña del usuario", example = "password123") String password) {
+                @Parameter(description = "Email del usuario", example = "usuario@ejemplo.com") String email,
+                @Parameter(description = "Contraseña del usuario", example = "password123") String password) {
 }
 
 record LoginResponse(
-        @Parameter(description = "Token JWT para autenticación") String token) {
+                @Parameter(description = "Token JWT para autenticación") String token) {
 }

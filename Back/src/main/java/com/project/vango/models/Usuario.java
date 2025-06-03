@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.vango.validation.DNI;
 import com.project.vango.validation.Telefono;
+import com.project.vango.validation.Password;
 import lombok.*;
 
 @Getter
@@ -37,6 +38,7 @@ public class Usuario {
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(length = 255, nullable = false)
+    @Password
     private String password;
 
     @Telefono(message = "El formato del teléfono no es válido")

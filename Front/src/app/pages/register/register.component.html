@@ -3,45 +3,77 @@
 
         <div class="logo">
             <a routerLink="/">
-              <img src="assets/img/Logo.png" alt="Van&Go">
+                <img src="assets/img/Logo.png" alt="Van&Go">
             </a>
         </div>
-        
+
         <h1>Empieza tu aventura</h1>
 
-        <form class="registro-form">
+        <form class="registro-form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" required>
+                <input type="text" id="nombre" [(ngModel)]="formData.nombre" name="nombre" placeholder="Nombre" required
+                    [ngClass]="{'error': fieldErrors['nombre']}">
+                <span class="error-message" *ngIf="fieldErrors['nombre']">{{ fieldErrors['nombre'] }}</span>
             </div>
 
             <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" required>
+                <input type="text" id="apellido" [(ngModel)]="formData.apellido" name="apellido" placeholder="Apellido"
+                    required [ngClass]="{'error': fieldErrors['apellido']}">
+                <span class="error-message" *ngIf="fieldErrors['apellido']">{{ fieldErrors['apellido'] }}</span>
             </div>
 
             <div class="form-group">
-                <label for="password">Contraseña</label>
-                <input type="password" id="password" required>
+                <input type="text" id="dni" [(ngModel)]="formData.dni" name="dni" placeholder="DNI" required
+                    (blur)="validateFieldOnBlur('dni')" (input)="fieldErrors['dni'] = null"
+                    [ngClass]="{'error': fieldErrors['dni']}">
+                <span class="error-message" *ngIf="fieldErrors['dni']">{{ fieldErrors['dni'] }}</span>
+            </div>
+
+            <div class="form-group">
+                <input type="tel" id="telefono" [(ngModel)]="formData.telefono" name="telefono" placeholder="Teléfono"
+                    required [ngClass]="{'error': fieldErrors['telefono']}">
+                <span class="error-message" *ngIf="fieldErrors['telefono']">{{ fieldErrors['telefono'] }}</span>
+            </div>
+
+            <div class="form-group">
+                <input type="email" id="email" [(ngModel)]="formData.email" name="email" placeholder="Email" required
+                    [ngClass]="{'error': fieldErrors['email']}" (blur)="validateFieldOnBlur('email')">
+                <span class="error-message" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</span>
+            </div>
+
+            <div class="form-group password-group">
+                <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="formData.password"
+                    name="password" placeholder="Contraseña" required [ngClass]="{'error': fieldErrors['password']}">
+                <button type="button" class="toggle-password" (click)="togglePassword()">
+                    <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+                </button>
+                <span class="error-message" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</span>
             </div>
 
             <div class="form-check">
-                <input type="checkbox" id="terminos" required>
-                <label for="terminos">Acepto los términos y la política de privacidad</label>
+                <input type="checkbox" id="terminos" [(ngModel)]="formData.terminos" name="terminos" required
+                    [ngClass]="{'error': fieldErrors['terminos']}">
+                <label for="terminos" [ngClass]="{'error': fieldErrors['terminos']}">Acepto los términos y la política
+                    de privacidad</label>
             </div>
 
-            <button type="submit" class="btn-enviar">Enviar</button>
+            <div class="server-error" *ngIf="serverError">
+                {{ serverError }}
+            </div>
+
+            <button type="submit" class="btn-enviar" [disabled]="isSubmitting">
+                {{ isSubmitting ? 'Registrando...' : 'Registrar' }}
+            </button>
 
             <div class="separator">
                 <span>o</span>
             </div>
 
             <div class="social-login">
-                <button type="button" class="btn-social google">
+                <a href="https://mail.google.com/" class="btn-social google">
                     <img src="assets/img/LogoGoogle.png" alt="Google">
                     Sign in with Google
-                </button>
-
+                </a>
             </div>
 
             <div class="login-link">

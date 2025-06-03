@@ -136,4 +136,22 @@ export class AuthService {
             };
         }
     }
+
+    checkEmailExists(email: string): Observable<boolean> {
+        console.log('Verificando email:', email);
+        return this.http.get<boolean>(`${this.apiUrl}/check-email/${email}`).pipe(
+            tap(response => console.log('Respuesta verificación email:', response))
+        );
+    }
+
+    checkDniExists(dni: string): Observable<boolean> {
+        console.log('Verificando DNI:', dni);
+        return this.http.get<boolean>(`${this.apiUrl}/check-dni/${dni}`).pipe(
+            tap(response => console.log('Respuesta verificación DNI:', response))
+        );
+    }
+
+    register(userData: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/register`, userData);
+    }
 }
