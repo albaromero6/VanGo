@@ -10,9 +10,9 @@ DELETE FROM usuario;
 -- Insertar usuarios
 INSERT INTO usuario (nombre, apellido, email, password, telefono, direccion, fecha_nacimiento, registro, rol, dni) 
 VALUES 
-('Juan', 'Pérez', 'juan.perez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '600123456', 'Calle Mayor 123, Madrid', '1990-05-15', '2025-05-07', 'CLIENTE', '79954430J'),
-('Ana', 'Gómez', 'ana.gomez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '611234567', NULL, NULL, '2025-04-20', 'ADMINISTRADOR', '19338585R'),
-('Carlos', 'López', 'carlos.lopez@example.com', '$2a$12$hBT3/pJjoKp9p26YgjO.Pu0C8JFJ6WNtj3d1IBNSK0NRltIA4CK6K', '622345678', 'Plaza España 7, Sevilla', '1995-03-10', '2025-03-15', 'CLIENTE', '32550686M');
+('Juan', 'Pérez', 'juan.perez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '600123456', 'Calle Mayor 123, Madrid', '1990-05-15', '2025-05-07', 'CLIENTE', '79954430J'),
+('Ana', 'Gómez', 'ana.gomez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '611234567', NULL, NULL, '2025-04-20', 'ADMINISTRADOR', '19338585R'),
+('Carlos', 'López', 'carlos.lopez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '622345678', 'Plaza España 7, Sevilla', '1995-03-10', '2025-03-15', 'CLIENTE', '32550686M');
 
 -- Insertar marcas
 INSERT INTO marca (nombre) 

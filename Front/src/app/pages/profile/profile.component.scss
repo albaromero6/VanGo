@@ -154,12 +154,27 @@
     }
 
     &__button-delete {
-        background-color: #dc3545;
-        color: white;
-        padding: 0.6rem 1.2rem;
-        border: none;
+        display: inline-block;
+        text-decoration: none;
         font-size: $font-size-base;
+        padding: $spacing-small $spacing-medium;
+        border-radius: 5px;
+        text-align: center;
+        min-width: auto;
+        height: auto;
+        line-height: normal;
         font-weight: $font-weight-medium;
+        transition: all 0.3s ease;
+        background-color: #e53e3e;
+        color: white;
+        width: auto;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+            background-color: darken(#e53e3e, 5%);
+            color: white;
+        }
     }
 
     &__reservations {
@@ -331,6 +346,22 @@
 
     &__section--danger {
         border: none;
+        padding: 1.5rem;
+        margin-top: 2rem;
+        border-radius: 0.5rem;
+
+        .profile__danger-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            text-align: center;
+
+            p {
+                color: $text-body;
+                margin: 0;
+            }
+        }
     }
 
     &__error-message {

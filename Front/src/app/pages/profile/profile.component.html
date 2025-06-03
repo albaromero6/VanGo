@@ -60,7 +60,8 @@
                     <label for="nombre">Nombre</label>
                     <input type="text" id="nombre" class="profile__form-input" [(ngModel)]="personalInfo.nombre"
                         name="nombre" required [disabled]="isLoading"
-                        [ngClass]="{'profile__form-input--error': fieldErrors['nombre']}">
+                        [ngClass]="{'profile__form-input--error': fieldErrors['nombre']}"
+                        (input)="onTextChange('nombre', $event)">
                     <span class="profile__error-message" *ngIf="fieldErrors['nombre']">{{ fieldErrors['nombre']
                         }}</span>
                 </div>
@@ -68,7 +69,8 @@
                     <label for="apellido">Apellido</label>
                     <input type="text" id="apellido" class="profile__form-input" [(ngModel)]="personalInfo.apellido"
                         name="apellido" required [disabled]="isLoading"
-                        [ngClass]="{'profile__form-input--error': fieldErrors['apellido']}">
+                        [ngClass]="{'profile__form-input--error': fieldErrors['apellido']}"
+                        (input)="onTextChange('apellido', $event)">
                     <span class="profile__error-message" *ngIf="fieldErrors['apellido']">{{ fieldErrors['apellido']
                         }}</span>
                 </div>
@@ -97,7 +99,7 @@
                     <label for="fechaNacimiento">Fecha de Nacimiento</label>
                     <input type="date" id="fechaNacimiento" class="profile__form-input" [value]="fechaNacimientoInput"
                         (change)="onFechaNacimientoChange($event)" name="fechaNacimiento" [disabled]="isLoading"
-                        [max]="fechaActual" [min]="fechaMinima"
+                        [max]="fechaMinima" [min]="fechaMaxima"
                         [ngClass]="{'profile__form-input--error': fieldErrors['fechaNacimiento']}">
                     <span class="profile__error-message" *ngIf="fieldErrors['fechaNacimiento']">{{
                         fieldErrors['fechaNacimiento'] }}</span>

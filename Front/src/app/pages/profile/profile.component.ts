@@ -45,6 +45,11 @@ export class ProfileComponent implements OnInit {
   fechaActual: string = new Date().toISOString().split('T')[0];
   fechaMinima: string = (() => {
     const fecha = new Date();
+    fecha.setFullYear(fecha.getFullYear() - 18);
+    return fecha.toISOString().split('T')[0];
+  })();
+  fechaMaxima: string = (() => {
+    const fecha = new Date();
     fecha.setFullYear(fecha.getFullYear() - 100);
     return fecha.toISOString().split('T')[0];
   })();
@@ -223,7 +228,21 @@ export class ProfileComponent implements OnInit {
       case 'fechaNacimiento':
         if (!value) return null; // Fecha de nacimiento es opcional
         const date = new Date(value);
-        return !isNaN(date.getTime()) ? null : this.errorMessages.fechaNacimiento;
+        if (isNaN(date.getTime())) {
+          return this.errorMessages.fechaNacimiento;
+        }
+        // Validar que tenga al menos 18 años
+        const hoy = new Date();
+        const edad = hoy.getFullYear() - date.getFullYear();
+        const mesActual = hoy.getMonth();
+        const mesNacimiento = date.getMonth();
+        const diaActual = hoy.getDate();
+        const diaNacimiento = date.getDate();
+
+        if (edad < 18 || (edad === 18 && (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)))) {
+          return 'Debes tener al menos 18 años';
+        }
+        return null;
       default:
         return null;
     }
@@ -365,5 +384,20 @@ export class ProfileComponent implements OnInit {
       this.alertMessage = null;
       this.alertType = null;
     }, 3000);
+  }
+
+  // Método para formatear texto con primera letra en mayúscula
+  private capitalizeFirstLetter(text: string): string {
+    if (!text) return text;
+    return text.toLowerCase().split(' ').map(word =>
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  }
+
+  // Método para manejar el cambio en los campos de texto
+  onTextChange(field: 'nombre' | 'apellido', event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+    this.personalInfo[field] = this.capitalizeFirstLetter(value);
   }
 }

@@ -4,7 +4,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70vh;
+    height: 60vh;
     padding-top: $spacing-xlarge;
     position: relative;
     overflow: hidden;
@@ -14,11 +14,11 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70vh;
+    height: 60vh;
     background-color: $color-background;
     position: relative;
     overflow: hidden;
-    margin-top: $spacing-xlarge*3;
+    margin-top: $spacing-xlarge*2;
 
     &__content {
         display: flex;
@@ -30,7 +30,7 @@ header {
         padding-left: 10%;
         text-align: center;
         position: relative;
-        margin-bottom: $spacing-xlarge*5;
+        margin-bottom: $spacing-large;
         z-index: 2;
 
         h1 {
@@ -49,7 +49,7 @@ header {
             text-align: center;
             line-height: 1.4;
             margin-top: $spacing-small;
-            margin-bottom: $spacing-xlarge;
+            margin-bottom: $spacing-large;
         }
     }
 
@@ -84,7 +84,7 @@ header {
 
     &__image {
         position: absolute;
-        top: 0;
+        top: 10%;
         left: 40%;
         width: 60%;
         height: 100%;
@@ -99,94 +99,4 @@ header {
         }
     }
 
-    &__forma {
-        height: 700px;
-        right: 25px;
-        z-index: 4;
-        margin-right: $spacing-small;
-    }
-}
-
-.search {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 1500px;
-    background-color: $color-background;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: $spacing-medium $spacing-large;
-    margin-bottom: 0;
-    z-index: 3;
-
-    &__item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        width: 20%;
-        padding: 0 $spacing-small;
-        border-right: 1px solid #eee;
-
-        &:last-of-type {
-            border-right: none;
-        }
-    }
-
-    &__icon {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 24px;
-        width: 24px;
-        margin-right: $spacing-small;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-        }
-    }
-
-    &__input {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
-
-        input {
-            font-family: $font-family-body;
-            font-size: $font-size-small;
-            color: $text-body;
-            border: none;
-            outline: none;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            line-height: 1.2;
-            height: auto;
-            background-color: transparent;
-        }
-    }
-
-    &__button {
-        background-color: $primary-color;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-family: $font-family-body;
-        font-size: $font-size-base;
-        padding: $spacing-small $spacing-large;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-            background-color: darken($primary-color, 5%);
-        }
-    }
 }
