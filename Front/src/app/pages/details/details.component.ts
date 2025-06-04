@@ -263,9 +263,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   reservar(): void {
     if (this.vehicle) {
       if (this.authService.isLoggedIn()) {
-        // Aquí irá la lógica de reserva
-        console.log('Reservando vehículo:', this.vehicle.idVeh);
-        this.router.navigate(['/catalogo']);
+        // Redirigir al componente de reserva con el ID del vehículo
+        this.router.navigate(['/reserva', this.vehicle.idVeh]);
       } else {
         // Redirigir al login si no está logueado
         this.router.navigate(['/login']);

@@ -1,0 +1,123 @@
+<div class="container" *ngIf="!loading && !error">
+    <!-- Header -->
+    <div class="header">
+        <a (click)="goBack()" class="back-btn" style="cursor: pointer;">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <div class="main-content">
+        <!-- Formulario de Reserva -->
+        <div class="reservation-form">
+            <!-- Fechas y Detalles -->
+            <div class="section-title">
+                <img src="assets/img/Datos.png" alt="Datos" class="section-icon">
+                Datos
+            </div>
+
+            <div class="date-inputs">
+                <div class="form-group">
+                    <label class="form-label">Fecha de recogida</label>
+                    <input type="date" class="form-input" id="pickupDate" value="2025-07-15">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fecha de devolución</label>
+                    <input type="date" class="form-input" id="returnDate" value="2025-07-22">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Lugar de recogida</label>
+                    <select class="form-select">
+                        <option *ngFor="let sede of sedes" [value]="sede.idSed">{{ sede.ciudad }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lugar de devolución</label>
+                    <select class="form-select">
+                        <option *ngFor="let sede of sedes" [value]="sede.idSed">{{ sede.ciudad }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Términos y Condiciones -->
+            <div class="terms-checkbox">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="terms" required>
+                    <span class="terms-text">
+                        Acepto los <a>términos y condiciones</a> de alquiler,
+                        las <a>políticas de cancelación</a> y confirmo que
+                        tengo licencia de conducir válida para vehículos de este tipo.
+                    </span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-primary" onclick="confirmReservation()">
+                    <img src="assets/img/Pago.png" alt="Pago" class="payment-icon">
+                    Proceder al pago
+                </button>
+            </div>
+        </div>
+
+        <!-- Panel de Resumen -->
+        <div class="summary-panel">
+            <div class="section-title">
+                <img src="assets/img/Resumen.png" alt="Resumen" class="section-icon">
+                Resumen
+            </div>
+
+            <div class="camper-summary">
+                <div class="camper-card">
+                    <div class="camper-name">{{vehicle?.modelo?.marca?.nombre || ''}} {{vehicle?.modelo?.nombre || ''}}
+                    </div>
+                    <div class="camper-specs">
+                        <div class="spec-item">
+                            <img src="assets/img/Pasajeros.png" alt="Pasajeros" class="spec-icon">
+                            <span>{{vehicle?.pasajeros}}</span>
+                        </div>
+                        <div class="spec-item">
+                            <img src="assets/img/Combustible.png" alt="Combustible" class="spec-icon">
+                            <span>{{ capitalizeFirstLetter(vehicle?.combustible || '') }}</span>
+                        </div>
+                        <div class="spec-item">
+                            <img src="assets/img/Puertas.png" alt="Puertas" class="spec-icon">
+                            <span>{{vehicle?.puertas}}</span>
+                        </div>
+                        <div class="spec-item">
+                            <img src="assets/img/Transmision.png" alt="Transmisión" class="spec-icon">
+                            <span>{{ capitalizeFirstLetter(vehicle?.transmision || '') }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-item">
+                    <span>Precio/Día</span>
+                    <span>{{vehicle?.precio || 0}} €</span>
+                </div>
+                <div class="price-item total">
+                    <span>Total (7 días)</span>
+                    <span id="grandTotal">{{(vehicle?.precio || 0) * 7}} €</span>
+                </div>
+            </div>
+
+            <div class="cancellation-info">
+                <i class="fas fa-info-circle"></i>
+                <strong>Cancelación gratuita</strong> hasta 48 horas antes de la recogida.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando detalles del vehículo...</p>
+</div>
+
+<div *ngIf="error" class="error">
+    <p>{{error}}</p>
+    <button (click)="goBack()" class="btn-secondary">Volver</button>
+</div>
