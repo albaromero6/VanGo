@@ -26,7 +26,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {
     this.authSubscription = this.authService.currentUser$.subscribe(user => {
-      this.isAdmin = !!user; // Actualizo isAdmin cuando cambia el estado de autenticación
+      this.isAdmin = this.authService.isAdmin();
     });
   }
 
