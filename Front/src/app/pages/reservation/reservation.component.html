@@ -18,24 +18,27 @@
             <div class="date-inputs">
                 <div class="form-group">
                     <label class="form-label">Fecha de recogida</label>
-                    <input type="date" class="form-input" id="pickupDate" value="2025-07-15">
+                    <input type="date" class="form-input" id="pickupDate" [(ngModel)]="pickupDate" [min]="today">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Fecha de devolución</label>
-                    <input type="date" class="form-input" id="returnDate" value="2025-07-22">
+                    <input type="date" class="form-input" id="returnDate" [(ngModel)]="returnDate"
+                        [min]="getMinReturnDate()">
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label">Lugar de recogida</label>
-                    <select class="form-select">
+                    <select class="form-select" [(ngModel)]="pickupLocation">
+                        <option value="" disabled selected>Seleccione un lugar</option>
                         <option *ngFor="let sede of sedes" [value]="sede.idSed">{{ sede.ciudad }}</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Lugar de devolución</label>
-                    <select class="form-select">
+                    <select class="form-select" [(ngModel)]="returnLocation">
+                        <option value="" disabled selected>Seleccione un lugar</option>
                         <option *ngFor="let sede of sedes" [value]="sede.idSed">{{ sede.ciudad }}</option>
                     </select>
                 </div>
@@ -56,7 +59,7 @@
             <div class="action-buttons">
                 <button class="btn-primary" onclick="confirmReservation()">
                     <img src="assets/img/Pago.png" alt="Pago" class="payment-icon">
-                    Proceder al pago
+                    Confirmar reserva
                 </button>
             </div>
         </div>
@@ -90,6 +93,16 @@
                             <span>{{ capitalizeFirstLetter(vehicle?.transmision || '') }}</span>
                         </div>
                     </div>
+                    <div class="reservation-specs" *ngIf="pickupDate && returnDate || pickupLocation && returnLocation">
+                        <div class="spec-item full-width" *ngIf="pickupDate && returnDate">
+                            <img src="assets/img/Calendario2.png" alt="Fechas" class="spec-icon">
+                            <span>{{formatDate(pickupDate)}} - {{formatDate(returnDate)}}</span>
+                        </div>
+                        <div class="spec-item full-width" *ngIf="pickupLocation && returnLocation">
+                            <img src="assets/img/Ubicacion2.png" alt="Lugares" class="spec-icon">
+                            <span>{{getSedeName(pickupLocation)}} - {{getSedeName(returnLocation)}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -99,8 +112,8 @@
                     <span>{{vehicle?.precio || 0}} €</span>
                 </div>
                 <div class="price-item total">
-                    <span>Total (7 días)</span>
-                    <span id="grandTotal">{{(vehicle?.precio || 0) * 7}} €</span>
+                    <span>Total {{ returnDate ? '(' + calculateDays() + ' días)' : '' }}</span>
+                    <span id="grandTotal">{{(vehicle?.precio || 0) * calculateDays()}} €</span>
                 </div>
             </div>
 

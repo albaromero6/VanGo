@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { Vehicle } from '../../services/vehicle.service';
 import { SedeService, Sede } from '../../services/sede.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-reservation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './reservation.component.html',
   styleUrl: './reservation.component.scss'
 })
@@ -17,6 +18,17 @@ export class ReservationComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   sedes: Sede[] = [];
+  today: string = (() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+  })();
+
+  // Nuevas propiedades para los inputs
+  pickupDate: string = '';
+  returnDate: string = '';
+  pickupLocation: string = '';
+  returnLocation: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -62,5 +74,44 @@ export class ReservationComponent implements OnInit {
       .split(' ')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
+  }
+
+  // Nuevo método para obtener el nombre de la sede
+  getSedeName(id: string | number): string {
+    if (!id) return '';
+    const sede = this.sedes.find(s => s.idSed.toString() === id.toString());
+    return sede ? sede.ciudad : '';
+  }
+
+  // Nuevo método para formatear fechas
+  formatDate(date: string): string {
+    if (!date) return '';
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  }
+
+  // Método para verificar si hay datos de reserva
+  hasReservationData(): boolean {
+    return !!(this.pickupDate && this.returnDate && this.pickupLocation && this.returnLocation);
+  }
+
+  calculateDays(): number {
+    if (!this.pickupDate || !this.returnDate) {
+      return 0;
+    }
+    const start = new Date(this.pickupDate);
+    const end = new Date(this.returnDate);
+    const diffTime = Math.abs(end.getTime() - start.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    return diffDays;
+  }
+
+  getMinReturnDate(): string {
+    if (!this.pickupDate) {
+      return this.today;
+    }
+    const minDate = new Date(this.pickupDate);
+    minDate.setDate(minDate.getDate() + 1);
+    return minDate.toISOString().split('T')[0];
   }
 }
