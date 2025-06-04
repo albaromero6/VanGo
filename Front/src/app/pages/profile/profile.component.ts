@@ -283,7 +283,19 @@ export class ProfileComponent implements OnInit {
 
   savePersonalInfo(): void {
     if (!this.validateForm()) {
-      this.showAlert('Por favor, corrige los errores en el formulario', 'error');
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, corrige los errores en el formulario',
+        icon: 'error',
+        confirmButtonColor: '#05889C',
+        customClass: {
+          popup: 'swal2-popup',
+          title: 'swal2-title',
+          htmlContainer: 'swal2-html-container',
+          confirmButton: 'swal2-confirm'
+        },
+        buttonsStyling: true
+      });
       return;
     }
 
@@ -296,7 +308,19 @@ export class ProfileComponent implements OnInit {
         this.personalInfo = { ...response };
         this.isEditingPersonal = false;
         this.isLoading = false;
-        this.showAlert('Perfil actualizado correctamente', 'success');
+        Swal.fire({
+          title: '¡Éxito!',
+          text: 'Perfil actualizado correctamente',
+          icon: 'success',
+          confirmButtonColor: '#05889C',
+          customClass: {
+            popup: 'swal2-popup',
+            title: 'swal2-title',
+            htmlContainer: 'swal2-html-container',
+            confirmButton: 'swal2-confirm'
+          },
+          buttonsStyling: true
+        });
       },
       error: (error: any) => {
         console.error('Error al actualizar el perfil:', error);
@@ -308,21 +332,81 @@ export class ProfileComponent implements OnInit {
           if (typeof errorMessage === 'string') {
             if (errorMessage.toLowerCase().includes('dni')) {
               this.fieldErrors['dni'] = this.errorMessages.dni.format;
-              this.showAlert('Por favor, corrige los errores en el formulario', 'error');
+              Swal.fire({
+                title: 'Error',
+                text: 'Por favor, corrige los errores en el formulario',
+                icon: 'error',
+                confirmButtonColor: '#05889C',
+                customClass: {
+                  popup: 'swal2-popup',
+                  title: 'swal2-title',
+                  htmlContainer: 'swal2-html-container',
+                  confirmButton: 'swal2-confirm'
+                },
+                buttonsStyling: true
+              });
             } else {
               this.error = errorMessage;
-              this.showAlert(errorMessage, 'error');
+              Swal.fire({
+                title: 'Error',
+                text: errorMessage,
+                icon: 'error',
+                confirmButtonColor: '#05889C',
+                customClass: {
+                  popup: 'swal2-popup',
+                  title: 'swal2-title',
+                  htmlContainer: 'swal2-html-container',
+                  confirmButton: 'swal2-confirm'
+                },
+                buttonsStyling: true
+              });
             }
           } else {
             this.error = 'Error de validación en el servidor';
-            this.showAlert('Error de validación en el servidor', 'error');
+            Swal.fire({
+              title: 'Error',
+              text: 'Error de validación en el servidor',
+              icon: 'error',
+              confirmButtonColor: '#05889C',
+              customClass: {
+                popup: 'swal2-popup',
+                title: 'swal2-title',
+                htmlContainer: 'swal2-html-container',
+                confirmButton: 'swal2-confirm'
+              },
+              buttonsStyling: true
+            });
           }
         } else if (error.status === 500) {
           this.error = 'Error interno del servidor. Por favor, intenta de nuevo más tarde.';
-          this.showAlert(this.error, 'error');
+          Swal.fire({
+            title: 'Error',
+            text: this.error,
+            icon: 'error',
+            confirmButtonColor: '#05889C',
+            customClass: {
+              popup: 'swal2-popup',
+              title: 'swal2-title',
+              htmlContainer: 'swal2-html-container',
+              confirmButton: 'swal2-confirm'
+            },
+            buttonsStyling: true
+          });
         } else {
           this.error = error.message || 'Error al actualizar el perfil';
-          this.showAlert(this.error || 'Error al actualizar el perfil', 'error');
+          Swal.fire({
+            title: 'Error',
+            text: this.error || 'Error al actualizar el perfil',
+            icon: 'error',
+            confirmButtonColor: '#05889C',
+            customClass: {
+              popup: 'swal2-popup',
+              title: 'swal2-title',
+              htmlContainer: 'swal2-html-container',
+              confirmButton: 'swal2-confirm'
+            },
+            buttonsStyling: true
+          });
         }
       }
     });
