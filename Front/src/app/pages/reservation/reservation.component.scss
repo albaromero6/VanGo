@@ -4,6 +4,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
+    margin-top: $spacing-xlarge;
     font-family: $font-family-body;
 }
 
@@ -26,12 +27,14 @@
         text-decoration: none;
         font-weight: 500;
 
-        i {
-            margin-right: 0.5rem;
+        .back-icon {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
         }
 
         &:hover {
-            color: #2d3748;
+            opacity: 0.8;
         }
     }
 }
@@ -315,9 +318,10 @@
         border-bottom: 1px solid #eee;
 
         &.total {
-            font-weight: $font-weight-semibold;
+            font-weight: $font-weight-medium;
             font-size: $font-size-base;
             border-bottom: none;
+            color: $text-title;
             padding-top: 0.1rem;
             margin-top: 0.1rem;
         }
