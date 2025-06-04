@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -29,28 +30,30 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {
-    this.isSubmitting = true;
-    this.serverError = null;
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.isSubmitting = true;
+      this.serverError = null;
 
-    const { email, password } = this.form.value;
+      const { email, password } = this.form.value;
 
-    // Solo si ambos campos tienen contenido
-    if (email && password) {
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          if (response && response.token) {
-            this.router.navigate(['/']);
-          }
+          const returnUrl = this.router.getCurrentNavigation()?.extras?.state?.['returnUrl'] || '/';
+          this.router.navigate([returnUrl]);
         },
-        error: (err) => {
-          console.error('Error al iniciar sesión:', err);
-          this.serverError = 'Credenciales inválidas';
+        error: (error) => {
+          console.error('Error en el login:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Credenciales inválidas. Por favor, inténtalo de nuevo.',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: '#3085d6'
+          });
           this.isSubmitting = false;
         }
       });
-    } else {
-      this.isSubmitting = false;
     }
   }
 }

@@ -47,7 +47,7 @@
             <!-- Términos y Condiciones -->
             <div class="terms-checkbox">
                 <div class="checkbox-container">
-                    <input type="checkbox" id="terms" required>
+                    <input type="checkbox" id="terms" [(ngModel)]="termsAccepted" required>
                     <span class="terms-text">
                         Acepto los <a>términos y condiciones</a> de alquiler,
                         las <a>políticas de cancelación</a> y confirmo que
@@ -57,7 +57,7 @@
             </div>
 
             <div class="action-buttons">
-                <button class="btn-primary" onclick="confirmReservation()">
+                <button class="btn-primary" (click)="confirmReservation()">
                     <img src="assets/img/Pago.png" alt="Pago" class="payment-icon">
                     Confirmar reserva
                 </button>

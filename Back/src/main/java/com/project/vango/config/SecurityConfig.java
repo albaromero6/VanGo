@@ -66,6 +66,7 @@ public class SecurityConfig {
 
                         // Endpoints compartidos
                         .requestMatchers("/api/reservas/{id}").authenticated()
+                        .requestMatchers("/api/reservas").authenticated()
 
                         // Cualquier otra petición requiere autenticación
                         .anyRequest().authenticated())

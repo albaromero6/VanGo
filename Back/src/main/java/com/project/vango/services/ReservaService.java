@@ -43,10 +43,6 @@ public class ReservaService {
     }
 
     public Reserva save(Reserva reserva) {
-        // Validar que el usuario no sea administrador
-        if (reserva.getUsuario().getRol().equals("ADMIN")) {
-            throw new IllegalArgumentException("Los administradores no pueden tener reservas");
-        }
         actualizarEstadoReserva(reserva);
         return reservaRepository.save(reserva);
     }

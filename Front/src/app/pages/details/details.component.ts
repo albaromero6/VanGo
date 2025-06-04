@@ -266,8 +266,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         // Redirigir al componente de reserva con el ID del vehículo
         this.router.navigate(['/reserva', this.vehicle.idVeh]);
       } else {
-        // Redirigir al login si no está logueado
-        this.router.navigate(['/login']);
+        // Redirigir al login si no está logueado, pasando la URL de retorno
+        this.router.navigate(['/login'], {
+          state: { returnUrl: `/reserva/${this.vehicle.idVeh}` }
+        });
       }
     }
   }

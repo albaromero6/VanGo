@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 
 export interface User {
+    idUsu: number;
     nombre: string;
     apellido: string;
     email: string;
@@ -119,6 +120,7 @@ export class AuthService {
             console.log('Rol extraído del token:', payload.rol);
 
             const user = {
+                idUsu: payload.idUsu,
                 nombre: payload.nombre || 'Usuario',
                 apellido: payload.apellido || '',
                 email: payload.sub,
@@ -129,6 +131,7 @@ export class AuthService {
         } catch (error) {
             console.error('Error decoding token:', error);
             return {
+                idUsu: 0,
                 nombre: 'Usuario',
                 apellido: '',
                 email: '',

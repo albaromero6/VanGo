@@ -91,7 +91,7 @@ public class ReservaController {
                         @ApiResponse(responseCode = "409", description = "El vehículo no está disponible en las fechas seleccionadas")
         })
         @PostMapping
-        @PreAuthorize("hasRole('CLIENTE')")
+        @PreAuthorize("hasAnyRole('CLIENTE', 'ADMINISTRADOR')")
         public ResponseEntity<Reserva> createReserva(
                         @Parameter(description = "Datos de la reserva", required = true) @RequestBody Reserva reserva) {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -115,8 +115,8 @@ public class ReservaController {
                                                         existingReserva.getUsuario().getIdUsu()
                                                                         .equals(usuario.getIdUsu())) {
                                                 reserva.setIdReser(id);
-                                                reserva.setUsuario(existingReserva.getUsuario()); 
-                                                                                                  
+                                                reserva.setUsuario(existingReserva.getUsuario());
+
                                                 return ResponseEntity.ok(reservaService.save(reserva));
                                         }
                                         return ResponseEntity.status(403).build();
