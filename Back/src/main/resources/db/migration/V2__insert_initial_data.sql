@@ -57,12 +57,12 @@ VALUES
 -- Insertar reservas
 INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id_sed_salid)    
 VALUES
-('2025-04-15', '2025-04-22', 380.00, 'FINALIZADA', 1, 5, 1, 3),
-('2025-05-15', '2025-05-22', 400.00, 'FINALIZADA', 3, 7, 3, 1),
-('2025-06-01', '2025-06-08', 460.00, 'CURSO', 1, 8, 4, 2),
-('2025-06-02', '2025-06-09', 390.00, 'CURSO', 1, 2, 5, 3),
-('2025-06-15', '2025-06-22', 450.00, 'RESERVADA', 1, 3, 4, 1),
-('2025-06-20', '2025-06-27', 410.00, 'RESERVADA', 1, 4, 2, 5);
+('2025-04-15', '2025-04-22', 760.00, 'FINALIZADA', 1, 5, 1, 3),
+('2025-05-15', '2025-05-22', 800.00, 'FINALIZADA', 3, 7, 3, 1),
+('2025-06-01', '2025-06-08', 920.00, 'CURSO', 1, 8, 4, 2),
+('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 1, 2, 5, 3),
+('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 1, 3, 4, 1),
+('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 1, 4, 2, 5);
 
 -- Insertar reseñas (solo para reservas finalizadas)
 INSERT INTO resenia (comentario, puntuacion, fecha, id_reser)

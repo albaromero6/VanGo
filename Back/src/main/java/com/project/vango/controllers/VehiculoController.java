@@ -123,11 +123,21 @@ public class VehiculoController {
             @Parameter(description = "Nombre del archivo de imagen", required = true) @PathVariable String filename) {
         try {
             Path filePath = uploadDir.resolve(filename);
+            if (!Files.exists(filePath)) {
+                return ResponseEntity.notFound().build();
+            }
+
             byte[] imageBytes = Files.readAllBytes(filePath);
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "image/jpeg"; 
+            }
+
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(MediaType.parseMediaType(contentType))
                     .body(imageBytes);
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }

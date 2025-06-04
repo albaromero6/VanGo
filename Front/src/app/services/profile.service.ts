@@ -20,6 +20,34 @@ export interface ProfileData {
     dni: string;
 }
 
+interface Sede {
+    idSed: number;
+    direccion: string;
+    ciudad: string;
+    telefono: string;
+    imagen: string;
+}
+
+interface Vehiculo {
+    idVeh: number;
+    modelo: string;
+    marca: string;
+    imagen: string;
+    camper: string;
+}
+
+interface Reserva {
+    idReser: number;
+    camper: string;
+    estado: string;
+    inicio: string;
+    fin: string;
+    idSed_Salid: Sede;
+    idSed_Lleg: Sede;
+    total: number;
+    vehiculo: Vehiculo;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -210,9 +238,35 @@ export class ProfileService {
         );
     }
 
-    getReservations(): Observable<any[]> {
+    getReservations(): Observable<Reserva[]> {
         const headers = this.getHeaders();
-        return this.http.get<any[]>(`${environment.apiUrl}/reservas/cliente/mis-reservas`, { headers });
+        return this.http.get<any[]>(`${environment.apiUrl}/reservas/cliente/mis-reservas`, { headers }).pipe(
+            map(reservas => {
+                console.log('Datos crudos recibidos:', JSON.stringify(reservas, null, 2));
+                return reservas.map(reserva => {
+                    const vehiculo = reserva.vehiculo || {};
+                    console.log('Vehículo antes de procesar:', JSON.stringify(vehiculo, null, 2));
+
+                    const reservaProcesada = {
+                        ...reserva,
+                        vehiculo: {
+                            idVeh: vehiculo.idVeh || 0,
+                            marca: vehiculo.modelo?.marca?.nombre || '',
+                            modelo: vehiculo.modelo?.nombre || '',
+                            imagen: vehiculo.imagen || '',
+                            camper: vehiculo.camper || ''
+                        }
+                    };
+
+                    console.log('Reserva procesada:', JSON.stringify(reservaProcesada, null, 2));
+                    return reservaProcesada;
+                });
+            }),
+            catchError(error => {
+                console.error('Error al obtener las reservas:', error);
+                return this.handleError(error);
+            })
+        );
     }
 
     deleteAccount(): Observable<void> {

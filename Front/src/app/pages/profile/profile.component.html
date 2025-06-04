@@ -123,104 +123,139 @@
             <div class="profile__section-header">
                 <h2>Reservas</h2>
             </div>
-            <!-- Reservas en curso primero -->
-            <div class="profile__reservations" *ngIf="reservasEnCurso.length > 0">
-                <div class="profile__reservation" *ngFor="let reserva of reservasEnCurso">
-                    <div class="profile__reservation-header">
-                        <h3>{{ reserva.camper }}</h3>
-                        <span class="profile__reservations-status"
-                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
-                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
-                        </span>
-                    </div>
-                    <div class="profile__reservation-details">
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Inicio</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
+            <!-- Reservas en curso -->
+            <div class="profile__reservations-section" *ngIf="reservasEnCurso.length > 0">
+                <div class="profile__reservations-grid">
+                    <div class="profile__reservation-card" *ngFor="let reserva of reservasEnCurso">
+                        <div class="profile__reservation-vehicle">
+                            <img [src]="getImageUrl(reserva.vehiculo.imagen)"
+                                [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
+                                class="profile__reservation-vehicle-image">
+                            <div>
+                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                            </div>
                         </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Fin</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Salida</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Llegada</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Total</label>
-                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
+                        <p class="profile__reservation-status" [ngClass]="{
+                            'status-active': reserva.estado === 'CURSO',
+                            'status-pending': reserva.estado === 'RESERVADA',
+                            'status-completed': reserva.estado === 'FINALIZADA'
+                        }">{{reserva.estado}}</p>
+                        <div class="profile__reservation-details">
+                            <div class="profile__reservation-date">
+                                <img src="assets/img/Calendario3.png" alt="Calendario"
+                                    class="profile__reservation-icon">
+                                <div class="profile__reservation-date-text">
+                                    <span>{{reserva.inicio | date:'dd/MM/yyyy'}}</span>
+                                    <img src="assets/img/Guion.png" alt="Guion" class="profile__reservation-hyphen">
+                                    <span>{{reserva.fin | date:'dd/MM/yyyy'}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-route">
+                                <img src="assets/img/Ubicacion2.png" alt="Ubicacion" class="profile__reservation-icon">
+                                <div class="profile__reservation-route-text">
+                                    <span>{{reserva.idSed_Salid.ciudad}}</span>
+                                    <img src="assets/img/Flecha.png" alt="Flecha" class="profile__reservation-arrow">
+                                    <span>{{reserva.idSed_Lleg.ciudad}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-price">
+                                <img src="assets/img/Euro.png" alt="Euro" class="profile__reservation-icon">
+                                <span>{{reserva.total}} €</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="profile__divider"
+                *ngIf="reservasEnCurso.length > 0 && (reservasReservadas.length > 0 || reservasFinalizadas.length > 0)">
+            </div>
+
             <!-- Reservas reservadas -->
-            <div class="profile__reservations" *ngIf="reservasReservadas.length > 0">
-                <div class="profile__reservation" *ngFor="let reserva of reservasReservadas">
-                    <div class="profile__reservation-header">
-                        <h3>{{ reserva.camper }}</h3>
-                        <span class="profile__reservations-status"
-                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
-                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
-                        </span>
-                    </div>
-                    <div class="profile__reservation-details">
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Inicio</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
+            <div class="profile__reservations-section" *ngIf="reservasReservadas.length > 0">
+                <div class="profile__reservations-grid">
+                    <div class="profile__reservation-card" *ngFor="let reserva of reservasReservadas">
+                        <div class="profile__reservation-vehicle">
+                            <img [src]="getImageUrl(reserva.vehiculo.imagen)"
+                                [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
+                                class="profile__reservation-vehicle-image">
+                            <div>
+                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                            </div>
                         </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Fin</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Salida</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Llegada</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Total</label>
-                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
+                        <p class="profile__reservation-status" [ngClass]="{
+                            'status-active': reserva.estado === 'CURSO',
+                            'status-pending': reserva.estado === 'RESERVADA',
+                            'status-completed': reserva.estado === 'FINALIZADA'
+                        }">{{reserva.estado}}</p>
+                        <div class="profile__reservation-details">
+                            <div class="profile__reservation-date">
+                                <img src="assets/img/Calendario3.png" alt="Calendario"
+                                    class="profile__reservation-icon">
+                                <div class="profile__reservation-date-text">
+                                    <span>{{reserva.inicio | date:'dd/MM/yyyy'}}</span>
+                                    <img src="assets/img/Guion.png" alt="Guion" class="profile__reservation-hyphen">
+                                    <span>{{reserva.fin | date:'dd/MM/yyyy'}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-route">
+                                <img src="assets/img/Ubicacion2.png" alt="Ubicacion" class="profile__reservation-icon">
+                                <div class="profile__reservation-route-text">
+                                    <span>{{reserva.idSed_Salid.ciudad}}</span>
+                                    <img src="assets/img/Flecha.png" alt="Flecha" class="profile__reservation-arrow">
+                                    <span>{{reserva.idSed_Lleg.ciudad}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-price">
+                                <img src="assets/img/Euro.png" alt="Euro" class="profile__reservation-icon">
+                                <span>{{reserva.total}} €</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="profile__divider" *ngIf="reservasReservadas.length > 0 && reservasFinalizadas.length > 0"></div>
+
             <!-- Reservas finalizadas -->
-            <div class="profile__reservations" *ngIf="reservasFinalizadas.length > 0">
-                <div class="profile__reservation" *ngFor="let reserva of reservasFinalizadas">
-                    <div class="profile__reservation-header">
-                        <h3>{{ reserva.camper }}</h3>
-                        <span class="profile__reservations-status"
-                            [ngClass]="'profile__reservations-status--' + (reserva.estado === 'CURSO' ? 'en-curso' : reserva.estado.toLowerCase())">
-                            {{ reserva.estado === 'CURSO' ? 'EN CURSO' : reserva.estado }}
-                        </span>
-                    </div>
-                    <div class="profile__reservation-details">
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Inicio</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.inicio) }}</span>
+            <div class="profile__reservations-section" *ngIf="reservasFinalizadas.length > 0">
+                <div class="profile__reservations-grid">
+                    <div class="profile__reservation-card" *ngFor="let reserva of reservasFinalizadas">
+                        <div class="profile__reservation-vehicle">
+                            <img [src]="getImageUrl(reserva.vehiculo.imagen)"
+                                [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
+                                class="profile__reservation-vehicle-image">
+                            <div>
+                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                            </div>
                         </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Fin</label>
-                            <span class="profile__reservation-value">{{ formatFechaEuropea(reserva.fin) }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Salida</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Salid.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Llegada</label>
-                            <span class="profile__reservation-value">{{ reserva.idSed_Lleg.ciudad }}</span>
-                        </div>
-                        <div class="profile__reservation-detail">
-                            <label class="profile__reservation-label">Total</label>
-                            <span class="profile__reservation-value">{{ reserva.total }} €</span>
+                        <p class="profile__reservation-status" [ngClass]="{
+                            'status-active': reserva.estado === 'CURSO',
+                            'status-pending': reserva.estado === 'RESERVADA',
+                            'status-completed': reserva.estado === 'FINALIZADA'
+                        }">{{reserva.estado}}</p>
+                        <div class="profile__reservation-details">
+                            <div class="profile__reservation-date">
+                                <img src="assets/img/Calendario3.png" alt="Calendario"
+                                    class="profile__reservation-icon">
+                                <div class="profile__reservation-date-text">
+                                    <span>{{reserva.inicio | date:'dd/MM/yyyy'}}</span>
+                                    <img src="assets/img/Guion.png" alt="Guion" class="profile__reservation-hyphen">
+                                    <span>{{reserva.fin | date:'dd/MM/yyyy'}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-route">
+                                <img src="assets/img/Ubicacion2.png" alt="Ubicacion" class="profile__reservation-icon">
+                                <div class="profile__reservation-route-text">
+                                    <span>{{reserva.idSed_Salid.ciudad}}</span>
+                                    <img src="assets/img/Flecha.png" alt="Flecha" class="profile__reservation-arrow">
+                                    <span>{{reserva.idSed_Lleg.ciudad}}</span>
+                                </div>
+                            </div>
+                            <div class="profile__reservation-price">
+                                <img src="assets/img/Euro.png" alt="Euro" class="profile__reservation-icon">
+                                <span>{{reserva.total}} €</span>
+                            </div>
                         </div>
                     </div>
                 </div>

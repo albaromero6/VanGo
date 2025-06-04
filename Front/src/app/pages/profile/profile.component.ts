@@ -5,7 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ProfileService, ProfileData } from '../../services/profile.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ImageService } from '../../services/image.service';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 interface Sede {
   idSed: number;
@@ -13,6 +16,14 @@ interface Sede {
   ciudad: string;
   telefono: string;
   imagen: string;
+}
+
+interface Vehiculo {
+  idVeh: number;
+  modelo: string;
+  marca: string;
+  imagen: string;
+  camper: string;
 }
 
 interface Reserva {
@@ -24,6 +35,7 @@ interface Reserva {
   idSed_Salid: Sede;
   idSed_Lleg: Sede;
   total: number;
+  vehiculo: Vehiculo;
 }
 
 @Component({
@@ -73,6 +85,7 @@ export class ProfileComponent implements OnInit {
   alertMessage: string | null = null;
   alertType: 'success' | 'error' | null = null;
   alertTimeout: any = null;
+  imageCache: { [key: string]: SafeUrl } = {};
 
   // Mensajes de error
   errorMessages = {
@@ -105,7 +118,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private profileService: ProfileService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageService: ImageService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -316,19 +331,24 @@ export class ProfileComponent implements OnInit {
   loadReservations(): void {
     this.profileService.getReservations().subscribe({
       next: (data: Reserva[]) => {
-        console.log('Datos de reservas recibidos:', data);
+        console.log('Datos de reservas recibidos:', JSON.stringify(data, null, 2));
         this.reservas = data;
         this.reservas.forEach(r => {
-          console.log(`Reserva ID: ${r.idReser} | Estado: ${r.estado} | Inicio:`, r.inicio, '| Fin:', r.fin);
+          console.log('Reserva completa:', JSON.stringify(r, null, 2));
+          console.log('Vehículo:', JSON.stringify(r.vehiculo, null, 2));
+          if (typeof r.vehiculo === 'object') {
+            console.log('Marca:', r.vehiculo.marca);
+            console.log('Modelo:', r.vehiculo.modelo);
+          }
         });
         // Agrupar reservas por estado
         this.reservasEnCurso = this.reservas.filter(r => r.estado === 'CURSO');
         this.reservasReservadas = this.reservas.filter(r => r.estado === 'RESERVADA');
         this.reservasFinalizadas = this.reservas.filter(r => r.estado === 'FINALIZADA');
 
-        console.log('Reservas en curso:', this.reservasEnCurso);
-        console.log('Reservas reservadas:', this.reservasReservadas);
-        console.log('Reservas finalizadas:', this.reservasFinalizadas);
+        console.log('Reservas en curso:', JSON.stringify(this.reservasEnCurso, null, 2));
+        console.log('Reservas reservadas:', JSON.stringify(this.reservasReservadas, null, 2));
+        console.log('Reservas finalizadas:', JSON.stringify(this.reservasFinalizadas, null, 2));
       },
       error: (error: any) => {
         console.error('Error al cargar las reservas:', error);
@@ -399,5 +419,26 @@ export class ProfileComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     const value = input.value;
     this.personalInfo[field] = this.capitalizeFirstLetter(value);
+  }
+
+  getImageUrl(imagen: string): SafeUrl {
+    if (!imagen) return this.sanitizer.bypassSecurityTrustUrl('assets/img/Coche.png');
+
+    if (this.imageCache[imagen]) {
+      return this.imageCache[imagen];
+    }
+
+    this.imageService.getImage(imagen).subscribe({
+      next: (blob: Blob) => {
+        const url = URL.createObjectURL(blob);
+        this.imageCache[imagen] = this.sanitizer.bypassSecurityTrustUrl(url);
+      },
+      error: error => {
+        console.error('Error loading image:', error);
+        this.imageCache[imagen] = this.sanitizer.bypassSecurityTrustUrl('assets/img/Coche.png');
+      }
+    });
+
+    return this.sanitizer.bypassSecurityTrustUrl('assets/img/Coche.png');
   }
 }
