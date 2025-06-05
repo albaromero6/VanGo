@@ -22,4 +22,10 @@ public interface ReseniaRepository extends JpaRepository<Resenia, Integer> {
     void deleteByReservaId(@Param("reservaId") Integer reservaId);
 
     Optional<Resenia> findByReserva(Reserva reserva);
+
+    @Query("SELECT r FROM Resenia r " +
+            "JOIN FETCH r.reserva res " +
+            "JOIN FETCH res.usuario u " +
+            "WHERE res.vehiculo.idVeh = :vehiculoId")
+    List<Resenia> findByReservaVehiculoIdVeh(@Param("vehiculoId") Integer vehiculoId);
 }

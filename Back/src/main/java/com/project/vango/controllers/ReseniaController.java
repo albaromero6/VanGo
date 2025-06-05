@@ -20,7 +20,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
@@ -111,9 +110,15 @@ public class ReseniaController {
                         @ApiResponse(responseCode = "404", description = "Vehículo no encontrado")
         })
         @GetMapping("/vehiculo/{vehiculoId}")
-        public ResponseEntity<List<Resenia>> getReseniasByVehiculo(
-                        @Parameter(description = "ID del vehículo", required = true) @PathVariable Integer vehiculoId) {
-                return ResponseEntity.ok(reseniaService.findAll());
+        public ResponseEntity<?> getReseniasByVehiculo(@PathVariable Integer vehiculoId) {
+                try {
+                        List<Resenia> resenias = reseniaService.findByVehiculoId(vehiculoId);
+                        return ResponseEntity.ok(resenias);
+                } catch (Exception e) {
+                        Map<String, String> response = new HashMap<>();
+                        response.put("error", "Error al obtener las reseñas: " + e.getMessage());
+                        return ResponseEntity.badRequest().body(response);
+                }
         }
 
         @PostMapping

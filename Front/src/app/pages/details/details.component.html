@@ -2,7 +2,13 @@
     <div class="vehicle-detail__left">
         <div class="vehicle-detail__header" *ngIf="!isNewVehicle && !editMode">
             <div class="vehicle-detail__title-container">
-                <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
+                <h1 class="vehicle-detail__title" *ngIf="!editMode">{{ getVehicleName() }}</h1>
+                <div class="vehicle-detail__rating" *ngIf="!editMode">
+                    <div class="stars">
+                        <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"
+                            [class.filled]="star <= averageRating"></i>
+                    </div>
+                </div>
             </div>
             <div class="vehicle-detail__price">
                 <span class="vehicle-detail__price-amount">{{ vehicle.precio }}€<span
@@ -13,6 +19,11 @@
         <div class="vehicle-detail__header" *ngIf="!isNewVehicle && editMode">
             <div class="vehicle-detail__title-container">
                 <h1 class="vehicle-detail__title">{{ getVehicleName() }}</h1>
+                <div class="vehicle-detail__rating">
+                    <span *ngFor="let star of [1,2,3,4,5]" class="me-1">
+                        <i class="fas" [ngClass]="star <= averageRating ? 'fa-star' : 'fa-star-o'"></i>
+                    </span>
+                </div>
             </div>
             <div class="vehicle-detail__price">
                 <div class="vehicle-detail__price-edit">
@@ -223,6 +234,33 @@
                     <span class="vehicle-detail__equipment-check">✓</span>
                     <span class="vehicle-detail__equipment-text">Calefacción estacionaria</span>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="reviews-section" *ngIf="!editMode">
+    <div class="reviews-list">
+        <div *ngIf="reviews.length === 0" class="review-item card mb-3">
+            <div class="card-body">
+                <p class="card-text">Aún no hay reseñas para este vehículo</p>
+            </div>
+        </div>
+        <div *ngFor="let review of reviews" class="review-item card mb-3">
+            <div class="card-body">
+                <div class="review-header">
+                    <div class="review-info">
+                        <h5 class="card-title">{{ review.reserva.usuario.nombre }} {{ review.reserva.usuario.apellido }}
+                        </h5>
+                        <small class="text-muted">{{ review.fecha | date:'d MMMM y' }}</small>
+                    </div>
+                    <div class="rating">
+                        <span *ngFor="let star of [1,2,3,4,5]" class="me-1">
+                            <i class="fas" [ngClass]="star <= review.puntuacion ? 'fa-star' : 'fa-star-o'"></i>
+                        </span>
+                    </div>
+                </div>
+                <p class="card-text mt-3">{{ review.comentario }}</p>
             </div>
         </div>
     </div>

@@ -26,4 +26,8 @@ export class ReviewService {
     getReviewByReserva(reservaId: number): Observable<any> {
         return this.http.get(`${this.apiUrl}/reserva/${reservaId}`);
     }
+
+    getReviewsByVehiculo(vehiculoId: number): Observable<any> {
+        return this.http.get(`${this.apiUrl}/vehiculo/${vehiculoId}`);
+    }
 } 

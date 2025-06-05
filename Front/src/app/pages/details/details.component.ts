@@ -8,6 +8,8 @@ import { HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import Swal, { SweetAlertResult } from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ReviewService } from '../../services/review.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-details',
@@ -36,12 +38,17 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   showLightbox: boolean = false;
   currentImageIndex: number = 0;
   isNewVehicle = false;
+  showReviews = false;
+  reviews: any[] = [];
+  averageRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private vehicleService: VehicleService,
-    private authService: AuthService
+    private authService: AuthService,
+    private reviewService: ReviewService,
+    private imageService: ImageService
   ) { }
 
   ngOnInit(): void {
@@ -195,6 +202,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
           this.initializeGalleryAnimation();
         }, 100);
+
+        // Cargar las reseñas automáticamente
+        this.loadReviews();
       },
       error: (error) => {
         this.error = 'Error al cargar los detalles del vehículo. Por favor, inténtalo de nuevo más tarde.';
@@ -679,5 +689,92 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     } else {
       this.cancelarEdicion();
     }
+  }
+
+  toggleReviews(): void {
+    if (!this.vehicle) return;
+
+    if (!this.showReviews) {
+      this.reviewService.getReviewsByVehiculo(this.vehicle.idVeh).subscribe({
+        next: (reviews) => {
+          this.reviews = reviews;
+          this.showReviews = true;
+        },
+        error: (error) => {
+          console.error('Error al cargar las reseñas:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las reseñas'
+          });
+        }
+      });
+    } else {
+      this.showReviews = false;
+    }
+  }
+
+  loadReviews(): void {
+    if (!this.vehicle) return;
+
+    console.log('Cargando reseñas para el vehículo:', this.vehicle.idVeh);
+
+    this.reviewService.getReviewsByVehiculo(this.vehicle.idVeh).subscribe({
+      next: (reviews) => {
+        console.log('Reseñas recibidas del backend:', reviews);
+
+        // Ordenar las reseñas por fecha de más reciente a más antigua
+        this.reviews = reviews.sort((a: { fecha: string }, b: { fecha: string }) => {
+          console.log('Comparando fechas:', {
+            fechaA: a.fecha,
+            fechaB: b.fecha
+          });
+
+          // Convertir las fechas a objetos Date y asegurarnos de que son válidas
+          const dateA = new Date(a.fecha);
+          const dateB = new Date(b.fecha);
+
+          // Verificar si las fechas son válidas
+          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+            console.error('Fecha inválida encontrada:', {
+              fechaA: a.fecha,
+              fechaB: b.fecha,
+              dateA: dateA,
+              dateB: dateB
+            });
+            return 0;
+          }
+
+          // Ordenar de más reciente a más antigua
+          const result = dateB.getTime() - dateA.getTime();
+          console.log('Resultado de la comparación:', result);
+          return result;
+        });
+
+        // Calcular la media de las puntuaciones
+        if (this.reviews.length > 0) {
+          const sum = this.reviews.reduce((acc, review) => acc + review.puntuacion, 0);
+          this.averageRating = sum / this.reviews.length;
+        } else {
+          this.averageRating = 0;
+        }
+
+        // Verificar el ordenamiento final
+        console.log('Reseñas ordenadas:', this.reviews.map(r => ({
+          fecha: r.fecha,
+          fechaFormateada: new Date(r.fecha).toLocaleDateString(),
+          puntuacion: r.puntuacion,
+          comentario: r.comentario
+        })));
+      },
+      error: (error) => {
+        console.error('Error al cargar las reseñas:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar las reseñas'
+        });
+      }
+    });
   }
 }

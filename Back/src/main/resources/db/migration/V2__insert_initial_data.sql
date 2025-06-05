@@ -60,6 +60,8 @@ VALUES
 ('2025-04-15', '2025-04-22', 760.00, 'FINALIZADA', 1, 5, 1, 3),
 ('2025-05-15', '2025-05-22', 800.00, 'FINALIZADA', 3, 7, 3, 1),
 ('2025-03-10', '2025-03-17', 650.00, 'FINALIZADA', 1, 6, 2, 1),
+('2025-02-01', '2025-02-07', 780.00, 'FINALIZADA', 2, 6, 1, 4),
+('2025-01-10', '2025-01-15', 650.00, 'FINALIZADA', 3, 6, 3, 2),
 ('2025-06-01', '2025-06-05', 920.00, 'CURSO', 1, 8, 4, 2),
 ('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 1, 2, 5, 3),
 ('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 1, 3, 4, 1),
@@ -69,4 +71,6 @@ VALUES
 INSERT INTO resenia (comentario, puntuacion, fecha, id_reser)
 VALUES
 ('Buena experiencia aunque la entrega fue un poco lenta.', 4, '2025-05-09', 2),
-('Servicio aceptable, aunque el vehículo tenía algunos detalles.', 3, '2025-05-23', 3); 
+('Servicio aceptable, aunque el vehículo tenía algunos detalles.', 3, '2025-05-23', 3),
+('Todo genial, el vehículo estaba limpio y bien equipado.', 5, '2025-02-08', 4),
+('Buena atención al cliente, aunque el GPS no funcionaba bien.', 4, '2025-01-16', 5);

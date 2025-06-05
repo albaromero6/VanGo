@@ -1,16 +1,17 @@
 @import '../../../styles/variables';
 
 .vehicle-detail {
-    padding: $spacing-large;
+    padding: $spacing-xlarge;
     background-color: $color-background;
-    min-height: 100vh;
+    min-height: auto;
     font-family: $font-family-body;
     display: grid;
     grid-template-columns: 1fr 600px;
-    gap: $spacing-large;
+    gap: $spacing-medium;
     max-width: 1600px;
     margin: 0 auto;
-    margin-top: $spacing-large*3;
+    margin-top: $spacing-large;
+    box-sizing: border-box;
 
     &__left {
         display: flex;
@@ -23,11 +24,12 @@
     }
 
     &__header {
+        border-bottom: 2px solid rgba($primary-color, 0.4);
+        padding-bottom: 0.2rem;
+        margin-bottom: 1rem;
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: $spacing-medium;
-        border-bottom: 2px solid rgba($primary-color, 0.4);
+        align-items: center;
 
         &.new-vehicle {
             margin-bottom: $spacing-small;
@@ -37,31 +39,46 @@
     }
 
     &__title-container {
-        width: 100%;
-        max-width: 400px;
         display: flex;
-        flex-direction: column;
-
-        &.with-box {
-            background: none;
-            padding: 0;
-            border-radius: 0;
-            box-shadow: none;
-        }
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 0;
     }
 
     &__title {
-        font-size: $font-size-xlarge;
-        font-weight: $font-weight-bold;
-        font-family: $font-family-body;
-        color: $text-title;
         margin: 0;
-        line-height: 1.2;
+        font-size: 2rem;
+        color: #333;
+    }
+
+    &__rating {
+        display: flex;
+        align-items: center;
+
+        .stars {
+            display: flex;
+            gap: 0.2rem;
+
+            i {
+                color: #ddd;
+                font-size: 1.2rem;
+
+                &.filled {
+                    color: #ffd700;
+                }
+            }
+        }
     }
 
     &__price {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+        font-weight: 600;
         text-align: right;
         position: relative;
+        display: flex;
+        align-items: center;
 
         &-amount {
             font-size: $font-size-xlarge;
@@ -193,7 +210,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: $spacing-small;
-        margin-bottom: $spacing-large;
+        margin-bottom: $spacing-medium;
         perspective: 1000px;
 
         &-item {
@@ -227,7 +244,7 @@
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: $spacing-small;
-        margin-bottom: $spacing-large;
+        margin-bottom: $spacing-medium;
 
         .vehicle-detail__gallery-item {
             aspect-ratio: 7/9;
@@ -435,6 +452,8 @@
         cursor: pointer;
         transition: all 0.3s ease;
         letter-spacing: 0.5px;
+        margin-top: $spacing-medium;
+        margin-bottom: $spacing-medium;
 
         &:hover {
             background-color: darken($primary-color, 5%);
@@ -684,5 +703,97 @@
             font-size: $font-size-base;
             font-weight: $font-weight-regular;
         }
+    }
+}
+
+.reviews-section {
+    padding: $spacing-medium;
+    margin: 0;
+    background-color: $color-background;
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: $spacing-medium;
+    box-sizing: border-box;
+    padding-left: $spacing-xlarge;
+    padding-right: $spacing-xlarge;
+    padding-bottom: $spacing-xlarge * 2;
+
+    .review-item {
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        margin-bottom: $spacing-medium !important;
+        background-color: rgba($secondary-color, 0.001);
+        box-shadow: 0 2px 8px rgba($primary-color, 0.5);
+
+        .card-body {
+            padding: 1rem 1.25rem;
+            font-family: $font-family-body;
+
+            &:has(.card-text:only-child) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100px;
+            }
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.15rem;
+        }
+
+        .review-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-title {
+            font-size: $font-size-xlarge;
+            font-weight: 600;
+            font-family: $font-family-body;
+            color: $text-title;
+            margin: 0;
+        }
+
+        .card-text {
+            color: $text-body;
+            font-size: $font-size-base;
+            line-height: 1.5;
+            margin: 0;
+            margin-top: 0.7rem;
+
+            &:only-child {
+                text-align: center;
+                margin: 0;
+            }
+        }
+
+        .text-muted {
+            font-size: 14px;
+            color: $text-body;
+        }
+
+        .rating {
+            .fa-star {
+                color: $accent-color;
+            }
+
+            .fa-star-o {
+                color: #e4e5e9;
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0 !important;
+        }
+    }
+
+    .reviews-list {
+        margin-top: $spacing-small;
     }
 }

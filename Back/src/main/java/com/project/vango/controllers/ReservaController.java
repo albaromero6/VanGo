@@ -51,11 +51,22 @@ public class ReservaController {
         })
         @GetMapping("/cliente/mis-reservas")
         @PreAuthorize("hasRole('CLIENTE')")
-        public ResponseEntity<List<Reserva>> getMisReservas() {
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                Usuario usuario = usuarioService.findByEmail(auth.getName())
-                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-                return ResponseEntity.ok(reservaService.findByUsuario(usuario));
+        public ResponseEntity<?> getMisReservas() {
+                try {
+                        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                        Usuario usuario = usuarioService.findByEmail(auth.getName())
+                                        .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+                        List<Reserva> reservas = reservaService.findByUsuario(usuario);
+                        System.out.println("Reservas encontradas para usuario " + usuario.getIdUsu() + ": "
+                                        + reservas.size());
+
+                        return ResponseEntity.ok(reservas);
+                } catch (Exception e) {
+                        System.err.println("Error al obtener reservas: " + e.getMessage());
+                        e.printStackTrace();
+                        return ResponseEntity.status(500).body("Error al obtener las reservas: " + e.getMessage());
+                }
         }
 
         @Operation(summary = "Obtener reserva por ID", description = "Retorna una reserva específica basada en su ID. Solo accesible por el propietario de la reserva o un administrador")

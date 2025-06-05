@@ -38,9 +38,7 @@ public class ReservaService {
     }
 
     public List<Reserva> findByUsuario(Usuario usuario) {
-        List<Reserva> reservas = reservaRepository.findByUsuario(usuario);
-        actualizarEstadosReservas(reservas);
-        return reservas;
+        return reservaRepository.findByUsuario(usuario);
     }
 
     public Reserva save(Reserva reserva) {

@@ -42,4 +42,8 @@ public class ReseniaService {
     public Optional<Resenia> findByReserva(Reserva reserva) {
         return reseniaRepository.findByReserva(reserva);
     }
+
+    public List<Resenia> findByVehiculoId(Integer vehiculoId) {
+        return reseniaRepository.findByReservaVehiculoIdVeh(vehiculoId);
+    }
 }
