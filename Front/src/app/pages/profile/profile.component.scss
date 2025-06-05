@@ -419,19 +419,53 @@
     }
 
     &__reservation-card {
+        position: relative;
         background: white;
         border-radius: 8px;
+        padding: 20px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
         transition: transform 0.2s ease;
-        position: relative;
-        font-family: $font-family-body;
-        min-height: 280px;
-        display: flex;
-        flex-direction: column;
 
         &:hover {
             transform: translateY(-2px);
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+            z-index: 1;
+
+            &:hover {
+                background-color: $secondary-color;
+            }
+
+            img {
+                width: 24px;
+                height: 24px;
+                object-fit: contain;
+            }
+        }
+
+        .profile__reservation-vehicle {
+            padding-right: 30px;
+        }
+
+        .reserva-header {
+            margin-bottom: 15px;
+            padding-right: 30px;
+
+            h3 {
+                margin: 0;
+                color: #333;
+                font-size: 1.2em;
+            }
         }
     }
 
@@ -548,8 +582,9 @@
     }
 
     &__divider {
-        height: 2px;
+        height: 25px;
         background-color: $primary-color;
+        border-radius: 30px;
         margin: 2rem 0;
         opacity: 0.2;
     }

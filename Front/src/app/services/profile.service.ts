@@ -5,19 +5,41 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 export interface ProfileData {
-    id?: number;
+    idUsu: number;
     nombre: string;
     apellido: string;
     email: string;
-    telefono?: string;
-    fechaNacimiento?: string;
-    direccion?: string;
-    rol?: string;
+    telefono: string;
+    fechaNacimiento: string;
+    direccion: string;
+    dni: string;
     numeroLicencia?: string;
     fechaExpedicion?: string;
     fechaCaducidad?: string;
     anosExperiencia?: number;
-    dni: string;
+    rol: string;
+    reservas: {
+        idRes: number;
+        estado: string;
+        fechaInicio: string;
+        fechaFin: string;
+        precioTotal: number;
+        sede: {
+            idSed: number;
+            nombre: string;
+        };
+        vehiculo: {
+            idVeh: number;
+            modelo: {
+                idMod: number;
+                nombre: string;
+                marca: {
+                    idMar: number;
+                    nombre: string;
+                };
+            };
+        };
+    }[];
 }
 
 interface Sede {
@@ -57,7 +79,6 @@ export class ProfileService {
     constructor(
         private http: HttpClient
     ) {
-        // Limpiar el token si está mal formateado
         this.cleanInvalidToken();
     }
 
@@ -275,6 +296,25 @@ export class ProfileService {
             catchError(error => {
                 console.error('Error al eliminar la cuenta:', error);
                 return this.handleError(error);
+            })
+        );
+    }
+
+    deleteReservation(idRes: number): Observable<any> {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            return throwError(() => new Error('No hay token de autenticación'));
+        }
+
+        return this.http.delete(`${environment.apiUrl}/reservas/${idRes}`, {
+            headers: new HttpHeaders({
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            })
+        }).pipe(
+            catchError(error => {
+                console.error('Error al eliminar la reserva:', error);
+                return throwError(() => error);
             })
         );
     }

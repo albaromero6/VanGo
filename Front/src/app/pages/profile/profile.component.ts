@@ -9,6 +9,7 @@ import { ImageService } from '../../services/image.service';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface Sede {
   idSed: number;
@@ -66,6 +67,7 @@ export class ProfileComponent implements OnInit {
     return fecha.toISOString().split('T')[0];
   })();
   personalInfo: ProfileData = {
+    idUsu: 0,
     nombre: '',
     apellido: '',
     email: '',
@@ -76,7 +78,9 @@ export class ProfileComponent implements OnInit {
     numeroLicencia: '',
     fechaExpedicion: '',
     fechaCaducidad: '',
-    anosExperiencia: 0
+    anosExperiencia: 0,
+    rol: 'CLIENTE',
+    reservas: []
   };
   reservas: Reserva[] = [];
   reservasEnCurso: Reserva[] = [];
@@ -536,5 +540,62 @@ export class ProfileComponent implements OnInit {
 
   navigateToVehicleDetails(vehicleId: number): void {
     this.router.navigate(['/detalles', vehicleId]);
+  }
+
+  deleteReservation(idRes: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No, mantener',
+      customClass: {
+        popup: 'swal2-popup',
+        confirmButton: 'swal2-confirm',
+        cancelButton: 'swal2-cancel'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.profileService.deleteReservation(idRes).subscribe({
+          next: () => {
+            Swal.fire({
+              title: '¡Reserva cancelada!',
+              text: 'La reserva ha sido cancelada correctamente',
+              icon: 'success',
+              customClass: {
+                popup: 'swal2-popup',
+                confirmButton: 'swal2-confirm'
+              }
+            });
+            // Actualizar la lista de reservas
+            this.loadReservations();
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error('Error al cancelar la reserva:', error);
+            const errorMessages: { [key: number]: string } = {
+              403: 'No tienes permisos para cancelar esta reserva',
+              401: 'Tu sesión ha expirado. Por favor, vuelve a iniciar sesión'
+            };
+
+            const errorMessage = errorMessages[error.status] || 'Ha ocurrido un error al cancelar la reserva';
+
+            if (error.status === 401) {
+              this.router.navigate(['/login']);
+            }
+
+            Swal.fire({
+              title: 'Error',
+              text: errorMessage,
+              icon: 'error',
+              customClass: {
+                popup: 'swal2-popup',
+                confirmButton: 'swal2-confirm'
+              }
+            });
+          }
+        });
+      }
+    });
   }
 }
