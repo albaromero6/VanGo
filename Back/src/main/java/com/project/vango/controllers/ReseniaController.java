@@ -2,8 +2,10 @@ package com.project.vango.controllers;
 
 import com.project.vango.models.Resenia;
 import com.project.vango.models.Usuario;
+import com.project.vango.models.Reserva;
 import com.project.vango.services.ReseniaService;
 import com.project.vango.services.UsuarioService;
+import com.project.vango.services.ReservaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,13 +35,16 @@ public class ReseniaController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private ReservaService reservaService;
+
     @Operation(summary = "Obtener todas las reseñas (Admin)", description = "Retorna una lista de todas las reseñas del sistema. Solo accesible por administradores")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de reseñas obtenida exitosamente", content = @Content(schema = @Schema(implementation = Resenia.class))),
             @ApiResponse(responseCode = "403", description = "Acceso denegado. Se requiere rol de administrador")
     })
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<List<Resenia>> getAllResenias() {
         return ResponseEntity.ok(reseniaService.findAll());
     }
@@ -50,7 +55,7 @@ public class ReseniaController {
             @ApiResponse(responseCode = "403", description = "Acceso denegado. Se requiere rol de cliente")
     })
     @GetMapping("/cliente/mis-resenias")
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<List<Resenia>> getMisResenias() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = usuarioService.findByEmail(auth.getName())
@@ -73,7 +78,7 @@ public class ReseniaController {
 
         return reseniaService.findById(id)
                 .map(resenia -> {
-                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR")) ||
                             resenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
                         return ResponseEntity.ok(resenia);
                     }
@@ -105,16 +110,23 @@ public class ReseniaController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<Resenia> createResenia(@RequestBody Resenia resenia) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = usuarioService.findByEmail(auth.getName())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        // Cargar la reserva completa
+        Reserva reserva = reservaService.findById(resenia.getReserva().getIdReser())
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
         // Verificar que la reserva pertenece al usuario
-        if (!resenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
+        if (!reserva.getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
             return ResponseEntity.status(403).build();
         }
+
+        // Asignar la reserva completa a la reseña
+        resenia.setReserva(reserva);
 
         return ResponseEntity.ok(reseniaService.save(resenia));
     }
@@ -128,7 +140,7 @@ public class ReseniaController {
         return reseniaService.findById(id)
                 .map(existingResenia -> {
                     // Verificar si el usuario es admin o el propietario de la reseña
-                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR")) ||
                             existingResenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
                         resenia.setIdRese(id);
                         resenia.setReserva(existingResenia.getReserva()); // Mantener la reserva original
@@ -148,7 +160,7 @@ public class ReseniaController {
         return reseniaService.findById(id)
                 .map(resenia -> {
                     // Verificar si el usuario es admin o el propietario de la reseña
-                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")) ||
+                    if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR")) ||
                             resenia.getReserva().getUsuario().getIdUsu().equals(usuario.getIdUsu())) {
                         reseniaService.deleteById(id);
                         return ResponseEntity.ok().<Void>build();
