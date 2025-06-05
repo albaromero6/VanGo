@@ -499,6 +499,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   cancelarEdicion(): void {
+    if (this.isNewVehicle) {
+      this.router.navigate(['/catalogo']);
+      return;
+    }
+
     if (this.originalVehicle) {
       this.vehicle = JSON.parse(JSON.stringify(this.originalVehicle));
       if (this.vehicle) {
@@ -509,9 +514,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           this.vehicle.detalles4
         ].filter(img => img);
       }
-      this.editMode = false;
-      this.router.navigate(['/catalogo']);
     }
+    this.editMode = false;
+    this.router.navigate(['/catalogo']);
   }
 
   openLightbox(index: number): void {
@@ -715,65 +720,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   loadReviews(): void {
-    if (!this.vehicle) return;
-
-    console.log('Cargando reseñas para el vehículo:', this.vehicle.idVeh);
+    if (!this.vehicle || !this.authService.isAuthenticated()) {
+      return;
+    }
 
     this.reviewService.getReviewsByVehiculo(this.vehicle.idVeh).subscribe({
       next: (reviews) => {
-        console.log('Reseñas recibidas del backend:', reviews);
-
-        // Ordenar las reseñas por fecha de más reciente a más antigua
         this.reviews = reviews.sort((a: { fecha: string }, b: { fecha: string }) => {
-          console.log('Comparando fechas:', {
-            fechaA: a.fecha,
-            fechaB: b.fecha
-          });
-
-          // Convertir las fechas a objetos Date y asegurarnos de que son válidas
           const dateA = new Date(a.fecha);
           const dateB = new Date(b.fecha);
-
-          // Verificar si las fechas son válidas
-          if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
-            console.error('Fecha inválida encontrada:', {
-              fechaA: a.fecha,
-              fechaB: b.fecha,
-              dateA: dateA,
-              dateB: dateB
-            });
-            return 0;
-          }
-
-          // Ordenar de más reciente a más antigua
-          const result = dateB.getTime() - dateA.getTime();
-          console.log('Resultado de la comparación:', result);
-          return result;
+          return dateB.getTime() - dateA.getTime();
         });
 
-        // Calcular la media de las puntuaciones
         if (this.reviews.length > 0) {
-          const sum = this.reviews.reduce((acc, review) => acc + review.puntuacion, 0);
-          this.averageRating = sum / this.reviews.length;
-        } else {
-          this.averageRating = 0;
+          this.averageRating = this.reviews.reduce((acc, review) => acc + review.puntuacion, 0) / this.reviews.length;
         }
-
-        // Verificar el ordenamiento final
-        console.log('Reseñas ordenadas:', this.reviews.map(r => ({
-          fecha: r.fecha,
-          fechaFormateada: new Date(r.fecha).toLocaleDateString(),
-          puntuacion: r.puntuacion,
-          comentario: r.comentario
-        })));
       },
       error: (error) => {
         console.error('Error al cargar las reseñas:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'No se pudieron cargar las reseñas'
-        });
       }
     });
   }

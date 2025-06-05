@@ -48,7 +48,7 @@
     &__title {
         margin: 0;
         font-size: 2rem;
-        color: #333;
+        color: $text-title;
     }
 
     &__rating {
@@ -81,8 +81,8 @@
         align-items: center;
 
         &-amount {
-            font-size: $font-size-xlarge;
-            font-weight: $font-weight-bold;
+            font-size: 1.5rem;
+            font-weight: 600;
             color: $primary-color;
             display: block;
             line-height: 1;
@@ -110,8 +110,8 @@
             input {
                 width: 50px;
                 text-align: right;
-                font-size: $font-size-xlarge;
-                font-weight: $font-weight-bold;
+                font-size: 1.5rem;
+                font-weight: 600;
                 color: $primary-color;
                 border: none;
                 background: transparent;
@@ -129,6 +129,12 @@
                     -webkit-appearance: none;
                     margin: 0;
                 }
+            }
+
+            .vehicle-detail__price-period {
+                font-size: $font-size-base;
+                color: $text-body;
+                font-weight: $font-weight-regular;
             }
         }
     }
