@@ -13,12 +13,17 @@ export class ReviewService {
 
     createReview(reservaId: number, rating: number, comment: string): Observable<any> {
         return this.http.post(this.apiUrl, {
+            reserva: { idReser: reservaId },
             puntuacion: rating,
-            comentario: comment,
-            fecha: new Date().toISOString().split('T')[0],
-            reserva: {
-                idReser: reservaId
-            }
+            comentario: comment
         });
+    }
+
+    checkReviewExists(reservaId: number): Observable<boolean> {
+        return this.http.get<boolean>(`${this.apiUrl}/exists/${reservaId}`);
+    }
+
+    getReviewByReserva(reservaId: number): Observable<any> {
+        return this.http.get(`${this.apiUrl}/reserva/${reservaId}`);
     }
 } 

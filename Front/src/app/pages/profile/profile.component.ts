@@ -9,6 +9,7 @@ import { ImageService } from '../../services/image.service';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ReviewService } from '../../services/review.service';
 
 interface Sede {
   idSed: number;
@@ -123,7 +124,8 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private imageService: ImageService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private reviewService: ReviewService
   ) { }
 
   ngOnInit(): void {
@@ -598,7 +600,39 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  public navigateToComments(reservaId: number): void {
-    this.router.navigate(['/comments', reservaId]);
+  navigateToComments(reservaId: number) {
+    // Verificar si ya existe una reseña para esta reserva
+    this.reviewService.checkReviewExists(reservaId).subscribe({
+      next: (exists) => {
+        if (exists) {
+          Swal.fire({
+            title: 'Ya existe una reseña',
+            text: '¿Deseas modificarla?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, modificar',
+            cancelButtonText: 'No, cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/comments', reservaId]);
+            }
+          });
+        } else {
+          this.router.navigate(['/comments', reservaId]);
+        }
+      },
+      error: (error) => {
+        console.error('Error al verificar la reseña:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo verificar si ya existe una reseña',
+          icon: 'error',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#3085d6'
+        });
+      }
+    });
   }
 }
