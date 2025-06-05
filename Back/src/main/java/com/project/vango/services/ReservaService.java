@@ -5,6 +5,7 @@ import com.project.vango.models.Usuario;
 import com.project.vango.repositories.ReservaRepository;
 import com.project.vango.repositories.ReseniaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
@@ -100,6 +101,28 @@ public class ReservaService {
         } else {
             // Si la fecha actual es anterior a la fecha de inicio, la reserva está reservada
             reserva.setEstado(Reserva.Estado.RESERVADA);
+        }
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Se ejecuta todos los días a medianoche
+    @Transactional
+    public void actualizarEstadosReservas() {
+        LocalDate hoy = LocalDate.now();
+
+        // Actualizar reservas que deben pasar a EN CURSO
+        List<Reserva> reservasParaIniciar = reservaRepository.findByEstadoAndInicioLessThanEqual(
+                Reserva.Estado.RESERVADA, hoy);
+        for (Reserva reserva : reservasParaIniciar) {
+            reserva.setEstado(Reserva.Estado.CURSO);
+            reservaRepository.save(reserva);
+        }
+
+        // Actualizar reservas que deben pasar a FINALIZADA
+        List<Reserva> reservasParaFinalizar = reservaRepository.findByEstadoAndFinLessThan(
+                Reserva.Estado.CURSO, hoy);
+        for (Reserva reserva : reservasParaFinalizar) {
+            reserva.setEstado(Reserva.Estado.FINALIZADA);
+            reservaRepository.save(reserva);
         }
     }
 }

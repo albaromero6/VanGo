@@ -425,10 +425,18 @@ export class ProfileComponent implements OnInit {
             console.log('Modelo:', r.vehiculo.modelo);
           }
         });
-        // Agrupar reservas por estado
-        this.reservasEnCurso = this.reservas.filter(r => r.estado === 'CURSO');
-        this.reservasReservadas = this.reservas.filter(r => r.estado === 'RESERVADA');
-        this.reservasFinalizadas = this.reservas.filter(r => r.estado === 'FINALIZADA');
+        // Agrupar reservas por estado y ordenar por fecha de inicio
+        this.reservasEnCurso = this.reservas
+          .filter(r => r.estado === 'CURSO')
+          .sort((a, b) => new Date(a.inicio).getTime() - new Date(b.inicio).getTime());
+
+        this.reservasReservadas = this.reservas
+          .filter(r => r.estado === 'RESERVADA')
+          .sort((a, b) => new Date(a.inicio).getTime() - new Date(b.inicio).getTime());
+
+        this.reservasFinalizadas = this.reservas
+          .filter(r => r.estado === 'FINALIZADA')
+          .sort((a, b) => new Date(a.inicio).getTime() - new Date(b.inicio).getTime());
 
         console.log('Reservas en curso:', JSON.stringify(this.reservasEnCurso, null, 2));
         console.log('Reservas reservadas:', JSON.stringify(this.reservasReservadas, null, 2));
@@ -524,5 +532,9 @@ export class ProfileComponent implements OnInit {
     });
 
     return this.sanitizer.bypassSecurityTrustUrl('assets/img/Coche.png');
+  }
+
+  navigateToVehicleDetails(vehicleId: number): void {
+    this.router.navigate(['/detalles', vehicleId]);
   }
 }

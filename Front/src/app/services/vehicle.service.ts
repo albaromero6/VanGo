@@ -17,7 +17,6 @@ export interface Modelo {
 export interface Vehicle {
     idVeh: number;
     modelo: Modelo;
-    matricula: string;
     imagen: string;
     precio: number;
     anio: number | null;

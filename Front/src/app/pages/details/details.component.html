@@ -183,16 +183,6 @@
                     </select>
                 </div>
             </div>
-            <div class="vehicle-detail__specs-item" *ngIf="vehicle?.idVeh === 0">
-                <div class="vehicle-detail__specs-icon">
-                    <img src="assets/img/Caravana.png" alt="Matrícula">
-                </div>
-                <div class="vehicle-detail__specs-content" [class.edit-mode]="editMode">
-                    <p *ngIf="!editMode">{{ vehicle.matricula }}</p>
-                    <input *ngIf="editMode" type="text" [(ngModel)]="vehicle.matricula" class="edit-input" maxlength="8"
-                        placeholder="Matrícula">
-                </div>
-            </div>
         </div>
 
         <div class="vehicle-detail__equipment">

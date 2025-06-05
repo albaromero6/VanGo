@@ -132,7 +132,9 @@
                                 [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
                                 class="profile__reservation-vehicle-image">
                             <div>
-                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                                <h3 class="profile__reservation-title"
+                                    (click)="navigateToVehicleDetails(reserva.vehiculo.idVeh)">
+                                    {{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
                             </div>
                         </div>
                         <p class="profile__reservation-status" [ngClass]="{
@@ -180,7 +182,9 @@
                                 [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
                                 class="profile__reservation-vehicle-image">
                             <div>
-                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                                <h3 class="profile__reservation-title"
+                                    (click)="navigateToVehicleDetails(reserva.vehiculo.idVeh)">
+                                    {{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
                             </div>
                         </div>
                         <p class="profile__reservation-status" [ngClass]="{
@@ -226,7 +230,9 @@
                                 [alt]="reserva.vehiculo.marca + ' ' + reserva.vehiculo.modelo"
                                 class="profile__reservation-vehicle-image">
                             <div>
-                                <h3>{{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
+                                <h3 class="profile__reservation-title"
+                                    (click)="navigateToVehicleDetails(reserva.vehiculo.idVeh)">
+                                    {{reserva.vehiculo.marca}} {{reserva.vehiculo.modelo}}</h3>
                             </div>
                         </div>
                         <p class="profile__reservation-status" [ngClass]="{

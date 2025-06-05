@@ -56,8 +56,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.loading = false;
       this.vehicle = {
         idVeh: 0,
-        modelo: { idMod: 0, nombre: '', marca: { idMar: 0, nombre: '' } },
-        matricula: '',
+        modelo: {
+          idMod: 0,
+          nombre: '',
+          marca: {
+            idMar: 0,
+            nombre: ''
+          }
+        },
         imagen: '',
         precio: 0,
         anio: null,
@@ -154,18 +160,17 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             nombre: ''
           }
         },
-        combustible: '',
-        transmision: '',
-        puertas: null,
-        pasajeros: 0,
-        anio: null,
-        precio: 0,
         imagen: '',
+        precio: 0,
+        anio: null,
+        pasajeros: 0,
+        puertas: null,
+        transmision: '',
+        combustible: '',
         detalles1: '',
         detalles2: '',
         detalles3: '',
-        detalles4: '',
-        matricula: ''
+        detalles4: ''
       };
       this.originalVehicle = JSON.parse(JSON.stringify(this.vehicle));
       this.galleryImages = ['', '', '', '']; // Inicializar con strings vacíos
@@ -253,7 +258,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     if (imgElement.src.includes('placeholder-vehicle.jpg')) {
-      // Si ya estamos intentando cargar la imagen placeholder, no hacemos nada
       return;
     }
     imgElement.src = 'assets/img/Coche.png';
@@ -263,13 +267,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   reservar(): void {
     if (this.vehicle) {
       if (this.authService.isLoggedIn()) {
-        // Redirigir al componente de reserva con el ID del vehículo
+        // Redirije al componente de reserva con el ID del vehículo
         this.router.navigate(['/reserva', this.vehicle.idVeh]);
       } else {
-        // Redirigir al login si no está logueado, pasando la URL de retorno
-        this.router.navigate(['/login'], {
-          state: { returnUrl: `/reserva/${this.vehicle.idVeh}` }
-        });
+        // Guardar la URL y redirije al login
+        this.authService.saveReturnUrl(`/reserva/${this.vehicle.idVeh}`);
+        this.router.navigate(['/login']);
       }
     }
   }
@@ -391,29 +394,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   guardarCambios(): void {
     if (!this.vehicle) return;
 
-    // Convertir matrícula a mayúsculas
-    if (this.vehicle.matricula) {
-      this.vehicle.matricula = this.vehicle.matricula.toUpperCase();
-    }
-
-    // Validar el formato de matrícula
-    if (this.vehicle.matricula && !/^\d{4}[A-Z]{3}$/.test(this.vehicle.matricula)) {
-      Swal.fire({
-        title: 'Error en la matrícula',
-        text: 'La matrícula debe tener 4 números seguidos de 3 letras mayúsculas',
-        icon: 'error',
-        confirmButtonColor: '#05889C'
-      });
-      return;
-    }
-
     // Valida campos requeridos
     const camposFaltantes = [];
     if (this.isNewVehicle) {
       if (!this.selectedMarca) camposFaltantes.push('Marca');
       if (!this.selectedModelo) camposFaltantes.push('Modelo');
     }
-    if (!this.vehicle.matricula) camposFaltantes.push('Matrícula');
     if (!this.vehicle.precio) camposFaltantes.push('Precio');
     if (!this.vehicle.combustible) camposFaltantes.push('Combustible');
     if (!this.vehicle.transmision) camposFaltantes.push('Transmisión');
@@ -464,8 +450,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
           if (error.status === 400) {
             errorMessage = 'Los datos del vehículo no son válidos. Por favor, revisa los campos.';
-          } else if (error.status === 409) {
-            errorMessage = 'Ya existe un vehículo con esta matrícula.';
           }
 
           Swal.fire({

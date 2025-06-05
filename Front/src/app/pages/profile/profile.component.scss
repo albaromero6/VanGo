@@ -553,6 +553,20 @@
         margin: 2rem 0;
         opacity: 0.2;
     }
+
+    &__reservation-title {
+        margin: 0;
+        font-size: 1.1rem;
+        color: $primary-color;
+        font-family: $font-family-body;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: darken($primary-color, 10%);
+            text-decoration: underline;
+        }
+    }
 }
 
 @keyframes spin {

@@ -61,6 +61,9 @@ export class AuthService {
                     this.currentUserSubject.next(userInfo);
                     if (isPlatformBrowser(this.platformId)) {
                         localStorage.setItem('user', JSON.stringify(userInfo));
+                        const returnUrl = localStorage.getItem('returnUrl') || '/';
+                        localStorage.removeItem('returnUrl');
+                        this.router.navigate([returnUrl]);
                     }
                 }
             })
@@ -72,6 +75,7 @@ export class AuthService {
         if (isPlatformBrowser(this.platformId)) {
             localStorage.removeItem('user');
             localStorage.removeItem('token');
+            localStorage.removeItem('returnUrl');
         }
         this.isAuthenticatedSubject.next(false);
         this.router.navigate(['/']);
@@ -156,5 +160,11 @@ export class AuthService {
 
     register(userData: any): Observable<any> {
         return this.http.post(`${this.apiUrl}/register`, userData);
+    }
+
+    saveReturnUrl(url: string): void {
+        if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem('returnUrl', url);
+        }
     }
 }

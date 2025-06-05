@@ -3,7 +3,6 @@ package com.project.vango.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
-import com.project.vango.validation.Matricula;
 import lombok.*;
 
 @Getter
@@ -22,10 +21,6 @@ public class Vehiculo {
     @ManyToOne
     @JoinColumn(name = "idMod", nullable = false)
     private Modelo modelo;
-
-    @Matricula(message = "El formato de la matrícula no es válido")
-    @Column(length = 15, nullable = false, unique = true)
-    private String matricula;
 
     @Column(length = 255, nullable = false)
     private String imagen;

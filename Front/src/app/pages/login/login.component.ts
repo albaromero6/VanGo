@@ -39,18 +39,11 @@ export class LoginComponent {
 
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          const returnUrl = this.router.getCurrentNavigation()?.extras?.state?.['returnUrl'] || '/';
-          this.router.navigate([returnUrl]);
+          // La redirección ahora se maneja en el servicio de autenticación
         },
         error: (error) => {
-          console.error('Error en el login:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Credenciales inválidas. Por favor, inténtalo de nuevo.',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: '#3085d6'
-          });
+          console.error('Error al iniciar sesión:', error);
+          this.serverError = 'Usuario y/o contraseña incorrectos';
           this.isSubmitting = false;
         }
       });

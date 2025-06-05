@@ -30,7 +30,6 @@ CREATE TABLE modelo (
 -- Crear tabla vehiculo
 CREATE TABLE vehiculo (
     id_veh INT PRIMARY KEY AUTO_INCREMENT,
-    matricula VARCHAR(10) NOT NULL UNIQUE,
     imagen VARCHAR(255),
     precio DECIMAL(10,2) NOT NULL,
     anio INT NOT NULL,

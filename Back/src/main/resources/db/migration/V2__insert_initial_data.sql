@@ -29,17 +29,17 @@ VALUES
 ('Grand Canyon', 9);
 
 -- Insertar vehículos
-INSERT INTO vehiculo (matricula, imagen, precio, anio, id_mod, pasajeros, puertas, transmision, combustible, detalles1, detalles2, detalles3, detalles4) 
+INSERT INTO vehiculo (imagen, precio, anio, id_mod, pasajeros, puertas, transmision, combustible, detalles1, detalles2, detalles3, detalles4) 
 VALUES 
-('1234ABC', 'Catalogo1.png', 120.00, 2020, 1, 4, 4, 'MANUAL', 'DIESEL', 'Detalles15.jpg', 'Detalles12.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
-('5678DEF', 'Catalogo2.png', 150.00, 2021, 2, 6, 5, 'AUTOMATICO', 'DIESEL', 'Detalles13.jpg', 'Detalles11.jpg', 'Detalles6.jpg', 'Detalles5.jpg'),
-('9012GHI', 'Catalogo3.png', 90.00, 2019, 3, 2, 3, 'MANUAL', 'GASOLINA', 'Detalles14.jpg', 'Detalles10.jpg', 'Detalles7.jpg', 'Detalles4.jpg'),
-('3456JKL', 'Catalogo4.png', 110.00, 2022, 4, 5, 5, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles8.jpg', 'Detalles6.jpg', 'Detalles5.jpg'),
-('7890MNP', 'Catalogo5.png', 95.00, 2023, 5, 2, 3, 'MANUAL', 'DIESEL', 'Detalles15.jpg', 'Detalles12.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
-('2345QRS', 'Catalogo6.png', 130.00, 2021, 6, 6, 5, 'AUTOMATICO', 'GASOLINA', 'Detalles14.jpg', 'Detalles9.jpg', 'Detalles4.jpg', 'Detalles7.jpg'),
-('6789TUV', 'Catalogo7.png', 100.00, 2020, 7, 3, 4, 'MANUAL', 'DIESEL', 'Detalles14.jpg', 'Detalles5.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
-('8901WXY', 'Catalogo8.png', 115.00, 2022, 8, 4, 3, 'AUTOMATICO', 'GASOLINA', 'Detalles15.jpg', 'Detalles13.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
-('4567ZZZ', 'Catalogo9.png', 160.00, 2023, 9, 4, 4, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles4.jpg', 'Detalles9.jpg', 'Detalles7.jpg');
+('Catalogo1.png', 120.00, 2020, 1, 4, 4, 'MANUAL', 'DIESEL', 'Detalles15.jpg', 'Detalles12.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
+('Catalogo2.png', 150.00, 2021, 2, 6, 5, 'AUTOMATICO', 'DIESEL', 'Detalles13.jpg', 'Detalles11.jpg', 'Detalles6.jpg', 'Detalles5.jpg'),
+('Catalogo3.png', 90.00, 2019, 3, 2, 3, 'MANUAL', 'GASOLINA', 'Detalles14.jpg', 'Detalles10.jpg', 'Detalles7.jpg', 'Detalles4.jpg'),
+('Catalogo4.png', 110.00, 2022, 4, 5, 5, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles8.jpg', 'Detalles6.jpg', 'Detalles5.jpg'),
+('Catalogo5.png', 95.00, 2023, 5, 2, 3, 'MANUAL', 'DIESEL', 'Detalles15.jpg', 'Detalles12.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
+('Catalogo6.png', 130.00, 2021, 6, 6, 5, 'AUTOMATICO', 'GASOLINA', 'Detalles14.jpg', 'Detalles9.jpg', 'Detalles4.jpg', 'Detalles7.jpg'),
+('Catalogo7.png', 100.00, 2020, 7, 3, 4, 'MANUAL', 'DIESEL', 'Detalles14.jpg', 'Detalles5.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
+('Catalogo8.png', 115.00, 2022, 8, 4, 3, 'AUTOMATICO', 'GASOLINA', 'Detalles15.jpg', 'Detalles13.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
+('Catalogo9.png', 160.00, 2023, 9, 4, 4, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles4.jpg', 'Detalles9.jpg', 'Detalles7.jpg');
 
 -- Insertar sedes
 INSERT INTO sede (direccion, ciudad, telefono, imagen) 
@@ -59,7 +59,7 @@ INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id
 VALUES
 ('2025-04-15', '2025-04-22', 760.00, 'FINALIZADA', 1, 5, 1, 3),
 ('2025-05-15', '2025-05-22', 800.00, 'FINALIZADA', 3, 7, 3, 1),
-('2025-06-01', '2025-06-08', 920.00, 'CURSO', 1, 8, 4, 2),
+('2025-06-01', '2025-06-05', 920.00, 'CURSO', 1, 8, 4, 2),
 ('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 1, 2, 5, 3),
 ('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 1, 3, 4, 1),
 ('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 1, 4, 2, 5);
