@@ -1,0 +1,184 @@
+@import '../../../styles/variables';
+
+.comments-page {
+    padding: 2rem;
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    margin-top: $spacing-medium*4;
+}
+
+.back-btn {
+    position: absolute;
+    top: 2rem;
+    left: calc((100% - 1000px) / 2);
+    display: flex;
+    align-items: center;
+    color: #4a5568;
+    text-decoration: none;
+    font-weight: 500;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 1;
+
+    .back-icon {
+        width: 24px;
+        height: 24px;
+        object-fit: contain;
+    }
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    &:active {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+.comments-container {
+    max-width: 1000px;
+    width: 100%;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-top: 3rem;
+}
+
+.comments-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 1rem;
+
+    h1 {
+        font-size: $font-size-xxlarge;
+        color: $text-title;
+        font-family: $font-family-title;
+        margin: 0;
+    }
+
+    .back-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: rgba($primary-color, 0.1);
+        }
+
+        .back-icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
+.comments-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.rating-section {
+    text-align: center;
+
+    h2 {
+        font-size: $font-size-large;
+        color: $text-title;
+        margin-bottom: 0.2rem;
+        font-family: $font-family-body;
+    }
+
+    .stars {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+
+        .star {
+            font-size: 2.2rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: #FFC107;
+            }
+
+            &.active {
+                color: #FFC107;
+            }
+        }
+    }
+}
+
+.comment-section {
+    h2 {
+        font-size: $font-size-large;
+        color: $text-title;
+        margin-bottom: 1.5rem;
+        font-family: $font-family-body;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 1px solid rgba($primary-color, 0.2);
+        border-radius: 12px;
+        font-size: $font-size-base;
+        font-family: $font-family-body;
+        resize: vertical;
+        min-height: 80px;
+        background: white;
+        transition: all 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+        }
+    }
+}
+
+.submit-button {
+    display: inline-block;
+    text-decoration: none;
+    font-size: $font-size-base;
+    padding: $spacing-small $spacing-medium;
+    border-radius: 5px;
+    text-align: center;
+    min-width: auto;
+    height: auto;
+    line-height: normal;
+    font-weight: $font-weight-medium;
+    transition: all 0.3s ease;
+    background-color: $primary-color;
+    color: white;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    align-self: center;
+
+    &:hover {
+        background-color: darken($primary-color, 5%);
+        color: white;
+    }
+}

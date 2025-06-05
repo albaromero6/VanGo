@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { ProfileService, ProfileData } from '../../services/profile.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -9,7 +9,6 @@ import { ImageService } from '../../services/image.service';
 import Swal from 'sweetalert2';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { HttpErrorResponse } from '@angular/common/http';
 
 interface Sede {
   idSed: number;
@@ -597,5 +596,9 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  public navigateToComments(reservaId: number): void {
+    this.router.navigate(['/comments', reservaId]);
   }
 }

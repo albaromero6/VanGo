@@ -10,6 +10,7 @@ import { LocationComponent } from './pages/location/location.component';
 import { DetailsComponent } from './pages/details/details.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ReservationComponent } from './pages/reservation/reservation.component';
+import { CommentsComponent } from './pages/comments/comments.component';
 
 export const routes: Routes = [
 
@@ -24,5 +25,6 @@ export const routes: Routes = [
     { path: 'detalles/:id', component: DetailsComponent },
     { path: 'perfil', component: ProfileComponent },
     { path: 'reserva/:id', component: ReservationComponent },
+    { path: 'comments/:id', component: CommentsComponent },
 
 ];

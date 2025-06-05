@@ -1,0 +1,29 @@
+<section class="comments-page">
+    <a (click)="goBack()" class="back-btn" style="cursor: pointer;">
+        <img src="assets/img/Atras.png" alt="Atrás" class="back-icon">
+    </a>
+
+    <div class="comments-container">
+        <div class="comments-form">
+            <div class="rating-section">
+                <h2>¿Cómo calificarías tu experiencia?</h2>
+                <div class="stars">
+                    <span *ngFor="let star of [1,2,3,4,5]" class="star" [class.active]="star <= rating"
+                        (click)="setRating(star)">
+                        ★
+                    </span>
+                </div>
+            </div>
+
+            <div class="comment-section">
+                <h2>Cuéntanos tu opinión</h2>
+                <textarea [(ngModel)]="comment" placeholder="Escribe aquí tu reseña..." rows="3">
+                </textarea>
+            </div>
+
+            <button class="submit-button" (click)="submitReview()">
+                Enviar
+            </button>
+        </div>
+    </div>
+</section>
