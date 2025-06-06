@@ -9,6 +9,9 @@
             </button>
         </div>
 
+        <!-- Filtro de precio -->
+        <app-filter [currentSort]="currentSort" (sortChange)="onSortChange($event)"></app-filter>
+
         <!-- Cargando -->
         <div *ngIf="loading" class="loading-container">
             <div class="loading-spinner"></div>

@@ -5,11 +5,12 @@ import { VehicleService, Vehicle } from '../../services/vehicle.service';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 import Swal, { SweetAlertResult } from 'sweetalert2';
+import { FilterComponent } from '../../components/filter/filter.component';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FilterComponent],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.scss'
 })
@@ -18,6 +19,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   error: string | null = null;
   isAdmin: boolean = false;
+  currentSort: 'asc' | 'desc' = 'asc';
   private authSubscription: Subscription;
 
   constructor(
@@ -180,5 +182,16 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   anadirVehiculo(): void {
     this.router.navigate(['/detalles/new']);
+  }
+
+  onSortChange(sortOrder: 'asc' | 'desc'): void {
+    this.currentSort = sortOrder;
+    this.vehicles.sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.precio - b.precio;
+      } else {
+        return b.precio - a.precio;
+      }
+    });
   }
 }

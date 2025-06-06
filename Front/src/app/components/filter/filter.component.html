@@ -1,0 +1,10 @@
+<div class="filter-container">
+    <button class="sort-button" (click)="toggleSort()">
+        <span class="sort-label">Ordenar por precio:</span>
+        <span class="sort-direction">
+            {{ sortOrder() === 'asc' ? 'Menor a mayor' : 'Mayor a menor' }}
+        </span>
+        <img [src]="'assets/img/' + (sortOrder() === 'asc' ? 'FilterDown' : 'FilterUp') + '.png'"
+            [alt]="sortOrder() === 'asc' ? 'Ascendente' : 'Descendente'" class="sort-icon">
+    </button>
+</div>
