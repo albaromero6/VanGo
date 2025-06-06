@@ -3,6 +3,8 @@ package com.project.vango.controllers;
 import com.project.vango.models.Vehiculo;
 import com.project.vango.services.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
@@ -44,13 +45,15 @@ public class VehiculoController {
         }
     }
 
-    @Operation(summary = "Obtener todos los vehículos", description = "Retorna una lista de todos los vehículos disponibles en el sistema")
+    @Operation(summary = "Obtener todos los vehículos", description = "Retorna una lista paginada de todos los vehículos disponibles en el sistema")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de vehículos obtenida exitosamente", content = @Content(schema = @Schema(implementation = Vehiculo.class)))
     })
     @GetMapping
-    public ResponseEntity<List<Vehiculo>> getAllVehiculos() {
-        return ResponseEntity.ok(vehiculoService.findAll());
+    public ResponseEntity<Page<Vehiculo>> getAllVehiculos(
+            @Parameter(description = "Número de página (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Tamaño de la página") @RequestParam(defaultValue = "9") int size) {
+        return ResponseEntity.ok(vehiculoService.findAll(PageRequest.of(page, size)));
     }
 
     @Operation(summary = "Obtener vehículo por ID", description = "Retorna un vehículo específico basado en su ID")
@@ -130,7 +133,7 @@ public class VehiculoController {
             byte[] imageBytes = Files.readAllBytes(filePath);
             String contentType = Files.probeContentType(filePath);
             if (contentType == null) {
-                contentType = "image/jpeg"; 
+                contentType = "image/jpeg";
             }
 
             return ResponseEntity.ok()

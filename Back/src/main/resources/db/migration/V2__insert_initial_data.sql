@@ -39,7 +39,13 @@ VALUES
 ('Catalogo6.png', 130.00, 2021, 6, 6, 5, 'AUTOMATICO', 'GASOLINA', 'Detalles14.jpg', 'Detalles9.jpg', 'Detalles4.jpg', 'Detalles7.jpg'),
 ('Catalogo7.png', 100.00, 2020, 7, 3, 4, 'MANUAL', 'DIESEL', 'Detalles14.jpg', 'Detalles5.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
 ('Catalogo8.png', 115.00, 2022, 8, 4, 3, 'AUTOMATICO', 'GASOLINA', 'Detalles15.jpg', 'Detalles13.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
-('Catalogo9.png', 160.00, 2023, 9, 4, 4, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles4.jpg', 'Detalles9.jpg', 'Detalles7.jpg');
+('Catalogo9.png', 160.00, 2023, 9, 4, 4, 'AUTOMATICO', 'DIESEL', 'Detalles12.jpg', 'Detalles4.jpg', 'Detalles9.jpg', 'Detalles7.jpg'),
+('Catalogo10.png', 125.00, 2020, 10, 5, 4, 'MANUAL', 'DIESEL', 'Detalles10.jpg', 'Detalles12.jpg', 'Detalles7.jpg', 'Detalles5.jpg'),
+('Catalogo11.png', 140.00, 2021, 11, 4, 4, 'AUTOMATICO', 'GASOLINA', 'Detalles11.jpg', 'Detalles13.jpg', 'Detalles6.jpg', 'Detalles4.jpg'),
+('Catalogo12.png', 105.00, 2018, 12, 6, 5, 'MANUAL', 'DIESEL', 'Detalles13.jpg', 'Detalles12.jpg', 'Detalles5.jpg', 'Detalles3.jpg'),
+('Catalogo13.png', 150.00, 2022, 13, 3, 3, 'AUTOMATICO', 'DIESEL', 'Detalles14.jpg', 'Detalles9.jpg', 'Detalles8.jpg', 'Detalles4.jpg'),
+('Catalogo14.png', 135.00, 2023, 14, 5, 4, 'MANUAL', 'GASOLINA', 'Detalles15.jpg', 'Detalles10.jpg', 'Detalles7.jpg', 'Detalles6.jpg'),
+('Catalogo15.png', 170.00, 2024, 15, 4, 4, 'AUTOMATICO', 'DIESEL', 'Detalles14.jpg', 'Detalles11.jpg', 'Detalles9.jpg', 'Detalles6.jpg');
 
 -- Insertar sedes
 INSERT INTO sede (direccion, ciudad, telefono, imagen) 
@@ -65,7 +71,15 @@ VALUES
 ('2025-06-01', '2025-06-05', 920.00, 'CURSO', 1, 8, 4, 2),
 ('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 1, 2, 5, 3),
 ('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 1, 3, 4, 1),
-('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 1, 4, 2, 5);
+('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 1, 4, 2, 5),
+('2025-04-01', '2025-04-08', 800.00, 'FINALIZADA', 1, 10, 1, 3),
+('2025-04-10', '2025-04-15', 700.00, 'FINALIZADA', 3, 11, 3, 2),
+('2025-02-20', '2025-02-25', 950.00, 'FINALIZADA', 2, 12, 4, 1),
+('2025-03-05', '2025-03-10', 870.00, 'FINALIZADA', 1, 13, 2, 4),
+('2025-03-15', '2025-03-20', 920.00, 'FINALIZADA', 3, 14, 5, 2),
+('2025-03-25', '2025-03-30', 990.00, 'FINALIZADA', 2, 15, 1, 5),
+('2025-06-25', '2025-07-02', 1100.00, 'CURSO', 3, 10, 3, 4),
+('2025-07-10', '2025-07-15', 890.00, 'RESERVADA', 1, 11, 2, 1);
 
 -- Insertar reseñas (solo para reservas finalizadas)
 INSERT INTO resenia (comentario, puntuacion, fecha, id_reser)
@@ -73,4 +87,10 @@ VALUES
 ('Buena experiencia aunque la entrega fue un poco lenta.', 4, '2025-05-09', 2),
 ('Servicio aceptable, aunque el vehículo tenía algunos detalles.', 3, '2025-05-23', 3),
 ('Todo genial, el vehículo estaba limpio y bien equipado.', 5, '2025-02-08', 4),
-('Buena atención al cliente, aunque el GPS no funcionaba bien.', 4, '2025-01-16', 5);
+('Buena atención al cliente, aunque el GPS no funcionaba bien.', 4, '2025-01-16', 5),
+('Vehículo en perfectas condiciones, repetiría sin duda.', 5, '2025-04-09', 10),
+('Todo bien, aunque el aire acondicionado no funcionaba.', 3, '2025-04-16', 11),
+('Excelente atención en la sede y muy buen coche.', 5, '2025-02-26', 12),
+('Vehículo cómodo pero el depósito no estaba lleno.', 4, '2025-03-11', 13),
+('La furgoneta estaba limpia y en muy buen estado.', 5, '2025-03-21', 14),
+('El proceso de recogida fue algo lento, pero buen servicio.', 4, '2025-03-31', 15);

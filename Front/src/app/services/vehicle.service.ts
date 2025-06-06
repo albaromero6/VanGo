@@ -30,6 +30,14 @@ export interface Vehicle {
     detalles4: string;
 }
 
+export interface PaginatedResponse<T> {
+    content: T[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -38,8 +46,8 @@ export class VehicleService {
 
     constructor(private http: HttpClient) { }
 
-    getAllVehicles(): Observable<Vehicle[]> {
-        return this.http.get<Vehicle[]>(this.apiUrl);
+    getAllVehicles(page: number = 0, size: number = 9): Observable<PaginatedResponse<Vehicle>> {
+        return this.http.get<PaginatedResponse<Vehicle>>(`${this.apiUrl}?page=${page}&size=${size}`);
     }
 
     getVehicleById(id: number): Observable<Vehicle> {

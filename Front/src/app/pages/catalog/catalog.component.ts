@@ -22,6 +22,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
   currentSort: 'asc' | 'desc' = 'asc';
   private authSubscription: Subscription;
 
+  // Paginación
+  currentPage: number = 0;
+  pageSize: number = 9;
+  totalElements: number = 0;
+  totalPages: number = 0;
+
   constructor(
     private vehicleService: VehicleService,
     private router: Router,
@@ -44,10 +50,12 @@ export class CatalogComponent implements OnInit, OnDestroy {
 
   loadVehicles(): void {
     this.loading = true;
-    this.vehicleService.getAllVehicles().subscribe({
+    this.vehicleService.getAllVehicles(this.currentPage, this.pageSize).subscribe({
       next: (data) => {
         console.log('Vehicles data:', data);
-        this.vehicles = data;
+        this.vehicles = data.content;
+        this.totalElements = data.totalElements;
+        this.totalPages = data.totalPages;
         this.loading = false;
       },
       error: (error) => {
@@ -193,5 +201,10 @@ export class CatalogComponent implements OnInit, OnDestroy {
         return b.precio - a.precio;
       }
     });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.loadVehicles();
   }
 }

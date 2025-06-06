@@ -85,5 +85,19 @@
         <div *ngIf="!loading && !error && vehicles.length === 0" class="no-vehicles">
             <p>No hay vehículos disponibles en este momento</p>
         </div>
+
+        <!-- Paginación -->
+        <div *ngIf="!loading && !error && vehicles.length > 0" class="pagination">
+            <button class="pagination-btn" [disabled]="currentPage === 0" (click)="onPageChange(currentPage - 1)">
+                <img src="assets/img/Anterior.png" alt="Anterior" class="pagination-icon">
+            </button>
+            <span class="pagination-info">
+                Página {{ currentPage + 1 }} de {{ totalPages }}
+            </span>
+            <button class="pagination-btn" [disabled]="currentPage === totalPages - 1"
+                (click)="onPageChange(currentPage + 1)">
+                <img src="assets/img/Siguiente.png" alt="Siguiente" class="pagination-icon">
+            </button>
+        </div>
     </div>
 </section>
