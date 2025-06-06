@@ -18,7 +18,12 @@
 
             <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" id="password" formControlName="password">
+                <div class="password-group">
+                    <input type="password" id="password" formControlName="password">
+                    <button type="button" class="toggle-password" (click)="togglePassword()">
+                        <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="server-error" *ngIf="serverError">

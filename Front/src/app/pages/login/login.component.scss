@@ -215,3 +215,44 @@
     box-sizing: border-box;
     margin-bottom: $spacing-medium;
 }
+
+.password-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+        width: 100%;
+        padding-right: 40px;
+        height: 40px;
+    }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 12%;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: $primary-color;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+
+        &:hover {
+            color: $primary-color;
+        }
+
+        i {
+            font-size: 16px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
