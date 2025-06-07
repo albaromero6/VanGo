@@ -5,7 +5,6 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 60vh;
-    padding-top: $spacing-xlarge;
     position: relative;
     overflow: hidden;
 }
@@ -18,20 +17,20 @@ header {
     background-color: $color-background;
     position: relative;
     overflow: hidden;
-    margin-top: $spacing-xlarge*2;
+    margin-top: $spacing-xxlarge * 2;
 
     &__content {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         max-width: 40%;
         padding-right: $spacing-medium;
         padding-left: 10%;
         text-align: center;
         position: relative;
-        margin-bottom: $spacing-large;
         z-index: 2;
+        height: 100%;
 
         h1 {
             font-size: 45px;
@@ -84,7 +83,8 @@ header {
 
     &__image {
         position: absolute;
-        top: 10%;
+        top: 50%;
+        transform: translateY(-50%);
         left: 40%;
         width: 60%;
         height: 100%;
@@ -93,10 +93,137 @@ header {
 
         img {
             width: 100%;
-            height: auto;
-            object-fit: cover;
-            transform: scale(1.2);
+            height: 100%;
+            object-fit: contain;
         }
     }
+}
 
+// Media queries para diferentes tamaños de pantalla
+@media (max-width: $breakpoint-laptop) {
+    .hero {
+        flex-direction: column;
+        height: auto;
+        min-height: auto;
+        padding: 0;
+        margin-top: $spacing-xxlarge;
+
+        &__content {
+            max-width: 80%;
+            padding: 0 $spacing-medium;
+            margin-top: $spacing-small;
+            height: auto;
+            order: 2;
+        }
+
+        &__image {
+            position: relative;
+            top: 0;
+            transform: none;
+            left: 0;
+            width: 100%;
+            height: 40vh;
+            order: 1;
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .hero {
+        text-align: center;
+        margin-top: $spacing-xlarge;
+
+        &__content {
+            max-width: 80%;
+            padding: 0 $spacing-medium;
+            margin-top: $spacing-small;
+        }
+
+        &__image {
+            height: 35vh;
+        }
+
+        h1 {
+            font-size: 36px;
+        }
+
+        p {
+            font-size: $font-size-base;
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .hero {
+        &__image {
+            height: 32vh;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        &__image {
+            height: 30vh;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-mobile) {
+    .hero {
+        padding: 0;
+        overflow: visible;
+        margin-top: 0;
+
+        &__content {
+            max-width: 90%;
+            padding: 0 $spacing-small;
+            margin-top: $spacing-small;
+            background-color: $color-background;
+            position: relative;
+            z-index: 2;
+        }
+
+        &__image {
+            height: 25vh;
+            width: 105%;
+            left: -2.5%;
+            overflow: visible;
+            margin-top: $spacing-xlarge;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        p {
+            font-size: $font-size-small;
+        }
+
+        &__buttons {
+            flex-direction: row;
+            gap: $spacing-small;
+        }
+
+        &__store-button {
+            width: 140px;
+            height: 45px;
+        }
+    }
+}
+
+@media (max-width: 450px) {
+    .hero {
+        &__image {
+            height: 20vh;
+            margin-top: $spacing-xxlarge;
+        }
+    }
 }

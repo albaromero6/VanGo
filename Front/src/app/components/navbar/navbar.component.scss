@@ -211,9 +211,10 @@
     margin-right: 1rem;
 
     @media (max-width: $breakpoint-desktop) {
-        flex-direction: column;
+        flex-direction: row;
         margin-right: 0;
-        gap: $spacing-small;
+        gap: 0.2rem;
+        justify-content: center;
     }
 }
 

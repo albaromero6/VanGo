@@ -28,6 +28,8 @@
     &__container {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: $spacing-large;
     }
 
     &__item {
@@ -57,6 +59,45 @@
         p {
             font-size: $font-size-base;
             color: $text-body;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-laptop) {
+    .types {
+        &__container {
+            justify-content: center;
+        }
+
+        &__item {
+            width: 45%;
+            margin-bottom: $spacing-large;
+        }
+    }
+}
+
+@media (max-width: $breakpoint-tablet) {
+    .types {
+        padding: $spacing-large * 2 $spacing-large;
+
+        &__title {
+            font-size: $font-size-xlarge;
+            margin-top: $spacing-xlarge;
+            margin-bottom: $spacing-xlarge;
+        }
+
+        &__description {
+            margin-bottom: $spacing-large;
+        }
+
+        &__container {
+            gap: $spacing-medium;
+        }
+
+        &__item {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto $spacing-medium;
         }
     }
 }

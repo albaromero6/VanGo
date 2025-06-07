@@ -27,6 +27,7 @@
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+    padding: 0 $spacing-medium;
 
     .comilla-deco {
         position: absolute;
@@ -99,6 +100,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center 25%;
             max-width: 100%;
         }
     }
@@ -196,4 +198,159 @@
 
 .reseña .testimonio:not(:last-child) {
     margin-bottom: $spacing-xlarge;
+}
+
+// Media queries para hacer la sección responsive
+@media screen and (max-width: 1200px) {
+    .reseñas {
+        h2 {
+            font-size: $font-size-xlarge;
+            padding: 0 $spacing-large;
+        }
+    }
+
+    .testimonio {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .reseñas {
+        padding: $spacing-large 0;
+        padding-bottom: calc($spacing-large + 4rem);
+
+        h2 {
+            font-size: $font-size-large;
+            margin-bottom: $spacing-large;
+        }
+    }
+
+    .testimonio {
+        width: 100%;
+        flex-direction: column;
+        min-height: auto;
+
+        .imagen {
+            flex: 0 0 300px;
+            min-height: 300px;
+        }
+
+        .contenido {
+            padding: $spacing-large;
+        }
+    }
+
+    .carrusel {
+        .comilla-deco {
+            width: 50px;
+        }
+
+        .comilla-deco--left {
+            top: -20px;
+            left: -20px;
+        }
+
+        .comilla-deco--right {
+            bottom: -20px;
+            right: -20px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .reseñas {
+        h2 {
+            font-size: $font-size-base;
+            padding: 0 $spacing-medium;
+        }
+    }
+
+    .testimonio {
+        .imagen {
+            flex: 0 0 250px;
+            min-height: 250px;
+        }
+
+        .contenido {
+            padding: $spacing-medium;
+
+            .estrellas {
+                font-size: 1.5rem;
+                margin-bottom: $spacing-medium;
+            }
+
+            .review-text {
+                font-size: $font-size-small;
+                min-height: 100px;
+                margin-bottom: $spacing-medium;
+            }
+
+            p:last-child {
+                font-size: $font-size-base;
+                margin-top: $spacing-medium;
+            }
+        }
+    }
+
+    .carrusel {
+        gap: $spacing-medium;
+
+        &__arrow {
+            width: 40px;
+            height: 40px;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .reseñas {
+        padding: $spacing-medium 0;
+        padding-bottom: calc($spacing-medium + 4rem);
+
+        h2 {
+            font-size: $font-size-base;
+            margin-bottom: $spacing-medium;
+        }
+    }
+
+    .testimonio {
+        .imagen {
+            flex: 0 0 200px;
+            min-height: 200px;
+        }
+
+        .contenido {
+            padding: $spacing-small;
+
+            .estrellas {
+                font-size: 1.25rem;
+                margin-bottom: $spacing-small;
+            }
+
+            .review-text {
+                font-size: $font-size-small;
+                min-height: 80px;
+                margin-bottom: $spacing-small;
+            }
+
+            p:last-child {
+                font-size: $font-size-small;
+                margin-top: $spacing-small;
+            }
+        }
+    }
+
+    .carrusel {
+        gap: $spacing-small;
+        padding: 0 $spacing-small;
+
+        &__arrow {
+            width: 36px;
+            height: 36px;
+        }
+
+        .comilla-deco {
+            display: none;
+        }
+    }
 }

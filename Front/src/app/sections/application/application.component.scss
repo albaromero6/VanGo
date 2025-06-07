@@ -5,12 +5,14 @@
     padding: $spacing-xlarge 0 $spacing-medium 0;
     position: relative;
     overflow: hidden;
-    height: 420px;
+    min-height: 420px;
+    height: auto;
 
     &__container {
         max-width: 1200px;
         margin: 0 auto;
         text-align: center;
+        padding: 0 $spacing-medium;
     }
 
     &__content {
@@ -83,6 +85,100 @@
             position: absolute;
             right: -200px;
             top: -30px;
+        }
+    }
+}
+
+// Media queries para hacer la sección responsive
+@media screen and (max-width: 1200px) {
+    .app {
+        &__container {
+            padding: 0 $spacing-large;
+        }
+
+        &__left {
+            margin-left: $spacing-large;
+        }
+
+        &__right {
+            img {
+                right: -100px;
+                max-width: 480px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .app {
+        padding: $spacing-large 0 $spacing-medium 0;
+
+        &__content {
+            flex-direction: column;
+            align-items: center;
+            gap: $spacing-large;
+        }
+
+        &__left {
+            width: 100%;
+            margin-left: 0;
+            margin-top: $spacing-large;
+
+            h2 {
+                margin-right: 0;
+            }
+        }
+
+        &__right {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .app {
+        &__left {
+            h2 {
+                font-size: $font-size-xlarge;
+            }
+
+            p {
+                font-size: $font-size-base;
+            }
+        }
+
+        &__store-button {
+            &-logo {
+                width: 140px;
+            }
+        }
+
+        &__right {
+            img {
+                max-width: 320px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .app {
+        &__buttons {
+            flex-direction: row;
+            justify-content: center;
+            gap: $spacing-small;
+        }
+
+        &__store-button {
+            &-logo {
+                width: 120px;
+            }
+        }
+
+        &__right {
+            img {
+                max-width: 280px;
+            }
         }
     }
 }
