@@ -11,6 +11,20 @@
     margin: $spacing-xxlarge auto;
     max-height: 500px;
     margin-top: $spacing-xlarge*2;
+
+    @media (max-width: $breakpoint-laptop) {
+        width: 90%;
+        gap: $spacing-large;
+        padding: $spacing-large;
+    }
+
+    @media (max-width: $breakpoint-tablet) {
+        flex-direction: column;
+        max-height: none;
+        width: 95%;
+        gap: $spacing-medium;
+        padding: $spacing-medium;
+    }
 }
 
 .form-container {
@@ -24,11 +38,21 @@
     justify-content: space-between;
     margin-top: 0;
 
+    @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+        margin-bottom: $spacing-medium;
+    }
+
     h2 {
         font-size: $font-size-xlarge;
         color: $color-background;
         margin-top: $spacing-large;
         text-align: center;
+
+        @media (max-width: $breakpoint-mobile) {
+            font-size: $font-size-large;
+            margin-top: $spacing-medium;
+        }
     }
 
     input {
@@ -42,10 +66,19 @@
         background-color: $secondary-color;
         margin-top: 0;
 
+        @media (max-width: $breakpoint-mobile) {
+            padding: $spacing-small * 0.8;
+            font-size: $font-size-small;
+        }
+
         &::placeholder {
             font-family: $font-family-body;
             font-size: $font-size-base;
             color: $color-background;
+
+            @media (max-width: $breakpoint-mobile) {
+                font-size: $font-size-small;
+            }
         }
     }
 
@@ -60,6 +93,11 @@
         color: $primary-color;
         cursor: pointer;
 
+        @media (max-width: $breakpoint-mobile) {
+            padding: $spacing-small * 0.8;
+            font-size: $font-size-small;
+        }
+
         &:hover {
             background-color: rgba($color-background, 0.88);
         }
@@ -71,6 +109,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+        height: 300px;
+    }
+
+    @media (max-width: $breakpoint-mobile) {
+        height: 200px;
+    }
 
     img {
         width: 100%;
@@ -95,6 +142,11 @@
     flex-wrap: wrap;
     text-align: center;
 
+    @media (max-width: $breakpoint-tablet) {
+        padding: $spacing-small;
+        gap: $spacing-small;
+    }
+
     .contact-item {
         display: flex;
         flex-direction: row;
@@ -106,6 +158,17 @@
         margin-bottom: $spacing-medium;
         padding: 0 $spacing-small;
 
+        @media (max-width: $breakpoint-tablet) {
+            max-width: 250px;
+            margin-bottom: $spacing-small;
+        }
+
+        @media (max-width: $breakpoint-mobile) {
+            max-width: 100%;
+            flex-direction: column;
+            text-align: center;
+        }
+
         &:last-child {
             margin-right: 0;
         }
@@ -116,6 +179,11 @@
         height: 30px;
         margin-right: $spacing-medium;
         flex-shrink: 0;
+
+        @media (max-width: $breakpoint-mobile) {
+            margin-right: 0;
+            margin-bottom: $spacing-small;
+        }
     }
 
     span {
@@ -124,11 +192,18 @@
         color: $text-body;
         margin-bottom: $spacing-small;
         font-size: $font-size-base;
+
+        @media (max-width: $breakpoint-mobile) {
+            font-size: $font-size-small;
+        }
     }
 
     p {
         font-size: $font-size-base;
         color: $text-body;
-    }
 
+        @media (max-width: $breakpoint-mobile) {
+            font-size: $font-size-small;
+        }
+    }
 }

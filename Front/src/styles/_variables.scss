@@ -38,7 +38,8 @@ $spacing-xlarge: $spacing-unit * 5;
 $spacing-xxlarge: $spacing-unit * 7;
 
 // Breakpoints
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
+$breakpoint-mobile: 576px; // Móviles 
+$breakpoint-tablet: 768px; // Tablets 
+$breakpoint-routes: 1200px; // Breakpoint específico para rutas
+$breakpoint-laptop: 1024px; // Portátiles
+$breakpoint-desktop: 1280px; // Escritorios grandes

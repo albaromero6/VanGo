@@ -6,27 +6,34 @@
       </a>
     </div>
 
-    <ul class="navbar__links">
-      <li><a routerLink="/catalogo">Catálogo</a></li>
-      <li><a routerLink="/eligenos">Elígenos</a></li>
-      <li><a routerLink="/rutas">Rutas</a></li>
-      <li><a routerLink="/contacto">Contacto</a></li>
-      <li><a routerLink="/ubicacion">Ubicación</a></li>
-    </ul>
+    <button class="navbar__toggle" (click)="toggleMenu()">
+      <span class="navbar__toggle-icon"></span>
+    </button>
 
-    <div class="navbar__actions">
-      <ng-container *ngIf="authService.isLoggedIn(); else notLoggedIn">
-        <div class="user-info">
-          <span class="welcome-message">¡Hola!,</span>
-          <a routerLink="/perfil" class="welcome-message-link">{{ (authService.currentUser$ | async)?.nombre }} {{
-            (authService.currentUser$ | async)?.apellido }}</a>
-        </div>
-        <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
-      </ng-container>
-      <ng-template #notLoggedIn>
-        <a routerLink="/registro" class="navbar__actions--register">Regístrate</a>
-        <a routerLink="/login" class="navbar__actions--login">Iniciar sesión</a>
-      </ng-template>
+    <div class="navbar__menu" [class.active]="isMenuOpen">
+      <ul class="navbar__links">
+        <li><a routerLink="/catalogo" (click)="closeMenu()">Catálogo</a></li>
+        <li><a routerLink="/eligenos" (click)="closeMenu()">Elígenos</a></li>
+        <li><a routerLink="/rutas" (click)="closeMenu()">Rutas</a></li>
+        <li><a routerLink="/contacto" (click)="closeMenu()">Contacto</a></li>
+        <li><a routerLink="/ubicacion" (click)="closeMenu()">Ubicación</a></li>
+      </ul>
+
+      <div class="navbar__actions">
+        <ng-container *ngIf="authService.isLoggedIn(); else notLoggedIn">
+          <div class="user-info">
+            <span class="welcome-message">¡Hola!,</span>
+            <a routerLink="/perfil" class="welcome-message-link" (click)="closeMenu()">{{ (authService.currentUser$ |
+              async)?.nombre }} {{
+              (authService.currentUser$ | async)?.apellido }}</a>
+          </div>
+          <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+        </ng-container>
+        <ng-template #notLoggedIn>
+          <a routerLink="/registro" class="navbar__actions--register" (click)="closeMenu()">Regístrate</a>
+          <a routerLink="/login" class="navbar__actions--login" (click)="closeMenu()">Iniciar sesión</a>
+        </ng-template>
+      </div>
     </div>
   </div>
 </nav>

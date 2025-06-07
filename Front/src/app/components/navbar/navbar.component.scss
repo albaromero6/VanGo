@@ -26,6 +26,76 @@
         }
     }
 
+    &__toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: $spacing-small;
+        z-index: 11;
+        width: 30px;
+        height: 24px;
+        position: relative;
+
+        @media (max-width: $breakpoint-desktop) {
+            display: block;
+        }
+    }
+
+    &__toggle-icon {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background-color: $text-body;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 0.3s ease;
+
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 2px;
+            background-color: $text-body;
+            transition: all 0.3s ease;
+            left: 0;
+        }
+
+        &::before {
+            top: 8px;
+        }
+
+        &::after {
+            top: 16px;
+        }
+    }
+
+    &__menu {
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+
+        @media (max-width: $breakpoint-desktop) {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: white;
+            flex-direction: column;
+            padding: $spacing-xlarge $spacing-large;
+            transition: right 0.3s ease;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+
+            &.active {
+                right: 0;
+            }
+        }
+    }
+
     &__links {
         list-style: none;
         display: flex;
@@ -35,8 +105,20 @@
         justify-content: left;
         padding-left: 50px;
 
+        @media (max-width: $breakpoint-desktop) {
+            flex-direction: column;
+            gap: $spacing-large;
+            padding-left: 0;
+            width: 100%;
+        }
+
         li {
             display: inline-block;
+
+            @media (max-width: $breakpoint-desktop) {
+                display: block;
+                width: 100%;
+            }
         }
 
         a {
@@ -47,6 +129,11 @@
             transition: color 0.3s ease;
             cursor: pointer;
             display: block;
+
+            @media (max-width: $breakpoint-desktop) {
+                font-size: $font-size-large;
+                padding: $spacing-small 0;
+            }
 
             &:hover {
                 color: $primary-color;
@@ -61,6 +148,13 @@
         flex-shrink: 0;
         align-items: center;
         margin-left: auto;
+
+        @media (max-width: $breakpoint-desktop) {
+            flex-direction: column;
+            width: 100%;
+            margin-top: $spacing-large;
+            gap: $spacing-large;
+        }
 
         &--login {
             display: inline-block;
@@ -78,6 +172,11 @@
             color: white;
             width: auto;
 
+            @media (max-width: $breakpoint-desktop) {
+                width: 100%;
+                text-align: center;
+            }
+
             &:hover {
                 background-color: darken($primary-color, 5%);
                 color: white;
@@ -93,6 +192,11 @@
             border-radius: 0;
             margin-left: 0;
 
+            @media (max-width: $breakpoint-desktop) {
+                text-align: center;
+                font-size: $font-size-large;
+            }
+
             &:hover {
                 color: $primary-color;
             }
@@ -105,11 +209,21 @@
     align-items: center;
     gap: 0.2rem;
     margin-right: 1rem;
+
+    @media (max-width: $breakpoint-desktop) {
+        flex-direction: column;
+        margin-right: 0;
+        gap: $spacing-small;
+    }
 }
 
 .welcome-message {
     color: $text-body;
     font-weight: $font-weight-medium;
+
+    @media (max-width: $breakpoint-desktop) {
+        font-size: $font-size-large;
+    }
 }
 
 .welcome-message-link {
@@ -117,6 +231,10 @@
     font-weight: $font-weight-medium;
     text-decoration: none;
     cursor: pointer;
+
+    @media (max-width: $breakpoint-desktop) {
+        font-size: $font-size-large;
+    }
 
     &:hover {
         color: $primary-color;
@@ -140,6 +258,11 @@
     width: auto;
     border: none;
     cursor: pointer;
+
+    @media (max-width: $breakpoint-desktop) {
+        width: 100%;
+        font-size: $font-size-large;
+    }
 
     &:hover {
         background-color: darken($primary-color, 5%);
