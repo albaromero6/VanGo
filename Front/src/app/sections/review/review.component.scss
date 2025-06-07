@@ -4,10 +4,11 @@
     background-color: $tertiary-color;
     padding: $spacing-xlarge 0;
     text-align: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-position: 98% 2%;
     background-size: 7%;
     position: relative;
+    padding-bottom: calc($spacing-xlarge + 4rem);
 
     h2 {
         font-size: $font-size-xxlarge;

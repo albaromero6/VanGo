@@ -14,17 +14,17 @@ import { CommentsComponent } from './pages/comments/comments.component';
 
 export const routes: Routes = [
 
-    { path: '', component: HomeComponent },
-    { path: 'catalogo', component: CatalogComponent },
-    { path: 'eligenos', component: SelectusComponent },
-    { path: 'rutas', component: RoutesComponent },
-    { path: 'contacto', component: ContactComponent },
-    { path: 'ubicacion', component: LocationComponent },
-    { path: 'registro', component: RegisterComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'detalles/:id', component: DetailsComponent },
-    { path: 'perfil', component: ProfileComponent },
-    { path: 'reserva/:id', component: ReservationComponent },
-    { path: 'comments/:id', component: CommentsComponent },
+    { path: '',                 component: HomeComponent },
+    { path: 'catalogo',         component: CatalogComponent },
+    { path: 'eligenos',         component: SelectusComponent },
+    { path: 'rutas',            component: RoutesComponent },
+    { path: 'contacto',         component: ContactComponent },
+    { path: 'ubicacion',        component: LocationComponent },
+    { path: 'registro',         component: RegisterComponent },
+    { path: 'login',            component: LoginComponent },
+    { path: 'detalles/:id',     component: DetailsComponent },
+    { path: 'perfil',           component: ProfileComponent },
+    { path: 'reserva/:id',      component: ReservationComponent },
+    { path: 'comments/:id',     component: CommentsComponent },
 
 ];
