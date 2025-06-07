@@ -181,6 +181,13 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    position: relative;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 }
 
 .logo {
@@ -249,10 +256,137 @@
 
         i {
             font-size: 16px;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
+    }
+}
+
+// Media queries para hacer el componente responsive
+@media screen and (max-width: $breakpoint-desktop) {
+    .form-section {
+        padding: $spacing-xlarge;
+    }
+
+    .registro-form {
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: $breakpoint-laptop) {
+    .registro-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .form-section {
+        width: 100%;
+        padding: $spacing-xlarge $spacing-large;
+        order: 2;
+    }
+
+    .image-section {
+        width: 100%;
+        height: 300px;
+        order: 1;
+        overflow: hidden;
+
+        img {
+            transform: scaleX(-1);
+            object-position: right;
+        }
+    }
+
+    .logo {
+        top: 1%;
+        left: 1%;
+        width: 80px;
+    }
+}
+
+@media screen and (max-width: $breakpoint-tablet) {
+    .form-section {
+        padding: $spacing-xlarge $spacing-medium;
+
+        h1 {
+            font-size: $font-size-xlarge;
+            margin-bottom: $spacing-large;
+            margin-top: $spacing-xlarge;
+        }
+    }
+
+    .registro-form {
+        max-width: 100%;
+        padding: 0 $spacing-medium;
+    }
+
+    .form-group {
+        input {
+            font-size: $font-size-small;
+        }
+    }
+
+    .btn-enviar {
+        font-size: $font-size-small;
+    }
+
+    .social-login {
+        flex-direction: column;
+    }
+
+    .btn-social {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: $breakpoint-mobile) {
+    .form-section {
+        padding: $spacing-medium $spacing-small;
+
+        h1 {
+            font-size: $font-size-large;
+            margin-bottom: $spacing-medium;
+        }
+    }
+
+    .logo {
+        width: 60px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+
+        input {
+            height: 35px;
+            font-size: $font-size-small;
+        }
+    }
+
+    .btn-enviar {
+        padding: 8px;
+        font-size: $font-size-small;
+    }
+
+    .server-error {
+        font-size: 12px;
+    }
+
+    .separator {
+        span {
+            font-size: 11px;
+        }
+    }
+
+    .btn-social {
+        font-size: 11px;
+        padding: 8px;
+
+        img {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .login-link {
+        font-size: $font-size-small;
     }
 }
