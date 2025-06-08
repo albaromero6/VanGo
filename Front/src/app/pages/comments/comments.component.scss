@@ -24,7 +24,7 @@
     padding: 0;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    z-index: 1;
+    z-index: 1000;
 
     .back-icon {
         width: 24px;
@@ -178,5 +178,185 @@
     &:hover {
         background-color: darken($primary-color, 5%);
         color: white;
+    }
+}
+
+// Responsive para tablets
+@media (max-width: 900px) {
+    .comments-page {
+        padding: $spacing-large 0.5rem 1.5rem 0.5rem;
+    }
+
+    .back-btn {
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1000;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        padding: 0.2rem;
+
+        .back-icon {
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    .comments-container {
+        position: relative;
+        z-index: 1;
+        max-width: 98vw;
+        padding: 1.2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+        margin-top: 3.5rem;
+    }
+
+    .comments-header {
+        h1 {
+            font-size: 1.5rem;
+        }
+
+        .back-button .back-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+}
+
+// Responsive para móviles
+@media (max-width: 600px) {
+    .comments-page {
+        padding: $spacing-medium 0.2rem 0.5rem 0.2rem;
+    }
+
+    .back-btn {
+        position: fixed;
+        top: 0.5rem;
+        left: 0.5rem;
+        z-index: 1000;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+        padding: 0.5rem;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: scale(1.1);
+            background-color: rgba($primary-color, 0.1);
+        }
+
+        .back-icon {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+    }
+
+    .comments-container {
+        position: relative;
+        z-index: 1;
+        max-width: 100vw;
+        width: 100vw;
+        padding: 0.5rem 0.2rem;
+        border-radius: 0;
+        box-shadow: none;
+        border: none;
+        margin-top: 3rem;
+    }
+
+    .comments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+
+        h1 {
+            font-size: 1.1rem;
+        }
+
+        .back-button .back-icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    .rating-section {
+        h2 {
+            font-size: 1rem;
+        }
+
+        .stars {
+            gap: 0.2rem;
+
+            .star {
+                font-size: 1.3rem;
+            }
+        }
+    }
+
+    .comment-section {
+        h2 {
+            font-size: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        textarea {
+            padding: 0.5rem;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            min-height: 60px;
+        }
+    }
+
+    .submit-button {
+        font-size: 0.95rem;
+        padding: $spacing-small;
+        border-radius: 4px;
+    }
+}
+
+@media (max-width: 440px) {
+    .back-btn {
+        top: 0.3rem;
+        left: 0.3rem;
+        width: 32px;
+        height: 32px;
+        padding: 0.4rem;
+        z-index: 1000;
+
+        .back-icon {
+            width: 18px;
+            height: 18px;
+        }
+    }
+}
+
+@media (max-width: 1010px) {
+    .comments-container {
+        position: relative;
+        z-index: 1;
+        max-width: none;
+        width: 100%;
+        margin: 2.5rem 0 0 0;
+        padding: 20px;
+        border-radius: 18px;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 1098px) {
+    .back-btn {
+        display: none;
     }
 }

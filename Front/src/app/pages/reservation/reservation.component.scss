@@ -389,3 +389,145 @@
 .form-select {
     padding-right: 3rem;
 }
+
+// Responsive para tablets
+@media (max-width: 1000px) {
+    .container {
+        padding: 1rem;
+        margin-top: $spacing-large;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .summary-panel {
+        position: static;
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+}
+
+// Responsive para móviles
+@media (max-width: 600px) {
+    .container {
+        padding: 0.5rem;
+        margin-top: $spacing-medium;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+
+        h1 {
+            font-size: 1.2rem;
+        }
+
+        .back-btn {
+            font-size: 0.95rem;
+
+            .back-icon {
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .reservation-form,
+    .summary-panel {
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+
+    .section-title {
+        font-size: 1rem;
+
+        .section-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5rem;
+        }
+    }
+
+    .form-row,
+    .date-inputs {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .action-buttons {
+        margin-top: 0.5rem;
+
+        button {
+            font-size: 0.95rem;
+            padding: $spacing-small;
+        }
+    }
+
+    .camper-summary {
+        margin-bottom: 1rem;
+
+        .camper-card {
+            padding: 0.5rem;
+            min-height: 120px;
+
+            .camper-name {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .camper-specs,
+            .reservation-specs {
+                padding: 0.2rem;
+
+                .spec-item {
+                    font-size: 0.8rem;
+
+                    .spec-icon {
+                        width: 14px;
+                        height: 14px;
+                    }
+                }
+            }
+        }
+    }
+
+    .cancellation-info {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .price-breakdown {
+        .price-item {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding: 2px 0;
+        }
+    }
+
+    .loading {
+        min-height: 200px;
+
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border-width: 3px;
+        }
+    }
+
+    .error {
+        padding: 1rem;
+        font-size: 0.95rem;
+        border-radius: 6px;
+        margin: 1rem auto;
+        max-width: 98vw;
+    }
+}

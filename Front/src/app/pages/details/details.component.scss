@@ -803,3 +803,412 @@
         margin-top: $spacing-small;
     }
 }
+
+@media (max-width: 1311px) {
+    .vehicle-detail {
+        &__title {
+            font-size: 1.8rem;
+        }
+    }
+}
+
+@media (max-width: 1272px) {
+    .vehicle-detail {
+        &__title {
+            font-size: 1.3rem;
+        }
+    }
+}
+
+@media (max-width: 1176px) {
+    .vehicle-detail {
+        &__title {
+            font-size: 1.1rem;
+        }
+    }
+}
+
+@media (max-width: 1133px) {
+    .vehicle-detail {
+        grid-template-columns: 1fr;
+        padding: $spacing-medium;
+        margin-top: $spacing-medium;
+
+        &__right {
+            padding: $spacing-medium;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        &__gallery {
+            grid-template-columns: repeat(4, 1fr);
+            gap: $spacing-small;
+        }
+
+        &__gallery-edit {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        &__main-image {
+            height: 240px;
+        }
+
+        &__specs {
+            grid-template-columns: repeat(2, 1fr);
+            gap: $spacing-small;
+        }
+
+        &__equipment {
+            &-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+}
+
+@media (max-width: 490px) {
+    .vehicle-detail {
+        padding: $spacing-small;
+        margin-top: $spacing-small;
+
+        &__header {
+            flex-direction: row;
+            align-items: center;
+            gap: $spacing-small;
+            padding-bottom: $spacing-small;
+            margin-bottom: $spacing-small;
+        }
+
+        &__title {
+            font-size: 0.95rem;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        &__price {
+            font-size: 0.95rem;
+            margin: 0 0 0 $spacing-small;
+            white-space: nowrap;
+        }
+
+        &__price-amount {
+            font-size: 1rem;
+        }
+
+        &__gallery,
+        &__gallery-edit {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: $spacing-small;
+            margin-bottom: $spacing-small;
+        }
+
+        &__gallery>*,
+        &__gallery-edit>* {
+            height: 50px !important;
+            width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: stretch !important;
+            justify-content: stretch !important;
+        }
+
+        &__gallery img,
+        &__gallery-edit img {
+            height: 100% !important;
+            width: 100% !important;
+            object-fit: cover !important;
+            display: block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            background: #eee !important;
+        }
+
+        &__main-image {
+            height: 100px;
+            margin: $spacing-small 0;
+        }
+
+        &__specs {
+            grid-template-columns: 1fr;
+            gap: $spacing-small;
+            margin-bottom: $spacing-small;
+
+            &-item {
+                padding: $spacing-small;
+                margin-bottom: $spacing-small;
+            }
+
+            &-icon {
+                width: 30px;
+                height: 30px;
+                font-size: $font-size-base;
+            }
+
+            &-content {
+                p {
+                    font-size: $font-size-small;
+                }
+            }
+        }
+
+        &__equipment {
+            margin-top: $spacing-small;
+
+            &-grid {
+                grid-template-columns: 1fr;
+                gap: $spacing-small;
+            }
+
+            &-item {
+                padding: $spacing-small;
+                margin-bottom: $spacing-small;
+            }
+
+            &-text {
+                font-size: $font-size-small;
+            }
+        }
+
+        &__button {
+            padding: $spacing-small;
+            font-size: $font-size-small;
+            margin: $spacing-small 0;
+        }
+
+        &__right {
+            padding: $spacing-small;
+        }
+
+        .stars,
+        &__stars {
+            font-size: 0.9rem;
+            margin-left: $spacing-small;
+        }
+    }
+
+    .modelo-selects {
+        flex-direction: column;
+        gap: $spacing-small;
+        margin-bottom: $spacing-small;
+
+        select {
+            width: 100%;
+            min-width: auto;
+            padding: $spacing-small;
+            font-size: $font-size-small;
+        }
+    }
+
+    .reviews-section {
+        padding: $spacing-small;
+
+        .review-item {
+            margin-bottom: $spacing-small;
+
+            .card-body {
+                padding: $spacing-small;
+            }
+
+            .card-title {
+                font-size: $font-size-small;
+                margin-bottom: $spacing-small;
+            }
+
+            .card-text {
+                font-size: $font-size-small;
+                line-height: 1.4;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: $spacing-small;
+                margin-bottom: $spacing-small;
+            }
+
+            .review-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: $spacing-small;
+            }
+        }
+    }
+
+    .lightbox {
+        &__content {
+            max-width: 98%;
+        }
+
+        &__close {
+            top: -20px;
+            font-size: 1rem;
+        }
+
+        &__prev,
+        &__next {
+            padding: 8px;
+            font-size: 1.2rem;
+        }
+    }
+}
+
+@media (max-width: 440px) {
+    .vehicle-detail {
+        padding: $spacing-small;
+        margin-top: $spacing-small;
+
+        &__header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: $spacing-small;
+            padding-bottom: $spacing-small;
+            margin-bottom: $spacing-small;
+        }
+
+        &__title-container {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: $spacing-small;
+        }
+
+        &__title {
+            font-size: 1.2rem;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        &__price {
+            font-size: 1.1rem;
+            margin: 0;
+            width: 100%;
+            justify-content: flex-start;
+        }
+
+        &__price-amount {
+            font-size: 1.1rem;
+        }
+
+        &__gallery,
+        &__gallery-edit {
+            grid-template-columns: repeat(2, 1fr);
+            gap: $spacing-small;
+        }
+
+        &__main-image {
+            height: 180px;
+            margin: $spacing-small 0;
+        }
+
+        &__specs {
+            grid-template-columns: 1fr;
+            gap: $spacing-small;
+
+            &-item {
+                padding: $spacing-small;
+                min-width: unset;
+            }
+
+            &-icon {
+                width: 35px;
+                height: 35px;
+                font-size: $font-size-base;
+            }
+
+            &-content {
+                p {
+                    font-size: $font-size-small;
+                }
+            }
+        }
+
+        &__equipment {
+            margin-top: $spacing-medium;
+
+            &-grid {
+                grid-template-columns: 1fr;
+                gap: $spacing-small;
+            }
+
+            &-item {
+                padding: $spacing-small;
+            }
+
+            &-text {
+                font-size: $font-size-small;
+            }
+        }
+
+        &__button {
+            padding: $spacing-small;
+            font-size: $font-size-small;
+            margin: $spacing-small 0;
+        }
+
+        &__right {
+            padding: $spacing-small;
+        }
+    }
+
+    .modelo-selects {
+        flex-direction: column;
+        gap: $spacing-small;
+        margin-bottom: $spacing-small;
+
+        select {
+            width: 100%;
+            padding: $spacing-small;
+            font-size: $font-size-small;
+        }
+    }
+
+    .reviews-section {
+        padding: $spacing-small;
+
+        .review-item {
+            .card-body {
+                padding: $spacing-small;
+            }
+
+            .card-title {
+                font-size: $font-size-small;
+            }
+
+            .card-text {
+                font-size: $font-size-small;
+            }
+
+            .review-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: $spacing-small;
+            }
+
+            .review-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: $spacing-small;
+            }
+        }
+    }
+
+    .lightbox {
+        &__content {
+            max-width: 95%;
+        }
+
+        &__close {
+            top: -30px;
+            font-size: 1.5rem;
+        }
+
+        &__prev,
+        &__next {
+            padding: 10px;
+            font-size: 1.5rem;
+        }
+    }
+}
