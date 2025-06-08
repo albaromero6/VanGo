@@ -45,7 +45,7 @@
         }
 
         @media (max-width: $breakpoint-mobile) {
-            margin-top: $spacing-xlarge;
+            margin-top: $spacing-xlarge * 2;
         }
     }
 
