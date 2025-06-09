@@ -53,6 +53,9 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
 
+                        // Vista de administración
+                        .requestMatchers("/admin", "/admin/**").authenticated()
+
                         // Endpoints de clientes (accesibles solo a sus propios datos)
                         .requestMatchers("/api/usuarios/perfil", "/api/usuarios/perfil/**")
                         .hasAnyRole("CLIENTE", "ADMINISTRADOR")

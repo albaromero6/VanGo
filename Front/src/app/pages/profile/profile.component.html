@@ -18,12 +18,17 @@
         <div class="profile__section">
             <div class="profile__section-header">
                 <h2>Perfil</h2>
-                <button class="profile__button-edit" (click)="toggleEdit('personal')"
-                    [attr.aria-label]="isEditingPersonal ? 'Cancelar edición' : 'Editar información personal'">
-                    <img [src]="isEditingPersonal ? 'assets/img/Cruz.png' : 'assets/img/Lapiz.png'"
-                        [alt]="isEditingPersonal ? 'Cancelar' : 'Editar'" class="profile__icon-edit"
-                        [ngClass]="{ 'profile__icon-edit--cruz': isEditingPersonal }" />
-                </button>
+                <div class="profile__header-buttons">
+                    <button class="profile__button-edit" (click)="toggleEdit('personal')"
+                        [attr.aria-label]="isEditingPersonal ? 'Cancelar edición' : 'Editar información personal'">
+                        <img [src]="isEditingPersonal ? 'assets/img/Cruz.png' : 'assets/img/Lapiz.png'"
+                            [alt]="isEditingPersonal ? 'Cancelar' : 'Editar'" class="profile__icon-edit"
+                            [ngClass]="{ 'profile__icon-edit--cruz': isEditingPersonal }" />
+                    </button>
+                    <button class="profile__button-admin" *ngIf="isAdmin" (click)="navigateToAdminPanel()">
+                        Panel de control
+                    </button>
+                </div>
             </div>
             <div class="profile__info-display" *ngIf="!isEditingPersonal">
                 <div class="profile__info-item">

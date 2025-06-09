@@ -30,8 +30,39 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
+
+        h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+    }
+
+    &__header-buttons {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    &__button-admin {
+        background-color: #05889C;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #046b7a;
+        }
+
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
     }
 
     &__info-display {

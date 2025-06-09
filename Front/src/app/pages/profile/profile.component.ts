@@ -165,6 +165,10 @@ export class ProfileComponent implements OnInit {
     return this.user?.rol === 'CLIENTE';
   }
 
+  get isAdmin(): boolean {
+    return this.user?.rol === 'ADMINISTRADOR';
+  }
+
   loadProfile(): void {
     this.isLoading = true;
     this.error = null;
@@ -600,39 +604,14 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  navigateToComments(reservaId: number) {
-    // Verificar si ya existe una reseña para esta reserva
-    this.reviewService.checkReviewExists(reservaId).subscribe({
-      next: (exists) => {
-        if (exists) {
-          Swal.fire({
-            title: 'Ya existe una reseña',
-            text: '¿Deseas modificarla?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, modificar',
-            cancelButtonText: 'No, cancelar',
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.router.navigate(['/comments', reservaId]);
-            }
-          });
-        } else {
-          this.router.navigate(['/comments', reservaId]);
-        }
-      },
-      error: (error) => {
-        console.error('Error al verificar la reseña:', error);
-        Swal.fire({
-          title: 'Error',
-          text: 'No se pudo verificar si ya existe una reseña',
-          icon: 'error',
-          confirmButtonText: 'Entendido',
-          confirmButtonColor: '#3085d6'
-        });
-      }
-    });
+  navigateToComments(idReser: number): void {
+    this.router.navigate(['/comments', idReser]);
+  }
+
+  navigateToAdminPanel(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      window.location.href = `${environment.apiUrl.replace('/api', '')}/admin?token=${token}`;
+    }
   }
 }
