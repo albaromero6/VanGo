@@ -1,0 +1,83 @@
+.swal2-popup {
+    font-family: 'Poppins', sans-serif !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    width: 50rem !important;
+}
+
+.swal2-title {
+    color: #181E4B !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-html-container {
+    color: #303030 !important;
+    font-size: 16px !important;
+}
+
+.swal2-actions {
+    gap: 1rem !important;
+    justify-content: center !important;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    width: 140px !important;
+    margin: 0 !important;
+}
+
+.swal2-confirm {
+    background-color: #05889C !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #047a8c !important;
+    transform: translateY(-2px);
+}
+
+.swal2-cancel {
+    background-color: #AFD7D6 !important;
+}
+
+.swal2-cancel:hover {
+    background-color: #8fc2c0 !important;
+    transform: translateY(-2px);
+}
+
+.swal2-icon {
+    border-width: 3px !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #05889C !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: #05889C !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #05889C !important;
+} 

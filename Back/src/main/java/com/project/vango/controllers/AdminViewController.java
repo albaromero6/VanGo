@@ -19,6 +19,11 @@ import com.project.vango.models.Usuario;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @Controller
 @RequestMapping("/admin")
@@ -200,5 +205,27 @@ public class AdminViewController {
             redirectAttributes.addFlashAttribute("error", "Error al crear el usuario: " + e.getMessage());
         }
         return "redirect:/admin/usuarios";
+    }
+
+    @DeleteMapping("/usuarios/eliminar/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
+        try {
+            usuarioService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/usuarios/eliminar-con-reservas/{id}")
+    public ResponseEntity<Void> eliminarUsuarioConReservas(@PathVariable Integer id) {
+        try {
+            usuarioService.deleteUsuarioConReservas(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

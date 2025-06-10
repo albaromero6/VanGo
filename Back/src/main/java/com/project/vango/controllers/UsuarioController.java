@@ -111,15 +111,42 @@ public class UsuarioController {
                         @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
         @PutMapping("/{id}")
+        @PreAuthorize("hasRole('ADMINISTRADOR')")
         public ResponseEntity<Usuario> updateUsuario(
                         @Parameter(description = "ID del usuario a actualizar", required = true) @PathVariable Integer id,
-                        @Parameter(description = "Nuevos datos del usuario", required = true) @RequestBody Usuario usuario) {
-                return usuarioService.findById(id)
-                                .map(existingUsuario -> {
-                                        usuario.setIdUsu(id);
-                                        return ResponseEntity.ok(usuarioService.save(usuario));
-                                })
-                                .orElse(ResponseEntity.notFound().build());
+                        @Parameter(description = "Nuevos datos del usuario", required = true) @RequestBody Usuario usuario,
+                        @RequestHeader("Authorization") String token) {
+                try {
+                        return usuarioService.findById(id)
+                                        .map(existingUsuario -> {
+                                                // Preserve the ID
+                                                usuario.setIdUsu(id);
+
+                                                // If password is not provided in the update, keep the existing one
+                                                if (usuario.getPassword() == null
+                                                                || usuario.getPassword().trim().isEmpty()) {
+                                                        usuario.setPassword(existingUsuario.getPassword());
+                                                }
+
+                                                // Validate role change
+                                                if (usuario.getRol() != existingUsuario.getRol()) {
+                                                        // Check if trying to change the last administrator
+                                                        if (existingUsuario.getRol() == Usuario.Rol.ADMINISTRADOR) {
+                                                                long adminCount = usuarioService
+                                                                                .countByRol(Usuario.Rol.ADMINISTRADOR);
+                                                                if (adminCount <= 1) {
+                                                                        throw new RuntimeException(
+                                                                                        "No se puede cambiar el rol del último administrador");
+                                                                }
+                                                        }
+                                                }
+
+                                                return ResponseEntity.ok(usuarioService.save(usuario));
+                                        })
+                                        .orElse(ResponseEntity.notFound().build());
+                } catch (Exception e) {
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
         }
 
         @Operation(summary = "Eliminar usuario", description = "Elimina un usuario del sistema")

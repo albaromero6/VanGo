@@ -6,10 +6,12 @@
     <title>Van&Go</title>
     <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
+    <link rel="stylesheet" th:href="@{/css/sweetalert.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -37,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="usuario : ${usuarios}">
+                <tr th:each="usuario : ${usuarios}" th:attr="data-user-id=${usuario.idUsu}">
                     <td th:text="${usuario.idUsu}"></td>
                     <td th:text="${usuario.nombre}"></td>
                     <td th:text="${usuario.apellido}"></td>
@@ -48,10 +50,10 @@
                     <td th:text="${#temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></td>
                     <td th:text="${usuario.rol}"></td>
                     <td class="actions">
-                        <button class="btn btn-edit">
+                        <button class="btn btn-edit" th:onclick="'editUser(' + ${usuario.idUsu} + ')'">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="btn btn-delete">
+                        <button class="btn btn-delete" th:onclick="'deleteUser(' + ${usuario.idUsu} + ')'">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>
@@ -60,7 +62,7 @@
         </table>
 
         <div id="createUserForm" class="create-form" style="display: none;">
-            <h2>Crear Nuevo Usuario</h2>
+            <h2>Crear nuevo usuario</h2>
             <form th:action="@{/admin/usuarios/crear}" method="POST" onsubmit="return validateForm(event)" novalidate>
                 <div class="form-grid">
                     <div class="form-group">
@@ -261,8 +263,8 @@
             clearErrors();
 
             let isValid = true;
-            const requiredFields = ['nombre', 'apellido', 'email', 'password', 'dni', 'telefono'];
-            const optionalFields = ['fechaNacimiento'];
+            const requiredFields = ['nombre', 'apellido', 'email', 'dni', 'telefono'];
+            const optionalFields = ['fechaNacimiento', 'password'];
 
             // Validar campos obligatorios
             requiredFields.forEach(field => {
@@ -287,6 +289,248 @@
             }
 
             return false;
+        }
+
+        function deleteUser(userId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esta acción",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#05889C',
+                cancelButtonColor: '#EFBF14',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                customClass: {
+                    popup: 'swal2-popup',
+                    title: 'swal2-title',
+                    htmlContainer: 'swal2-html-container',
+                    confirmButton: 'swal2-confirm',
+                    cancelButton: 'swal2-cancel'
+                },
+                buttonsStyling: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/admin/usuarios/eliminar/${userId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                if (response.status === 409) {
+                                    // Si hay reservas asociadas, mostrar un segundo sweetalert
+                                    return Swal.fire({
+                                        title: 'Este usuario tiene reservas asociadas',
+                                        text: '¿Deseas eliminar el usuario y todas sus reservas?',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#05889C',
+                                        cancelButtonColor: '#EFBF14',
+                                        confirmButtonText: 'Eliminar',
+                                        cancelButtonText: 'Cancelar',
+                                        customClass: {
+                                            popup: 'swal2-popup',
+                                            title: 'swal2-title',
+                                            htmlContainer: 'swal2-html-container',
+                                            confirmButton: 'swal2-confirm',
+                                            cancelButton: 'swal2-cancel'
+                                        }
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            return fetch(`/admin/usuarios/eliminar-con-reservas/${userId}`, {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                }
+                                            });
+                                        }
+                                        throw new Error('Operación cancelada');
+                                    });
+                                }
+                                throw new Error('Error al eliminar el usuario');
+                            }
+                            return response;
+                        })
+                        .then(response => {
+                            if (response && response.ok) {
+                                const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+                                if (row) {
+                                    row.remove();
+                                }
+                                Swal.fire({
+                                    title: '¡Eliminado!',
+                                    text: 'El usuario ha sido eliminado correctamente',
+                                    icon: 'success',
+                                    confirmButtonColor: '#05889C',
+                                    customClass: {
+                                        popup: 'swal2-popup',
+                                        title: 'swal2-title',
+                                        htmlContainer: 'swal2-html-container',
+                                        confirmButton: 'swal2-confirm'
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            if (error.message !== 'Operación cancelada') {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: error.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#05889C',
+                                    customClass: {
+                                        popup: 'swal2-popup',
+                                        title: 'swal2-title',
+                                        htmlContainer: 'swal2-html-container',
+                                        confirmButton: 'swal2-confirm'
+                                    }
+                                });
+                            }
+                        });
+                }
+            });
+        }
+
+        function editUser(userId) {
+            const row = document.querySelector(`tr[data-user-id="${userId}"]`);
+            const cells = row.cells;
+
+            // Obtener los datos del usuario de la fila
+            const userData = {
+                id: userId,
+                nombre: cells[1].textContent,
+                apellido: cells[2].textContent,
+                email: cells[3].textContent,
+                dni: cells[4].textContent,
+                telefono: cells[5].textContent,
+                direccion: cells[6].textContent,
+                fechaNacimiento: cells[7].textContent.split('/').reverse().join('-'), // Convertir formato de fecha
+                rol: cells[8].textContent
+            };
+
+            // Mostrar el formulario
+            const form = document.getElementById('createUserForm');
+            form.style.display = 'block';
+
+            // Rellenar los campos con los datos del usuario
+            document.getElementById('nombre').value = userData.nombre;
+            document.getElementById('apellido').value = userData.apellido;
+            document.getElementById('email').value = userData.email;
+            document.getElementById('dni').value = userData.dni;
+            document.getElementById('telefono').value = userData.telefono;
+            document.getElementById('direccion').value = userData.direccion;
+            document.getElementById('fechaNacimiento').value = userData.fechaNacimiento;
+            document.getElementById('rol').value = userData.rol;
+            document.getElementById('password').value = ''; // Dejar la contraseña vacía
+
+            // Función para verificar si el usuario está autenticado
+            function checkAuth() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'No estás autenticado. Por favor, inicia sesión nuevamente.',
+                        icon: 'error',
+                        confirmButtonColor: '#05889C'
+                    }).then(() => {
+                        window.location.href = '/';
+                    });
+                    return false;
+                }
+                return true;
+            }
+
+            // Modificar el formulario para que actualice en lugar de crear
+            const formElement = form.querySelector('form');
+            formElement.onsubmit = function (event) {
+                event.preventDefault();
+                clearErrors();
+
+                if (!checkAuth()) {
+                    return;
+                }
+
+                let isValid = true;
+                const requiredFields = ['nombre', 'apellido', 'email', 'dni', 'telefono'];
+                const optionalFields = ['fechaNacimiento'];
+
+                // Validar campos obligatorios
+                requiredFields.forEach(field => {
+                    const input = document.getElementById(field);
+                    if (!validateField(input, field)) {
+                        isValid = false;
+                    }
+                });
+
+                // Validar campos opcionales solo si tienen valor
+                optionalFields.forEach(field => {
+                    const input = document.getElementById(field);
+                    if (input.value.trim()) {
+                        if (!validateField(input, field)) {
+                            isValid = false;
+                        }
+                    }
+                });
+
+                if (isValid) {
+                    const formData = new FormData(formElement);
+                    const data = Object.fromEntries(formData);
+                    const token = localStorage.getItem('token');
+
+                    // Realizar la petición PUT directamente
+                    fetch(`/api/usuarios/${userId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            nombre: data.nombre,
+                            apellido: data.apellido,
+                            email: data.email,
+                            telefono: data.telefono,
+                            direccion: data.direccion,
+                            dni: data.dni,
+                            fechaNacimiento: data.fechaNacimiento,
+                            rol: data.rol
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => {
+                                    throw new Error(text || 'Error al actualizar el usuario');
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: 'Usuario actualizado correctamente',
+                                icon: 'success',
+                                confirmButtonColor: '#05889C'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: error.message || 'Error al actualizar el usuario',
+                                icon: 'error',
+                                confirmButtonColor: '#05889C'
+                            });
+                        });
+                }
+            };
+
+            // Cambiar el título del formulario
+            form.querySelector('h2').textContent = 'Editar usuario';
         }
     </script>
 </body>
