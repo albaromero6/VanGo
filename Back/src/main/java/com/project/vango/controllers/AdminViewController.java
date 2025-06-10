@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.project.vango.services.UsuarioService;
@@ -24,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.dao.DataIntegrityViolationException;
+import com.project.vango.services.MarcaService;
 
 @Controller
 @RequestMapping("/admin")
@@ -32,6 +31,8 @@ public class AdminViewController {
     private static final Logger logger = LoggerFactory.getLogger(AdminViewController.class);
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private MarcaService marcaService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -74,9 +75,12 @@ public class AdminViewController {
     public String marcas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<com.project.vango.models.Marca> marcas = marcaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("token", token);
+        model.addAttribute("marcas", marcas);
         return "admin/marcas";
     }
 

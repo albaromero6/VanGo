@@ -1,6 +1,7 @@
 /* ==========================================================================
    RESET Y ESTILOS BASE
    ========================================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -17,6 +18,7 @@ body {
 /* ==========================================================================
    SIDEBAR
    ========================================================================== */
+
 .sidebar {
     width: 250px;
     background-color: #0c5661;
@@ -43,6 +45,7 @@ body {
 /* ==========================================================================
    MENÚ DE NAVEGACIÓN
    ========================================================================== */
+
 .nav-menu {
     list-style: none;
     padding: 0;
@@ -87,6 +90,7 @@ body {
 /* ==========================================================================
    CONTENIDO PRINCIPAL
    ========================================================================== */
+
 .main-content {
     margin-left: 250px;
     padding: 20px;
@@ -98,6 +102,7 @@ body {
 /* ==========================================================================
    TIPOGRAFÍA
    ========================================================================== */
+
 h2 {
     font-size: 1.5em;
     font-weight: 500;
@@ -116,6 +121,7 @@ p {
 /* ==========================================================================
    CONTENEDORES
    ========================================================================== */
+
 .container {
     padding: 20px;
     border-radius: 8px;
@@ -134,6 +140,7 @@ p {
 /* ==========================================================================
    TABLAS
    ========================================================================== */
+
 .table-header {
     width: 100%;
     display: flex;
@@ -170,7 +177,11 @@ table thead {
 
 table th,
 table td {
-    padding: 12px 15px;
+    padding-top: 12px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 28px;
     text-align: left;
     border-bottom: 1px solid #0a637230;
 }
@@ -183,12 +194,39 @@ table tbody tr:hover {
     background: #afd7d6;
 }
 
-/* ==========================================================================
-   BOTONES Y ACCIONES
-   ========================================================================== */
+table tr {
+    min-height: 24px;
+}
+
+table th:last-child,
+table td:last-child {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
 .actions {
     display: flex;
-    gap: 10px;
+    gap: 4px;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.btn-edit, .btn-delete {
+    padding: 2px 6px;
+    font-size: 14px;
+    height: 24px;
+    min-width: 24px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 2px;
 }
 
 .btn {
@@ -217,6 +255,7 @@ table tbody tr:hover {
 /* ==========================================================================
    FORMULARIOS
    ========================================================================== */
+   
 .create-form {
     width: 100%;
     background: #f5f5f5;
