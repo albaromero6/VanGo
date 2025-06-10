@@ -20,9 +20,10 @@ public class JwtUtil {
     }
 
     // Método generador del Token usando el email
-    public String generateToken(String email, String nombre, String apellido, String rol) {
+    public String generateToken(Long idUsu, String email, String nombre, String apellido, String rol) {
         return Jwts.builder()
                 .setSubject(email)
+                .claim("idUsu", idUsu)
                 .claim("nombre", nombre)
                 .claim("apellido", apellido)
                 .claim("rol", rol)

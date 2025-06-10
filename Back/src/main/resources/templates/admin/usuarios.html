@@ -15,6 +15,14 @@
 </head>
 
 <body>
+    <script>
+        // Lee el token de la URL y guárdalo en localStorage
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (token) {
+            localStorage.setItem('token', token);
+        }
+    </script>
     <div th:replace="~{components/sidebar :: sidebar}"></div>
 
     <main class="main-content">
@@ -63,7 +71,7 @@
 
         <div id="createUserForm" class="create-form" style="display: none;">
             <h2>Crear nuevo usuario</h2>
-            <form th:action="@{/admin/usuarios/crear}" method="POST" onsubmit="return validateForm(event)" novalidate>
+            <form th:action="@{/admin/usuarios/crear}" method="POST" onsubmit="return createUser(event)" novalidate>
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
@@ -258,7 +266,7 @@
             return true;
         }
 
-        function validateForm(event) {
+        function createUser(event) {
             event.preventDefault();
             clearErrors();
 
@@ -285,9 +293,48 @@
             });
 
             if (isValid) {
-                event.target.submit();
-            }
+                const form = event.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                const token = localStorage.getItem('token');
 
+                fetch('/api/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => {
+                                throw new Error(text || 'Error al crear el usuario');
+                            });
+                        }
+                        return response.json ? response.json() : response;
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'Usuario creado correctamente',
+                            icon: 'success',
+                            confirmButtonColor: '#05889C'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: error.message || 'Error al crear el usuario',
+                            icon: 'error',
+                            confirmButtonColor: '#05889C'
+                        });
+                    });
+            }
             return false;
         }
 
