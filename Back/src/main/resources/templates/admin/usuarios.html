@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Van&Go</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div th:replace="~{components/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="table-header">
+            <button class="btn btn-create" onclick="toggleForm()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th>DNI</th>
+                    <th>Teléfono</th>
+                    <th>Dirección</th>
+                    <th>Nacimiento</th>
+                    <th>Rol</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.idUsu}"></td>
+                    <td th:text="${usuario.nombre}"></td>
+                    <td th:text="${usuario.apellido}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td th:text="${usuario.dni}"></td>
+                    <td th:text="${usuario.telefono}"></td>
+                    <td th:text="${usuario.direccion}"></td>
+                    <td th:text="${#temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${usuario.rol}"></td>
+                    <td class="actions">
+                        <button class="btn btn-edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="createUserForm" class="create-form" style="display: none;">
+            <h2>Crear Nuevo Usuario</h2>
+            <form th:action="@{/admin/usuarios/crear}" method="POST" onsubmit="return validateForm(event)" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre">
+                        <span class="error-message" id="nombre-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellidos</label>
+                        <input type="text" id="apellido" name="apellido">
+                        <span class="error-message" id="apellido-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email">
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <div class="password-group">
+                            <input type="password" id="password" name="password">
+                            <button type="button" class="toggle-password" onclick="togglePassword()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <span class="error-message" id="password-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="dni">DNI</label>
+                        <input type="text" id="dni" name="dni">
+                        <span class="error-message" id="dni-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono">
+                        <span class="error-message" id="telefono-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion">Dirección</label>
+                        <input type="text" id="direccion" name="direccion">
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="fechaNacimiento" name="fechaNacimiento">
+                        <span class="error-message" id="fechaNacimiento-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="rol">Rol</label>
+                        <select id="rol" name="rol">
+                            <option value="CLIENTE">Cliente</option>
+                            <option value="ADMINISTRADOR">Administrador</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Guardar</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleForm()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('createUserForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            // Limpiar errores al cerrar el formulario
+            clearErrors();
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('.toggle-password i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        const errorMessages = {
+            nombre: {
+                required: 'El nombre es obligatorio',
+                format: 'El nombre solo puede contener letras'
+            },
+            apellido: {
+                required: 'El apellido es obligatorio',
+                format: 'El apellido solo puede contener letras'
+            },
+            email: {
+                required: 'El email es obligatorio',
+                format: 'El email debe tener un formato válido'
+            },
+            telefono: {
+                required: 'El teléfono es obligatorio',
+                format: 'El teléfono debe tener 9 números'
+            },
+            dni: {
+                required: 'El DNI es obligatorio',
+                format: 'El DNI debe tener un formato válido y la letra en mayúsculas'
+            },
+            password: {
+                required: 'La contraseña es obligatoria',
+                format: 'La contraseña debe tener al menos 8 caracteres, una mayúscula y un número'
+            },
+            fechaNacimiento: {
+                required: 'La fecha de nacimiento es obligatoria',
+                format: 'Debes tener al menos 18 años'
+            }
+        };
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+        }
+
+        function validateField(input, field) {
+            const errorElement = document.getElementById(`${field}-error`);
+            const value = input.value.trim();
+
+            if (!value) {
+                errorElement.textContent = errorMessages[field].required;
+                return false;
+            }
+
+            switch (field) {
+                case 'nombre':
+                case 'apellido':
+                    if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]+$/.test(value)) {
+                        errorElement.textContent = errorMessages[field].format;
+                        return false;
+                    }
+                    // Transformar a primera letra mayúscula y resto minúsculas
+                    input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+                    break;
+                case 'email':
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+                        errorElement.textContent = errorMessages[field].format;
+                        return false;
+                    }
+                    break;
+                case 'telefono':
+                    if (!/^[0-9]{9}$/.test(value)) {
+                        errorElement.textContent = errorMessages[field].format;
+                        return false;
+                    }
+                    break;
+                case 'dni':
+                    if (!/^[0-9]{8}[A-Z]$/.test(value)) {
+                        errorElement.textContent = errorMessages[field].format;
+                        return false;
+                    }
+                    const letras = 'TRWAGMYFPDXBNJZSQVHLCKE';
+                    const numero = parseInt(value.substring(0, 8));
+                    const letra = value.charAt(8);
+                    const letraCorrecta = letras.charAt(numero % 23);
+                    if (letra !== letraCorrecta) {
+                        errorElement.textContent = 'La letra del DNI no es válida';
+                        return false;
+                    }
+                    break;
+                case 'password':
+                    if (value.length < 8 || !/[A-Z]/.test(value) || !/\d/.test(value)) {
+                        errorElement.textContent = errorMessages[field].format;
+                        return false;
+                    }
+                    break;
+                case 'fechaNacimiento':
+                    if (value) {
+                        const fechaNacimiento = new Date(value);
+                        const hoy = new Date();
+                        const edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+                        const mesActual = hoy.getMonth();
+                        const mesNacimiento = fechaNacimiento.getMonth();
+                        const diaActual = hoy.getDate();
+                        const diaNacimiento = fechaNacimiento.getDate();
+
+                        if (edad < 18 || (edad === 18 && (mesActual < mesNacimiento || (mesActual === mesNacimiento && diaActual < diaNacimiento)))) {
+                            errorElement.textContent = 'Debes tener al menos 18 años';
+                            return false;
+                        }
+                    }
+                    break;
+            }
+
+            errorElement.textContent = '';
+            return true;
+        }
+
+        function validateForm(event) {
+            event.preventDefault();
+            clearErrors();
+
+            let isValid = true;
+            const requiredFields = ['nombre', 'apellido', 'email', 'password', 'dni', 'telefono'];
+            const optionalFields = ['fechaNacimiento'];
+
+            // Validar campos obligatorios
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!validateField(input, field)) {
+                    isValid = false;
+                }
+            });
+
+            // Validar campos opcionales solo si tienen valor
+            optionalFields.forEach(field => {
+                const input = document.getElementById(field);
+                if (input.value.trim()) {
+                    if (!validateField(input, field)) {
+                        isValid = false;
+                    }
+                }
+            });
+
+            if (isValid) {
+                event.target.submit();
+            }
+
+            return false;
+        }
+    </script>
+</body>
+
+</html>
