@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.project.vango.services.MarcaService;
+import com.project.vango.services.ModeloService;
 
 @Controller
 @RequestMapping("/admin")
@@ -33,6 +34,8 @@ public class AdminViewController {
     private UsuarioService usuarioService;
     @Autowired
     private MarcaService marcaService;
+    @Autowired
+    private ModeloService modeloService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -86,11 +89,19 @@ public class AdminViewController {
 
     @GetMapping("/modelos")
     public String modelos(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<com.project.vango.models.Modelo> modelos = modeloService.findAll();
+        List<com.project.vango.models.Marca> marcas = marcaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("token", token);
+        model.addAttribute("modelos", modelos);
+        model.addAttribute("marcas", marcas);
         return "admin/modelos";
     }
 

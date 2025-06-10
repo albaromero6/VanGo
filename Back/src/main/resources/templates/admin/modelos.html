@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Van&Go</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
+    <link rel="stylesheet" th:href="@{/css/sweetalert.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div th:replace="~{components/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="table-header">
+            <button class="btn btn-create" onclick="toggleForm()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="modelo : ${modelos}" th:attr="data-modelo-id=${modelo.idMod}">
+                    <td th:text="${modelo.idMod}"></td>
+                    <td th:text="${modelo.nombre}"></td>
+                    <td th:text="${modelo.marca != null ? modelo.marca.nombre : ''}"></td>
+                    <td class="actions">
+                        <button class="btn btn-edit" th:onclick="'editModelo(' + ${modelo.idMod} + ')'">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-delete" th:onclick="'deleteModelo(' + ${modelo.idMod} + ')'">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="createModeloForm" class="create-form" style="display: none;">
+            <h2>Crear nuevo modelo</h2>
+            <form th:action="@{/admin/modelos/crear}" method="POST" onsubmit="return createModelo(event)" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" name="nombre">
+                        <span class="error-message" id="nombre-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="marca">Marca</label>
+                        <select id="marca" name="marca.idMar">
+                            <option th:each="marca : ${marcas}" th:value="${marca.idMar}" th:text="${marca.nombre}">
+                            </option>
+                        </select>
+                        <span class="error-message" id="marca-error"></span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Guardar</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleForm()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function toggleForm() {
+            const form = document.getElementById('createModeloForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            clearErrors();
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+        }
+
+        function validateField(input, field) {
+            const errorElement = document.getElementById(`${field}-error`);
+            const value = input.value.trim();
+            if (!value) {
+                errorElement.textContent = `El ${field} es obligatorio`;
+                return false;
+            }
+            errorElement.textContent = '';
+            return true;
+        }
+
+        function createModelo(event) {
+            event.preventDefault();
+            clearErrors();
+            let isValid = true;
+            ['nombre', 'marca'].forEach(field => {
+                const input = document.getElementById(field);
+                if (!validateField(input, field)) {
+                    isValid = false;
+                }
+            });
+            if (isValid) {
+                const form = event.target;
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                const token = localStorage.getItem('token');
+                fetch('/api/modelos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        nombre: data.nombre,
+                        marca: {
+                            idMar: parseInt(data['marca.idMar'])
+                        }
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.text().then(text => { throw new Error(text || 'Error al crear el modelo'); });
+                        }
+                        return response.json ? response.json() : response;
+                    })
+                    .then(data => {
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'Modelo creado correctamente',
+                            icon: 'success',
+                            confirmButtonColor: '#05889C'
+                        }).then(() => { window.location.reload(); });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: error.message || 'Error al crear el modelo',
+                            icon: 'error',
+                            confirmButtonColor: '#05889C'
+                        });
+                    });
+            }
+            return false;
+        }
+
+        function deleteModelo(modeloId) {
+            const token = localStorage.getItem('token');
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esta acción",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#05889C',
+                cancelButtonColor: '#EFBF14',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar',
+                customClass: {
+                    popup: 'swal2-popup',
+                    title: 'swal2-title',
+                    htmlContainer: 'swal2-html-container',
+                    confirmButton: 'swal2-confirm',
+                    cancelButton: 'swal2-cancel'
+                },
+                buttonsStyling: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/api/modelos/${modeloId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error al eliminar el modelo');
+                            }
+                            return response;
+                        })
+                        .then(response => {
+                            if (response && response.ok) {
+                                const row = document.querySelector(`tr[data-modelo-id="${modeloId}"]`);
+                                if (row) {
+                                    row.remove();
+                                }
+                                Swal.fire({
+                                    title: '¡Eliminado!',
+                                    text: 'El modelo ha sido eliminado correctamente',
+                                    icon: 'success',
+                                    confirmButtonColor: '#05889C',
+                                    customClass: {
+                                        popup: 'swal2-popup',
+                                        title: 'swal2-title',
+                                        htmlContainer: 'swal2-html-container',
+                                        confirmButton: 'swal2-confirm'
+                                    }
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: error.message,
+                                icon: 'error',
+                                confirmButtonColor: '#05889C',
+                                customClass: {
+                                    popup: 'swal2-popup',
+                                    title: 'swal2-title',
+                                    htmlContainer: 'swal2-html-container',
+                                    confirmButton: 'swal2-confirm'
+                                }
+                            });
+                        });
+                }
+            });
+        }
+
+        function editModelo(modeloId) {
+            const row = document.querySelector(`tr[data-modelo-id="${modeloId}"]`);
+            const cells = row.cells;
+            // Obtener los datos del modelo de la fila
+            const modeloData = {
+                id: modeloId,
+                nombre: cells[1].textContent,
+                marca: cells[2].textContent
+            };
+            // Mostrar el formulario
+            const form = document.getElementById('createModeloForm');
+            form.style.display = 'block';
+            // Rellenar los campos con los datos del modelo
+            document.getElementById('nombre').value = modeloData.nombre;
+            // Seleccionar la marca correspondiente si existe
+            const marcaSelect = document.getElementById('marca');
+            for (let i = 0; i < marcaSelect.options.length; i++) {
+                if (marcaSelect.options[i].text === modeloData.marca) {
+                    marcaSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            // Modificar el formulario para que actualice en lugar de crear
+            const formElement = form.querySelector('form');
+            formElement.onsubmit = function (event) {
+                event.preventDefault();
+                clearErrors();
+                let isValid = true;
+                ['nombre', 'marca'].forEach(field => {
+                    const input = document.getElementById(field);
+                    if (!validateField(input, field)) {
+                        isValid = false;
+                    }
+                });
+                if (isValid) {
+                    const formData = new FormData(formElement);
+                    const data = Object.fromEntries(formData);
+                    const token = localStorage.getItem('token');
+                    fetch(`/api/modelos/${modeloId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            nombre: data.nombre,
+                            marca: {
+                                idMar: parseInt(data['marca.idMar'])
+                            }
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.text().then(text => { throw new Error(text || 'Error al actualizar el modelo'); });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: 'Modelo actualizado correctamente',
+                                icon: 'success',
+                                confirmButtonColor: '#05889C'
+                            }).then(() => { window.location.reload(); });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: error.message || 'Error al actualizar el modelo',
+                                icon: 'error',
+                                confirmButtonColor: '#05889C'
+                            });
+                        });
+                }
+            };
+            form.querySelector('h2').textContent = 'Editar modelo';
+        }
+    </script>
+</body>
+
+</html>
