@@ -42,7 +42,7 @@ export interface PaginatedResponse<T> {
     providedIn: 'root'
 })
 export class VehicleService {
-    private apiUrl = 'http://localhost:8080/api/vehiculos';
+    private apiUrl = '/api/vehiculos';
 
     constructor(private http: HttpClient) { }
 
@@ -55,7 +55,7 @@ export class VehicleService {
     }
 
     getAllMarcas(): Observable<Marca[]> {
-        return this.http.get<Marca[]>(`http://localhost:8080/api/marcas`).pipe(
+        return this.http.get<Marca[]>(`/api/marcas`).pipe(
             catchError(error => {
                 console.error('Error en getAllMarcas:', error);
                 return throwError(() => error);
@@ -64,7 +64,7 @@ export class VehicleService {
     }
 
     getModelosByMarca(marcaId: number): Observable<Modelo[]> {
-        const url = `http://localhost:8080/api/marcas/${marcaId}/modelos`;
+        const url = `/api/marcas/${marcaId}/modelos`;
         return this.http.get<Modelo[]>(url).pipe(
             catchError(error => {
                 console.error('Error en getModelosByMarca:', error);

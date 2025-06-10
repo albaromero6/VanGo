@@ -70,7 +70,7 @@ export class CatalogComponent implements OnInit, OnDestroy {
     if (!vehicle.imagen) {
       return 'assets/img/placeholder-vehicle.jpg';
     }
-    return `http://localhost:8080/api/vehiculos/imagen/${vehicle.imagen}`;
+    return `/api/vehiculos/imagen/${vehicle.imagen}`;
   }
 
   getVehicleName(vehicle: Vehicle): string {
