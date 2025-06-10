@@ -10,6 +10,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script th:inline="javascript">
+        // Guardar el token en una variable global
+        window.token = /*[[${token}]]*/ '';
+
+        // Función para agregar el token a todas las URLs
+        function addTokenToLinks() {
+            document.querySelectorAll('a').forEach(link => {
+                if (link.href && !link.href.includes('token=')) {
+                    const separator = link.href.includes('?') ? '&' : '?';
+                    link.href = link.href + separator + 'token=' + window.token;
+                }
+            });
+        }
+
+        // Ejecutar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', addTokenToLinks);
+    </script>
 </head>
 
 <body>

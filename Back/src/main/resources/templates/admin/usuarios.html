@@ -358,10 +358,12 @@
                 buttonsStyling: true
             }).then((result) => {
                 if (result.isConfirmed) {
+                    const token = localStorage.getItem('token');
                     fetch(`/admin/usuarios/eliminar/${userId}`, {
                         method: 'DELETE',
                         headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Authorization': `Bearer ${token}`
                         }
                     })
                         .then(response => {
@@ -389,7 +391,8 @@
                                             return fetch(`/admin/usuarios/eliminar-con-reservas/${userId}`, {
                                                 method: 'DELETE',
                                                 headers: {
-                                                    'X-Requested-With': 'XMLHttpRequest'
+                                                    'X-Requested-With': 'XMLHttpRequest',
+                                                    'Authorization': `Bearer ${token}`
                                                 }
                                             });
                                         }

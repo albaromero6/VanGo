@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/marcas/**").permitAll()
                         .requestMatchers("/api/modelos/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
 
                         // Swagger UI endpoints
                         .requestMatchers("/swagger-ui/**").permitAll()
@@ -54,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/webjars/**").permitAll()
 
                         // Vista de administración
-                        .requestMatchers("/admin", "/admin/**").authenticated()
+                        .requestMatchers("/admin", "/admin/**").hasRole("ADMINISTRADOR")
 
                         // Endpoints de clientes (accesibles solo a sus propios datos)
                         .requestMatchers("/api/usuarios/perfil", "/api/usuarios/perfil/**")

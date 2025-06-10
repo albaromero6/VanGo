@@ -20,56 +20,56 @@
             <nav>
                 <ul class="nav-menu">
                     <li class="nav-item">
-                        <a th:href="@{/admin/panel}" class="nav-link"
+                        <a th:href="@{/admin/panel( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/panel' ? 'active' : ''}">
                             <img src="/img/Inicio.png" alt="Inicio">
                             Inicio
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/usuarios}" class="nav-link"
+                        <a th:href="@{/admin/usuarios( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/usuarios' ? 'active' : ''}">
                             <img src="/img/Usuarios.png" alt="Usuarios">
                             Usuarios
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/marcas}" class="nav-link"
+                        <a th:href="@{/admin/marcas( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/marcas' ? 'active' : ''}">
                             <img src="/img/Marcas.png" alt="Marcas">
                             Marcas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/modelos}" class="nav-link"
+                        <a th:href="@{/admin/modelos( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/modelos' ? 'active' : ''}">
                             <img src="/img/Modelos.png" alt="Modelos">
                             Modelos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/sedes}" class="nav-link"
+                        <a th:href="@{/admin/sedes( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/sedes' ? 'active' : ''}">
                             <img src="/img/Sedes.png" alt="Sedes">
                             Sedes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/rutas}" class="nav-link"
+                        <a th:href="@{/admin/rutas( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/rutas' ? 'active' : ''}">
                             <img src="/img/Rutas.png" alt="Rutas">
                             Rutas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/reservas}" class="nav-link"
+                        <a th:href="@{/admin/reservas( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/reservas' ? 'active' : ''}">
                             <img src="/img/Reservas.png" alt="Reservas">
                             Reservas
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:href="@{/admin/resenas}" class="nav-link"
+                        <a th:href="@{/admin/resenas( token=${token} )}" class="nav-link"
                             th:classappend="${currentUrl == '/admin/resenas' ? 'active' : ''}">
                             <img src="/img/Reseñas.png" alt="Reseñas">
                             Reseñas

@@ -45,16 +45,20 @@ public class AdminViewController {
     }
 
     @GetMapping("/panel")
-    public String adminPanel(Model model, HttpServletRequest request) {
+    public String adminPanel(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/panel";
     }
 
     @GetMapping("/usuarios")
-    public String usuarios(Model model, HttpServletRequest request) {
+    public String usuarios(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         List<Usuario> usuarios = usuarioService.findAll();
@@ -62,138 +66,118 @@ public class AdminViewController {
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("usuarios", usuarios);
+        model.addAttribute("token", token);
         return "admin/usuarios";
     }
 
     @GetMapping("/marcas")
-    public String marcas(Model model, HttpServletRequest request) {
+    public String marcas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/marcas";
     }
 
     @GetMapping("/modelos")
-    public String modelos(Model model, HttpServletRequest request) {
+    public String modelos(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/modelos";
     }
 
     @GetMapping("/vehiculos")
-    public String vehiculos(Model model, HttpServletRequest request) {
+    public String vehiculos(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/vehiculos";
     }
 
     @GetMapping("/sedes")
-    public String sedes(Model model, HttpServletRequest request) {
+    public String sedes(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/sedes";
     }
 
     @GetMapping("/rutas")
-    public String rutas(Model model, HttpServletRequest request) {
+    public String rutas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/rutas";
     }
 
     @GetMapping("/reservas")
-    public String reservas(Model model, HttpServletRequest request) {
+    public String reservas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/reservas";
     }
 
     @GetMapping("/resenas")
-    public String resenas(Model model, HttpServletRequest request) {
+    public String resenas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/resenas";
     }
 
     @GetMapping("/conductores")
-    public String conductores(Model model, HttpServletRequest request) {
+    public String conductores(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/conductores";
     }
 
     @GetMapping("/incidencias")
-    public String incidencias(Model model, HttpServletRequest request) {
+    public String incidencias(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/incidencias";
     }
 
     @GetMapping("/estadisticas")
-    public String estadisticas(Model model, HttpServletRequest request) {
+    public String estadisticas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/estadisticas";
     }
 
     @GetMapping("/configuracion")
-    public String configuracion(Model model, HttpServletRequest request) {
+    public String configuracion(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/configuracion";
-    }
-
-    @GetMapping("/admin")
-    public String adminPanel(@RequestParam(required = false) String token,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Model model) throws IOException {
-        logger.debug("Accediendo a /admin con token: {}", token != null ? "presente" : "ausente");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.debug("Autenticación actual: {}", auth != null ? auth.getName() : "null");
-
-        if (token != null && !token.isEmpty()) {
-            response.addHeader("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; SameSite=Strict");
-            response.sendRedirect("/admin");
-            return null;
-        }
-
-        if (auth != null && auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"))) {
-
-            Usuario usuario = usuarioService.findByEmail(auth.getName())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-            String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
-            model.addAttribute("nombreCompleto", nombreCompleto);
-            return "admin/panel";
-        }
-
-        logger.warn("Acceso denegado a /admin");
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Acceso denegado");
-        return null;
     }
 
     @PostMapping("/usuarios/crear")
