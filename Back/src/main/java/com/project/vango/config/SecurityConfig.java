@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
+        System.out.println("SecurityConfig cargado");
     }
 
     @Bean
