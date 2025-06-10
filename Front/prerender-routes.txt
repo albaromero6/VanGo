@@ -1,0 +1,8 @@
+/
+/catalogo
+/eligenos
+/rutas
+/contacto
+/ubicacion
+/login
+/registro 

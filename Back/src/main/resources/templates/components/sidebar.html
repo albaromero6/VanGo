@@ -84,8 +84,22 @@
                     </li>
                 </ul>
             </nav>
+            <div class="sidebar-footer">
+                <a href="http://localhost:4200/profile" class="nav-link back-button">
+                    <img src="/img/Volver.png" alt="Volver">
+                    Volver
+                </a>
+            </div>
         </aside>
     </div>
+    <script>
+        function redirectToFrontend() {
+            // Guardar el token actual si existe
+            const token = localStorage.getItem('token');
+            // Redirigir al frontend con el token
+            window.location.href = 'http://localhost:4200/profile?token=' + token;
+        }
+    </script>
 </body>
 
 </html>

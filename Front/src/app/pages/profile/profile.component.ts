@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { ProfileService, ProfileData } from '../../services/profile.service';
@@ -120,6 +120,7 @@ export class ProfileComponent implements OnInit {
   fieldErrors: { [key: string]: string | null } = {};
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private profileService: ProfileService,
     private router: Router,
     private authService: AuthService,
@@ -609,9 +610,11 @@ export class ProfileComponent implements OnInit {
   }
 
   navigateToAdminPanel(): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      window.location.href = `${environment.apiUrl.replace('/api', '')}/admin?token=${token}`;
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        window.location.href = `${environment.apiUrl.replace('/api', '')}/admin?token=${token}`;
+      }
     }
   }
 }

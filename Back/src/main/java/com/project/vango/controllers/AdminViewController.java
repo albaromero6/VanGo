@@ -19,6 +19,7 @@ import com.project.vango.models.Usuario;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/admin")
@@ -200,5 +201,17 @@ public class AdminViewController {
             redirectAttributes.addFlashAttribute("error", "Error al crear el usuario: " + e.getMessage());
         }
         return "redirect:/admin/usuarios";
+    }
+
+    @GetMapping("/redirect-to-frontend")
+    public RedirectView redirectToFrontend(HttpServletRequest request) {
+        RedirectView redirectView = new RedirectView();
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        redirectView.setUrl("http://localhost:4200/profile?token=" + token);
+        redirectView.setExposeModelAttributes(false);
+        return redirectView;
     }
 }
