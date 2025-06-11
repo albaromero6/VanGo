@@ -11,43 +11,43 @@
 
         <form class="registro-form" (ngSubmit)="onSubmit()">
             <div class="form-group">
+                <span class="error-message" *ngIf="fieldErrors['nombre']">{{ fieldErrors['nombre'] }}</span>
                 <input type="text" id="nombre" [(ngModel)]="formData.nombre" name="nombre" placeholder="Nombre" required
                     [ngClass]="{'error': fieldErrors['nombre']}">
-                <span class="error-message" *ngIf="fieldErrors['nombre']">{{ fieldErrors['nombre'] }}</span>
             </div>
 
             <div class="form-group">
+                <span class="error-message" *ngIf="fieldErrors['apellido']">{{ fieldErrors['apellido'] }}</span>
                 <input type="text" id="apellido" [(ngModel)]="formData.apellido" name="apellido" placeholder="Apellido"
                     required [ngClass]="{'error': fieldErrors['apellido']}">
-                <span class="error-message" *ngIf="fieldErrors['apellido']">{{ fieldErrors['apellido'] }}</span>
             </div>
 
             <div class="form-group">
+                <span class="error-message" *ngIf="fieldErrors['dni']">{{ fieldErrors['dni'] }}</span>
                 <input type="text" id="dni" [(ngModel)]="formData.dni" name="dni" placeholder="DNI" required
                     (blur)="validateFieldOnBlur('dni')" (input)="fieldErrors['dni'] = null"
                     [ngClass]="{'error': fieldErrors['dni']}">
-                <span class="error-message" *ngIf="fieldErrors['dni']">{{ fieldErrors['dni'] }}</span>
             </div>
 
             <div class="form-group">
+                <span class="error-message" *ngIf="fieldErrors['telefono']">{{ fieldErrors['telefono'] }}</span>
                 <input type="tel" id="telefono" [(ngModel)]="formData.telefono" name="telefono" placeholder="Teléfono"
                     required [ngClass]="{'error': fieldErrors['telefono']}">
-                <span class="error-message" *ngIf="fieldErrors['telefono']">{{ fieldErrors['telefono'] }}</span>
             </div>
 
             <div class="form-group">
+                <span class="error-message" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</span>
                 <input type="email" id="email" [(ngModel)]="formData.email" name="email" placeholder="Email" required
                     [ngClass]="{'error': fieldErrors['email']}" (blur)="validateFieldOnBlur('email')">
-                <span class="error-message" *ngIf="fieldErrors['email']">{{ fieldErrors['email'] }}</span>
             </div>
 
             <div class="form-group password-group">
+                <span class="error-message" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</span>
                 <input [type]="showPassword ? 'text' : 'password'" id="password" [(ngModel)]="formData.password"
                     name="password" placeholder="Contraseña" required [ngClass]="{'error': fieldErrors['password']}">
                 <button type="button" class="toggle-password" (click)="togglePassword()">
                     <i class="fas" [class.fa-eye]="!showPassword" [class.fa-eye-slash]="showPassword"></i>
                 </button>
-                <span class="error-message" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</span>
             </div>
 
             <div class="form-check">

@@ -4,6 +4,8 @@ import com.project.vango.models.Reserva;
 import com.project.vango.models.Usuario;
 import com.project.vango.repositories.ReservaRepository;
 import com.project.vango.repositories.ReseniaRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.Optional;
 @Service
 public class ReservaService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ReservaService.class);
+
     @Autowired
     private ReservaRepository reservaRepository;
 
@@ -22,19 +26,63 @@ public class ReservaService {
     private ReseniaRepository reseniaRepository;
 
     public List<Reserva> findAll() {
-        List<Reserva> reservas = reservaRepository.findAll();
-        actualizarEstadosReservas(reservas);
-        return reservas;
+        try {
+            logger.info("Obteniendo todas las reservas");
+            List<Reserva> reservas = reservaRepository.findAll();
+            logger.info("Reservas encontradas: {}", reservas.size());
+
+            // Actualizar estados y cargar relaciones
+            for (Reserva reserva : reservas) {
+                try {
+                    actualizarEstadoReserva(reserva);
+                    // Asegurarse de que las relaciones estén cargadas
+                    if (reserva.getUsuario() != null) {
+                        logger.debug("Usuario cargado para reserva {}: {}", reserva.getIdReser(),
+                                reserva.getUsuario().getEmail());
+                    }
+                    if (reserva.getVehiculo() != null && reserva.getVehiculo().getModelo() != null) {
+                        logger.debug("Vehículo cargado para reserva {}: {}", reserva.getIdReser(),
+                                reserva.getVehiculo().getIdVeh());
+                        logger.debug("Modelo cargado para vehículo {}: {}", reserva.getVehiculo().getIdVeh(),
+                                reserva.getVehiculo().getModelo().getNombre());
+                        if (reserva.getVehiculo().getModelo().getMarca() != null) {
+                            logger.debug("Marca cargada para modelo {}: {}",
+                                    reserva.getVehiculo().getModelo().getIdMod(),
+                                    reserva.getVehiculo().getModelo().getMarca().getNombre());
+                        }
+                    }
+                    if (reserva.getIdSed_Salid() != null) {
+                        logger.debug("Sede salida cargada para reserva {}: {}", reserva.getIdReser(),
+                                reserva.getIdSed_Salid().getCiudad());
+                    }
+                    if (reserva.getIdSed_Lleg() != null) {
+                        logger.debug("Sede llegada cargada para reserva {}: {}", reserva.getIdReser(),
+                                reserva.getIdSed_Lleg().getCiudad());
+                    }
+                } catch (Exception e) {
+                    logger.error("Error al procesar reserva {}: {}", reserva.getIdReser(), e.getMessage());
+                }
+            }
+            return reservas;
+        } catch (Exception e) {
+            logger.error("Error al obtener todas las reservas: ", e);
+            throw new RuntimeException("Error al obtener las reservas: " + e.getMessage());
+        }
     }
 
     public Optional<Reserva> findById(Integer id) {
-        Optional<Reserva> reservaOpt = reservaRepository.findById(id);
-        if (reservaOpt.isPresent()) {
-            Reserva reserva = reservaOpt.get();
-            actualizarEstadoReserva(reserva);
-            reservaRepository.save(reserva);
+        try {
+            Optional<Reserva> reservaOpt = reservaRepository.findById(id);
+            if (reservaOpt.isPresent()) {
+                Reserva reserva = reservaOpt.get();
+                actualizarEstadoReserva(reserva);
+                reservaRepository.save(reserva);
+            }
+            return reservaOpt;
+        } catch (Exception e) {
+            logger.error("Error al obtener la reserva con ID {}: ", id, e);
+            throw new RuntimeException("Error al obtener la reserva: " + e.getMessage());
         }
-        return reservaOpt;
     }
 
     public List<Reserva> findByUsuario(Usuario usuario) {
@@ -46,8 +94,18 @@ public class ReservaService {
         return reservaRepository.save(reserva);
     }
 
+    @Transactional
     public void deleteById(Integer id) {
-        reservaRepository.deleteById(id);
+        try {
+            // Primero eliminamos las reseñas asociadas a la reserva
+            reseniaRepository.deleteByReservaId(id);
+            // Luego eliminamos la reserva
+            reservaRepository.deleteById(id);
+            logger.info("Reserva {} eliminada exitosamente", id);
+        } catch (Exception e) {
+            logger.error("Error al eliminar la reserva {}: {}", id, e.getMessage());
+            throw new RuntimeException("Error al eliminar la reserva: " + e.getMessage());
+        }
     }
 
     @Transactional
@@ -71,34 +129,23 @@ public class ReservaService {
         }
     }
 
-    private void actualizarEstadosReservas(List<Reserva> reservas) {
-        boolean hayCambios = false;
-        for (Reserva reserva : reservas) {
-            Reserva.Estado estadoAnterior = reserva.getEstado();
-            actualizarEstadoReserva(reserva);
-            if (estadoAnterior != reserva.getEstado()) {
-                hayCambios = true;
-            }
-        }
-        if (hayCambios) {
-            reservaRepository.saveAll(reservas);
-        }
-    }
-
     private void actualizarEstadoReserva(Reserva reserva) {
-        LocalDate fechaActual = LocalDate.now();
-        LocalDate fechaInicio = reserva.getInicio();
-        LocalDate fechaFin = reserva.getFin();
+        try {
+            LocalDate fechaActual = LocalDate.now();
+            LocalDate fechaInicio = reserva.getInicio();
+            LocalDate fechaFin = reserva.getFin();
 
-        if (fechaActual.isAfter(fechaFin)) {
-            // Si la fecha actual es posterior a la fecha de fin, la reserva está finalizada
-            reserva.setEstado(Reserva.Estado.FINALIZADA);
-        } else if (fechaActual.isAfter(fechaInicio) || fechaActual.isEqual(fechaInicio)) {
-            // Si la fecha actual está entre la fecha de inicio y fin, la reserva está en curso
-            reserva.setEstado(Reserva.Estado.CURSO);
-        } else {
-            // Si la fecha actual es anterior a la fecha de inicio, la reserva está reservada
-            reserva.setEstado(Reserva.Estado.RESERVADA);
+            if (fechaActual.isAfter(fechaFin)) {
+                reserva.setEstado(Reserva.Estado.FINALIZADA);
+            } else if (fechaActual.isAfter(fechaInicio) || fechaActual.isEqual(fechaInicio)) {
+                reserva.setEstado(Reserva.Estado.CURSO);
+            } else {
+                reserva.setEstado(Reserva.Estado.RESERVADA);
+            }
+            logger.debug("Estado actualizado para reserva {}: {}", reserva.getIdReser(), reserva.getEstado());
+        } catch (Exception e) {
+            logger.error("Error al actualizar el estado de la reserva {}: {}", reserva.getIdReser(), e.getMessage());
+            throw new RuntimeException("Error al actualizar el estado de la reserva: " + e.getMessage());
         }
     }
 

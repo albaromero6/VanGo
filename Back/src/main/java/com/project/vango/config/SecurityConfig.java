@@ -43,10 +43,12 @@ public class SecurityConfig {
                         .requestMatchers("/catalogo").permitAll()
                         .requestMatchers("/api/sedes/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/admin/sedes/imagen/**").permitAll()
                         .requestMatchers("/api/vehiculos/**").permitAll()
                         .requestMatchers("/api/marcas/**").permitAll()
                         .requestMatchers("/api/modelos/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/img/**", "/favicon.ico").permitAll()
 
                         // Swagger UI endpoints
                         .requestMatchers("/swagger-ui/**").permitAll()
@@ -57,7 +59,7 @@ public class SecurityConfig {
                         .requestMatchers("/webjars/**").permitAll()
 
                         // Vista de administración
-                        .requestMatchers("/admin", "/admin/**").authenticated()
+                        .requestMatchers("/admin", "/admin/**").hasRole("ADMINISTRADOR")
 
                         // Endpoints de clientes (accesibles solo a sus propios datos)
                         .requestMatchers("/api/usuarios/perfil", "/api/usuarios/perfil/**")
@@ -85,12 +87,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:8080"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(
-                Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept-Language"));
+                Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept-Language", "X-XSRF-TOKEN"));
         configuration.setAllowCredentials(true);
-        configuration.setExposedHeaders(Arrays.asList("Authorization"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization", "X-XSRF-TOKEN"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

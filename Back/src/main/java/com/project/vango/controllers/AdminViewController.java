@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.project.vango.services.UsuarioService;
@@ -19,7 +17,31 @@ import com.project.vango.models.Usuario;
 import java.util.List;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.dao.DataIntegrityViolationException;
+import com.project.vango.services.MarcaService;
+import com.project.vango.services.ModeloService;
+import com.project.vango.models.Sede;
+import com.project.vango.services.SedeService;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+import java.io.IOException;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.project.vango.services.ReservaService;
+import com.project.vango.models.Reserva;
+import com.project.vango.services.VehiculoService;
+import com.project.vango.models.Vehiculo;
+import com.project.vango.services.ReseniaService;
+import com.project.vango.models.Resenia;
 import org.springframework.web.servlet.view.RedirectView;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -28,6 +50,18 @@ public class AdminViewController {
     private static final Logger logger = LoggerFactory.getLogger(AdminViewController.class);
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private MarcaService marcaService;
+    @Autowired
+    private ModeloService modeloService;
+    @Autowired
+    private SedeService sedeService;
+    @Autowired
+    private ReservaService reservaService;
+    @Autowired
+    private VehiculoService vehiculoService;
+    @Autowired
+    private ReseniaService reseniaService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -41,16 +75,20 @@ public class AdminViewController {
     }
 
     @GetMapping("/panel")
-    public String adminPanel(Model model, HttpServletRequest request) {
+    public String adminPanel(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/panel";
     }
 
     @GetMapping("/usuarios")
-    public String usuarios(Model model, HttpServletRequest request) {
+    public String usuarios(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         List<Usuario> usuarios = usuarioService.findAll();
@@ -58,138 +96,167 @@ public class AdminViewController {
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("usuarios", usuarios);
+        model.addAttribute("token", token);
         return "admin/usuarios";
     }
 
     @GetMapping("/marcas")
-    public String marcas(Model model, HttpServletRequest request) {
+    public String marcas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<com.project.vango.models.Marca> marcas = marcaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
+        model.addAttribute("marcas", marcas);
         return "admin/marcas";
     }
 
     @GetMapping("/modelos")
-    public String modelos(Model model, HttpServletRequest request) {
+    public String modelos(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<com.project.vango.models.Modelo> modelos = modeloService.findAll();
+        List<com.project.vango.models.Marca> marcas = marcaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
+        model.addAttribute("modelos", modelos);
+        model.addAttribute("marcas", marcas);
         return "admin/modelos";
     }
 
     @GetMapping("/vehiculos")
-    public String vehiculos(Model model, HttpServletRequest request) {
+    public String vehiculos(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/vehiculos";
     }
 
     @GetMapping("/sedes")
-    public String sedes(Model model, HttpServletRequest request) {
+    public String sedes(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<Sede> sedes = sedeService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
+        model.addAttribute("sedes", sedes);
         return "admin/sedes";
     }
 
     @GetMapping("/rutas")
-    public String rutas(Model model, HttpServletRequest request) {
+    public String rutas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/rutas";
     }
 
     @GetMapping("/reservas")
-    public String reservas(Model model, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        model.addAttribute("nombreCompleto", getNombreCompleto(email));
-        model.addAttribute("currentUrl", request.getRequestURI());
-        return "admin/reservas";
+    public String reservas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        try {
+            if (token == null || token.isEmpty()) {
+                return "redirect:/login";
+            }
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = auth.getName();
+
+            logger.info("Obteniendo reservas para el usuario: {}", email);
+            List<Reserva> reservas = reservaService.findAll();
+            logger.info("Número de reservas encontradas: {}", reservas.size());
+
+            List<Sede> sedes = sedeService.findAll();
+            logger.info("Número de sedes encontradas: {}", sedes.size());
+
+            List<Usuario> usuarios = usuarioService.findAll();
+            logger.info("Número de usuarios encontrados: {}", usuarios.size());
+
+            List<Vehiculo> vehiculos = vehiculoService.findAll();
+            logger.info("Número de vehículos encontrados: {}", vehiculos.size());
+
+            model.addAttribute("nombreCompleto", getNombreCompleto(email));
+            model.addAttribute("currentUrl", request.getRequestURI());
+            model.addAttribute("token", token);
+            model.addAttribute("reservas", reservas);
+            model.addAttribute("sedes", sedes);
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("vehiculos", vehiculos);
+            return "admin/reservas";
+        } catch (Exception e) {
+            logger.error("Error al cargar la página de reservas: ", e);
+            return "redirect:/error?message=" + e.getMessage();
+        }
     }
 
     @GetMapping("/resenas")
-    public String resenas(Model model, HttpServletRequest request) {
+    public String resenas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<Resenia> resenas = reseniaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
-        return "admin/resenas";
+        model.addAttribute("token", token);
+        model.addAttribute("resenas", resenas);
+        return "admin/resenias";
     }
 
     @GetMapping("/conductores")
-    public String conductores(Model model, HttpServletRequest request) {
+    public String conductores(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/conductores";
     }
 
     @GetMapping("/incidencias")
-    public String incidencias(Model model, HttpServletRequest request) {
+    public String incidencias(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/incidencias";
     }
 
     @GetMapping("/estadisticas")
-    public String estadisticas(Model model, HttpServletRequest request) {
+    public String estadisticas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/estadisticas";
     }
 
     @GetMapping("/configuracion")
-    public String configuracion(Model model, HttpServletRequest request) {
+    public String configuracion(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
+        model.addAttribute("token", token);
         return "admin/configuracion";
-    }
-
-    @GetMapping("/admin")
-    public String adminPanel(@RequestParam(required = false) String token,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Model model) throws IOException {
-        logger.debug("Accediendo a /admin con token: {}", token != null ? "presente" : "ausente");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.debug("Autenticación actual: {}", auth != null ? auth.getName() : "null");
-
-        if (token != null && !token.isEmpty()) {
-            response.addHeader("Set-Cookie", "token=" + token + "; Path=/; HttpOnly; SameSite=Strict");
-            response.sendRedirect("/admin");
-            return null;
-        }
-
-        if (auth != null && auth.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"))) {
-
-            Usuario usuario = usuarioService.findByEmail(auth.getName())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-            String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
-            model.addAttribute("nombreCompleto", nombreCompleto);
-            return "admin/panel";
-        }
-
-        logger.warn("Acceso denegado a /admin");
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Acceso denegado");
-        return null;
     }
 
     @PostMapping("/usuarios/crear")
@@ -201,6 +268,176 @@ public class AdminViewController {
             redirectAttributes.addFlashAttribute("error", "Error al crear el usuario: " + e.getMessage());
         }
         return "redirect:/admin/usuarios";
+    }
+
+    @DeleteMapping("/usuarios/eliminar/{id}")
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Integer id) {
+        try {
+            usuarioService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @DeleteMapping("/usuarios/eliminar-con-reservas/{id}")
+    public ResponseEntity<Void> eliminarUsuarioConReservas(@PathVariable Integer id) {
+        try {
+            usuarioService.deleteUsuarioConReservas(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @PostMapping("/sedes/crear")
+    public String crearSede(@RequestParam("direccion") String direccion,
+            @RequestParam("ciudad") String ciudad,
+            @RequestParam("telefono") String telefono,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+            @RequestParam(required = false) String token,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Sede sede = new Sede();
+            sede.setDireccion(direccion);
+            sede.setCiudad(ciudad);
+            sede.setTelefono(telefono);
+
+            if (imagen != null && !imagen.isEmpty()) {
+                // Crear el directorio si no existe
+                Path uploadDir = Paths.get("uploads/sedes");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                // Validar el tipo de archivo
+                String contentType = imagen.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    throw new IllegalArgumentException("El archivo debe ser una imagen");
+                }
+
+                // Generar nombre único para el archivo
+                String originalFilename = imagen.getOriginalFilename();
+                if (originalFilename == null) {
+                    throw new IllegalArgumentException("El nombre del archivo no puede ser nulo");
+                }
+
+                String filename = UUID.randomUUID().toString() + "_" + originalFilename;
+                Path filePath = uploadDir.resolve(filename);
+
+                // Guardar el archivo
+                Files.copy(imagen.getInputStream(), filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+                // Guardar el nombre del archivo en la sede
+                sede.setImagen(filename);
+            }
+
+            sedeService.save(sede);
+            redirectAttributes.addFlashAttribute("success", "Sede creada exitosamente");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al crear la sede: " + e.getMessage());
+        }
+        return "redirect:/admin/sedes?token=" + token;
+    }
+
+    @DeleteMapping("/sedes/eliminar/{id}")
+    public ResponseEntity<Void> eliminarSede(@PathVariable Integer id) {
+        try {
+            sedeService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/sedes/imagen/{filename}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImagen(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get("uploads/sedes").resolve(filename);
+            if (!Files.exists(filePath)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "image/jpeg";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/sedes/editar/{id}")
+    public String editarSede(@PathVariable Integer id,
+            @RequestParam("direccion") String direccion,
+            @RequestParam("ciudad") String ciudad,
+            @RequestParam("telefono") String telefono,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+            @RequestParam(required = false) String token,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Sede sede = sedeService.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Sede no encontrada"));
+
+            sede.setDireccion(direccion);
+            sede.setCiudad(ciudad);
+            sede.setTelefono(telefono);
+
+            if (imagen != null && !imagen.isEmpty()) {
+                // Crear el directorio si no existe
+                Path uploadDir = Paths.get("uploads/sedes");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                // Validar el tipo de archivo
+                String contentType = imagen.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    throw new IllegalArgumentException("El archivo debe ser una imagen");
+                }
+
+                // Generar nombre único para el archivo
+                String originalFilename = imagen.getOriginalFilename();
+                if (originalFilename == null) {
+                    throw new IllegalArgumentException("El nombre del archivo no puede ser nulo");
+                }
+
+                String filename = UUID.randomUUID().toString() + "_" + originalFilename;
+                Path filePath = uploadDir.resolve(filename);
+
+                // Guardar el archivo
+                Files.copy(imagen.getInputStream(), filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+                // Eliminar la imagen anterior si existe
+                if (sede.getImagen() != null) {
+                    Path oldFilePath = uploadDir.resolve(sede.getImagen());
+                    Files.deleteIfExists(oldFilePath);
+                }
+
+                // Guardar el nombre del archivo en la sede
+                sede.setImagen(filename);
+            }
+
+            sedeService.save(sede);
+            redirectAttributes.addFlashAttribute("success", "Sede actualizada exitosamente");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar la sede: " + e.getMessage());
+        }
+        return "redirect:/admin/sedes?token=" + token;
     }
 
     @GetMapping("/redirect-to-frontend")
