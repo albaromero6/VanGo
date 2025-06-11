@@ -11,6 +11,131 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .reservas-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .reservas-cards {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reserva-card {
+            background: #afd7d66a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+            border-bottom: 1px solid #0a637230;
+        }
+
+        .reserva-card:hover {
+            transform: translateY(-2px);
+            background: #afd7d6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .reserva-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0a637230;
+            padding-bottom: 10px;
+        }
+
+        .reserva-card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0c5661;
+        }
+
+        .reserva-card-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        .reserva-card-field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+        }
+
+        .reserva-card-label {
+            font-weight: 500;
+            color: #0c5661;
+        }
+
+        .reserva-card-value {
+            color: #444;
+        }
+
+        .reserva-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .reserva-card-status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .status-PENDIENTE {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .status-CONFIRMADA {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .status-CANCELADA {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .status-FINALIZADA {
+            background-color: #6c757d;
+            color: #fff;
+        }
+
+        @media (max-width: 1460px) {
+            .reservas-container table {
+                display: none;
+            }
+
+            .reservas-cards {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (min-width: 1461px) {
+            .reservas-cards {
+                display: none;
+            }
+
+            .reservas-container table {
+                display: table;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,7 +155,8 @@
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <div class="table-container">
+
+        <div class="reservas-container">
             <table>
                 <thead>
                     <tr>
@@ -69,6 +195,64 @@
                     </tr>
                 </tbody>
             </table>
+
+            <div class="reservas-cards">
+                <div th:each="reserva : ${reservas}" class="reserva-card" th:attr="data-reserva-id=${reserva.idReser}">
+                    <div class="reserva-card-header">
+                        <div class="reserva-card-title"
+                            th:text="${reserva.usuario.nombre + ' ' + reserva.usuario.apellido}"></div>
+                        <div class="reserva-card-actions">
+                            <button class="btn btn-edit" th:onclick="'editReserva(' + ${reserva.idReser} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteReserva(' + ${reserva.idReser} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="reserva-card-content">
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">ID:</span>
+                            <span class="reserva-card-value" th:text="${reserva.idReser}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Vehículo:</span>
+                            <span class="reserva-card-value"
+                                th:text="${reserva.vehiculo.modelo.marca.nombre + ' ' + reserva.vehiculo.modelo.nombre}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Salida:</span>
+                            <span class="reserva-card-value" th:text="${reserva.idSed_Salid.ciudad}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Llegada:</span>
+                            <span class="reserva-card-value" th:text="${reserva.idSed_Lleg.ciudad}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Inicio:</span>
+                            <span class="reserva-card-value"
+                                th:text="${#temporals.format(reserva.inicio, 'dd/MM/yyyy')}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Fin:</span>
+                            <span class="reserva-card-value"
+                                th:text="${#temporals.format(reserva.fin, 'dd/MM/yyyy')}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Total:</span>
+                            <span class="reserva-card-value"
+                                th:text="${#numbers.formatInteger(reserva.total, 1, 'POINT') + ' €'}"></span>
+                        </div>
+                        <div class="reserva-card-field">
+                            <span class="reserva-card-label">Estado:</span>
+                            <span class="reserva-card-value">
+                                <span th:class="${'reserva-card-status status-' + reserva.estado}"
+                                    th:text="${reserva.estado}"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="createReservaForm" class="create-form" style="display: none;">
@@ -538,116 +722,6 @@
             };
         }
     </script>
-
-    <style>
-        .table-header {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-
-        .btn-create {
-            background-color: #0c5661;
-            color: white;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 18px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #afd7d66a;
-            border-radius: 8px;
-            overflow: hidden;
-            font-size: 14px;
-            margin-top: 0;
-        }
-
-        table thead {
-            background: #0c5661;
-            color: white;
-        }
-
-        table th,
-        table td {
-            padding-top: 12px;
-            padding-bottom: 4px;
-            padding-left: 8px;
-            padding-right: 8px;
-            height: 28px;
-            text-align: left;
-            border-bottom: 1px solid #0a637230;
-        }
-
-        table tbody tr {
-            background: #afd7d66a;
-        }
-
-        table tbody tr:hover {
-            background: #afd7d6;
-        }
-
-        table tr {
-            min-height: 24px;
-        }
-
-        table th:last-child,
-        table td:last-child {
-            width: 80px;
-            min-width: 80px;
-            max-width: 80px;
-            text-align: center;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-        }
-
-        .actions {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-            justify-content: center;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-        }
-
-        .btn-edit,
-        .btn-delete {
-            padding: 2px 6px;
-            font-size: 14px;
-            height: 24px;
-            min-width: 24px;
-            line-height: 1;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 2px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-edit {
-            background-color: #0c5661;
-            color: white;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-            color: white;
-        }
-    </style>
 </body>
 
 </html>

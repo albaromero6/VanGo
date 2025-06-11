@@ -11,6 +11,103 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .users-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .users-cards {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .user-card {
+            background: #afd7d66a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+            border-bottom: 1px solid #0a637230;
+        }
+
+        .user-card:hover {
+            transform: translateY(-2px);
+            background: #afd7d6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .user-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0a637230;
+            padding-bottom: 10px;
+        }
+
+        .user-card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0c5661;
+        }
+
+        .user-card-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        .user-card-field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+        }
+
+        .user-card-label {
+            font-weight: 500;
+            color: #0c5661;
+        }
+
+        .user-card-value {
+            color: #444;
+        }
+
+        .user-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 1370px) {
+            .users-container table {
+                display: none;
+            }
+
+            .users-cards {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (min-width: 1371px) {
+            .users-cards {
+                display: none;
+            }
+
+            .users-container table {
+                display: table;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,43 +127,93 @@
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
-                    <th>DNI</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>Nacimiento</th>
-                    <th>Rol</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="usuario : ${usuarios}" th:attr="data-user-id=${usuario.idUsu}">
-                    <td th:text="${usuario.idUsu}"></td>
-                    <td th:text="${usuario.nombre}"></td>
-                    <td th:text="${usuario.apellido}"></td>
-                    <td th:text="${usuario.email}"></td>
-                    <td th:text="${usuario.dni}"></td>
-                    <td th:text="${usuario.telefono}"></td>
-                    <td th:text="${usuario.direccion}"></td>
-                    <td th:text="${#temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${usuario.rol}"></td>
-                    <td class="actions">
-                        <button class="btn btn-edit" th:onclick="'editUser(' + ${usuario.idUsu} + ')'">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-delete" th:onclick="'deleteUser(' + ${usuario.idUsu} + ')'">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="users-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Email</th>
+                        <th>DNI</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Nacimiento</th>
+                        <th>Rol</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}" th:attr="data-user-id=${usuario.idUsu}">
+                        <td th:text="${usuario.idUsu}"></td>
+                        <td th:text="${usuario.nombre}"></td>
+                        <td th:text="${usuario.apellido}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.dni}"></td>
+                        <td th:text="${usuario.telefono}"></td>
+                        <td th:text="${usuario.direccion}"></td>
+                        <td th:text="${#temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${usuario.rol}"></td>
+                        <td class="actions">
+                            <button class="btn btn-edit" th:onclick="'editUser(' + ${usuario.idUsu} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteUser(' + ${usuario.idUsu} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="users-cards">
+                <div th:each="usuario : ${usuarios}" class="user-card" th:attr="data-user-id=${usuario.idUsu}">
+                    <div class="user-card-header">
+                        <div class="user-card-title" th:text="${usuario.nombre + ' ' + usuario.apellido}"></div>
+                        <div class="user-card-actions">
+                            <button class="btn btn-edit" th:onclick="'editUser(' + ${usuario.idUsu} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteUser(' + ${usuario.idUsu} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="user-card-content">
+                        <div class="user-card-field">
+                            <span class="user-card-label">ID:</span>
+                            <span class="user-card-value" th:text="${usuario.idUsu}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">Email:</span>
+                            <span class="user-card-value" th:text="${usuario.email}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">DNI:</span>
+                            <span class="user-card-value" th:text="${usuario.dni}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">Teléfono:</span>
+                            <span class="user-card-value" th:text="${usuario.telefono}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">Dirección:</span>
+                            <span class="user-card-value" th:text="${usuario.direccion}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">Nacimiento:</span>
+                            <span class="user-card-value"
+                                th:text="${#temporals.format(usuario.fechaNacimiento, 'dd/MM/yyyy')}"></span>
+                        </div>
+                        <div class="user-card-field">
+                            <span class="user-card-label">Rol:</span>
+                            <span class="user-card-value" th:text="${usuario.rol}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="createUserForm" class="create-form" style="display: none;">
             <h2>Crear nuevo usuario</h2>

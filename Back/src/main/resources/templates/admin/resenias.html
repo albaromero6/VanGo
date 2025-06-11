@@ -11,6 +11,119 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .resenias-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .resenias-cards {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .resenia-card {
+            background: #afd7d66a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+            border-bottom: 1px solid #0a637230;
+        }
+
+        .resenia-card:hover {
+            transform: translateY(-2px);
+            background: #afd7d6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .resenia-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0a637230;
+            padding-bottom: 10px;
+        }
+
+        .resenia-card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0c5661;
+        }
+
+        .resenia-card-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        .resenia-card-field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+        }
+
+        .resenia-card-label {
+            font-weight: 500;
+            color: #0c5661;
+        }
+
+        .resenia-card-value {
+            color: #444;
+        }
+
+        .resenia-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .resenia-card-rating {
+            display: flex;
+            gap: 2px;
+            font-size: 1.2em;
+        }
+
+        .resenia-card-rating .star {
+            color: #222;
+        }
+
+        .resenia-card-comment {
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 1360px) {
+            .resenias-container table {
+                display: none;
+            }
+
+            .resenias-cards {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (min-width: 1361px) {
+            .resenias-cards {
+                display: none;
+            }
+
+            .resenias-container table {
+                display: table;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,42 +142,88 @@
             <!-- Botón de crear reseñas eliminado -->
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Usuario</th>
-                    <th>Vehículo</th>
-                    <th>Puntuación</th>
-                    <th>Comentario</th>
-                    <th>Fecha</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="resena : ${resenas}">
-                    <td th:text="${resena.idRese}"></td>
-                    <td th:text="${resena.reserva.usuario.nombre + ' ' + resena.reserva.usuario.apellido}"></td>
-                    <td
-                        th:text="${resena.reserva.vehiculo.modelo.nombre + ' ' + resena.reserva.vehiculo.modelo.marca.nombre}">
-                    </td>
-                    <td>
-                        <div class="rating">
-                            <span th:each="i : ${#numbers.sequence(1, 5)}"
-                                th:class="${i <= resena.puntuacion ? 'star filled' : 'star'}"
-                                th:text="${i <= resena.puntuacion ? '★' : '☆'}"></span>
+        <div class="resenias-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Vehículo</th>
+                        <th>Puntuación</th>
+                        <th>Comentario</th>
+                        <th>Fecha</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="resena : ${resenas}">
+                        <td th:text="${resena.idRese}"></td>
+                        <td th:text="${resena.reserva.usuario.nombre + ' ' + resena.reserva.usuario.apellido}"></td>
+                        <td
+                            th:text="${resena.reserva.vehiculo.modelo.nombre + ' ' + resena.reserva.vehiculo.modelo.marca.nombre}">
+                        </td>
+                        <td>
+                            <div class="rating">
+                                <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                    th:class="${i <= resena.puntuacion ? 'star filled' : 'star'}"
+                                    th:text="${i <= resena.puntuacion ? '★' : '☆'}"></span>
+                            </div>
+                        </td>
+                        <td th:text="${resena.comentario}"></td>
+                        <td th:text="${#temporals.format(resena.fecha, 'dd/MM/yyyy')}"></td>
+                        <td class="actions">
+                            <button class="btn btn-delete" th:onclick="'deleteResenia(' + ${resena.idRese} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="resenias-cards">
+                <div th:each="resena : ${resenas}" class="resenia-card">
+                    <div class="resenia-card-header">
+                        <div class="resenia-card-title"
+                            th:text="${resena.reserva.usuario.nombre + ' ' + resena.reserva.usuario.apellido}"></div>
+                        <div class="resenia-card-actions">
+                            <button class="btn btn-delete" th:onclick="'deleteResenia(' + ${resena.idRese} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </div>
-                    </td>
-                    <td th:text="${resena.comentario}"></td>
-                    <td th:text="${#temporals.format(resena.fecha, 'dd/MM/yyyy')}"></td>
-                    <td class="actions">
-                        <button class="btn btn-delete" th:onclick="'deleteResenia(' + ${resena.idRese} + ')'">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    </div>
+                    <div class="resenia-card-content">
+                        <div class="resenia-card-field">
+                            <span class="resenia-card-label">ID:</span>
+                            <span class="resenia-card-value" th:text="${resena.idRese}"></span>
+                        </div>
+                        <div class="resenia-card-field">
+                            <span class="resenia-card-label">Vehículo:</span>
+                            <span class="resenia-card-value"
+                                th:text="${resena.reserva.vehiculo.modelo.nombre + ' ' + resena.reserva.vehiculo.modelo.marca.nombre}"></span>
+                        </div>
+                        <div class="resenia-card-field">
+                            <span class="resenia-card-label">Puntuación:</span>
+                            <div class="resenia-card-value">
+                                <div class="resenia-card-rating">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                        th:class="${i <= resena.puntuacion ? 'star' : ''}"
+                                        th:text="${i <= resena.puntuacion ? '★' : '☆'}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="resenia-card-field">
+                            <span class="resenia-card-label">Comentario:</span>
+                            <span class="resenia-card-value" th:text="${resena.comentario}"></span>
+                        </div>
+                        <div class="resenia-card-field">
+                            <span class="resenia-card-label">Fecha:</span>
+                            <span class="resenia-card-value"
+                                th:text="${#temporals.format(resena.fecha, 'dd/MM/yyyy')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>

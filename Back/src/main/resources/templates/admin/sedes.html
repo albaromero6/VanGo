@@ -11,6 +11,111 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        .sedes-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .sedes-cards {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .sede-card {
+            background: #afd7d66a;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            width: 100%;
+            border-bottom: 1px solid #0a637230;
+        }
+
+        .sede-card:hover {
+            transform: translateY(-2px);
+            background: #afd7d6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .sede-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #0a637230;
+            padding-bottom: 10px;
+        }
+
+        .sede-card-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #0c5661;
+        }
+
+        .sede-card-content {
+            display: grid;
+            gap: 10px;
+        }
+
+        .sede-card-field {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            padding: 5px 0;
+        }
+
+        .sede-card-label {
+            font-weight: 500;
+            color: #0c5661;
+        }
+
+        .sede-card-value {
+            color: #444;
+        }
+
+        .sede-card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .sede-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 1370px) {
+            .sedes-container table {
+                display: none;
+            }
+
+            .sedes-cards {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        @media (min-width: 1371px) {
+            .sedes-cards {
+                display: none;
+            }
+
+            .sedes-container table {
+                display: table;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -30,40 +135,81 @@
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Dirección</th>
-                    <th>Ciudad</th>
-                    <th>Teléfono</th>
-                    <th>Imagen</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="sede : ${sedes}" th:attr="data-sede-id=${sede.idSed}">
-                    <td th:text="${sede.idSed}"></td>
-                    <td th:text="${sede.direccion}"></td>
-                    <td th:text="${sede.ciudad}"></td>
-                    <td th:text="${sede.telefono}"></td>
-                    <td>
-                        <img th:if="${sede.imagen}" th:src="@{'/admin/sedes/imagen/' + ${sede.imagen}}"
-                            alt="Imagen de la sede"
-                            style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px;">
-                        <span th:unless="${sede.imagen}">Sin imagen</span>
-                    </td>
-                    <td class="actions">
-                        <button class="btn btn-edit" th:onclick="'editSede(' + ${sede.idSed} + ')'">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="btn btn-delete" th:onclick="'deleteSede(' + ${sede.idSed} + ')'">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="sedes-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Dirección</th>
+                        <th>Ciudad</th>
+                        <th>Teléfono</th>
+                        <th>Imagen</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="sede : ${sedes}" th:attr="data-sede-id=${sede.idSed}">
+                        <td th:text="${sede.idSed}"></td>
+                        <td th:text="${sede.direccion}"></td>
+                        <td th:text="${sede.ciudad}"></td>
+                        <td th:text="${sede.telefono}"></td>
+                        <td>
+                            <img th:if="${sede.imagen}" th:src="@{'/admin/sedes/imagen/' + ${sede.imagen}}"
+                                alt="Imagen de la sede"
+                                style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px;">
+                            <span th:unless="${sede.imagen}">Sin imagen</span>
+                        </td>
+                        <td class="actions">
+                            <button class="btn btn-edit" th:onclick="'editSede(' + ${sede.idSed} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteSede(' + ${sede.idSed} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sedes-cards">
+                <div th:each="sede : ${sedes}" class="sede-card" th:attr="data-sede-id=${sede.idSed}">
+                    <div class="sede-card-header">
+                        <div class="sede-card-title" th:text="${sede.ciudad}"></div>
+                        <div class="sede-card-actions">
+                            <button class="btn btn-edit" th:onclick="'editSede(' + ${sede.idSed} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteSede(' + ${sede.idSed} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="sede-card-content">
+                        <div class="sede-card-field">
+                            <span class="sede-card-label">ID:</span>
+                            <span class="sede-card-value" th:text="${sede.idSed}"></span>
+                        </div>
+                        <div class="sede-card-field">
+                            <span class="sede-card-label">Dirección:</span>
+                            <span class="sede-card-value" th:text="${sede.direccion}"></span>
+                        </div>
+                        <div class="sede-card-field">
+                            <span class="sede-card-label">Teléfono:</span>
+                            <span class="sede-card-value" th:text="${sede.telefono}"></span>
+                        </div>
+                        <div class="sede-card-field">
+                            <span class="sede-card-label">Imagen:</span>
+                            <div class="sede-card-value">
+                                <img th:if="${sede.imagen}" th:src="@{'/admin/sedes/imagen/' + ${sede.imagen}}"
+                                    alt="Imagen de la sede" class="sede-card-image">
+                                <span th:unless="${sede.imagen}">Sin imagen</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="createSedeForm" class="create-form" style="display: none;">
             <h2>Crear nueva sede</h2>
