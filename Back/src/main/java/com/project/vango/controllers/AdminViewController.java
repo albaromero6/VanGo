@@ -40,6 +40,8 @@ import com.project.vango.services.VehiculoService;
 import com.project.vango.models.Vehiculo;
 import com.project.vango.services.ReseniaService;
 import com.project.vango.models.Resenia;
+import org.springframework.web.servlet.view.RedirectView;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -436,5 +438,17 @@ public class AdminViewController {
             redirectAttributes.addFlashAttribute("error", "Error al actualizar la sede: " + e.getMessage());
         }
         return "redirect:/admin/sedes?token=" + token;
+    }
+
+    @GetMapping("/redirect-to-frontend")
+    public RedirectView redirectToFrontend(HttpServletRequest request) {
+        RedirectView redirectView = new RedirectView();
+        String token = request.getHeader("Authorization");
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+        redirectView.setUrl("http://localhost:4200/profile?token=" + token);
+        redirectView.setExposeModelAttributes(false);
+        return redirectView;
     }
 }

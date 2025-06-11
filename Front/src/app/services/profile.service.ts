@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
 
 export interface ProfileData {
     idUsu: number;
@@ -77,21 +78,28 @@ export class ProfileService {
     private apiUrl = `${environment.apiUrl}/usuarios`;
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        @Inject(PLATFORM_ID) private platformId: Object
     ) {
         this.cleanInvalidToken();
     }
 
     private cleanInvalidToken() {
-        const token = localStorage.getItem('token');
-        if (token && token.includes('[object Object]')) {
-            console.error('Token inválido detectado, limpiando...');
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
+        if (isPlatformBrowser(this.platformId)) {
+            const token = localStorage.getItem('token');
+            if (token && token.includes('[object Object]')) {
+                console.error('Token inválido detectado, limpiando...');
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+            }
         }
     }
 
     private getHeaders(): HttpHeaders {
+        if (!isPlatformBrowser(this.platformId)) {
+            throw new Error('No authentication token found');
+        }
+
         const token = localStorage.getItem('token');
         console.log('Token almacenado en localStorage:', token);
 
@@ -159,13 +167,17 @@ export class ProfileService {
             switch (error.status) {
                 case 403:
                     errorMessage = 'No tienes permisos para acceder a este recurso. Por favor, verifica tus credenciales.';
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
+                    if (isPlatformBrowser(this.platformId)) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                    }
                     break;
                 case 401:
                     errorMessage = 'Sesión expirada. Por favor, vuelve a iniciar sesión.';
-                    localStorage.removeItem('token');
-                    localStorage.removeItem('user');
+                    if (isPlatformBrowser(this.platformId)) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('user');
+                    }
                     break;
                 case 500:
                     // Manejar errores de texto plano
@@ -301,6 +313,10 @@ export class ProfileService {
     }
 
     deleteReservation(idRes: number): Observable<any> {
+        if (!isPlatformBrowser(this.platformId)) {
+            return throwError(() => new Error('No hay token de autenticación'));
+        }
+
         const token = localStorage.getItem('token');
         if (!token) {
             return throwError(() => new Error('No hay token de autenticación'));

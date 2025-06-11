@@ -34,7 +34,6 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
             "ssr": {
               "entry": "server.ts"
             }
@@ -44,13 +43,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "20kb",
+                  "maximumError": "30kb"
                 }
               ],
               "outputHashing": "all"
@@ -98,6 +97,25 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "defaultConfiguration": "production",
+          "configurations": {
+            "production": {
+              "browserTarget": "Front:build:production",
+              "routes": [
+                "/",
+                "/catalogo",
+                "/eligenos",
+                "/rutas",
+                "/contacto",
+                "/ubicacion",
+                "/login",
+                "/registro"
+              ]
+            }
           }
         }
       }

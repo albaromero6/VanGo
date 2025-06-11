@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
         this.jwtAuthFilter = jwtAuthFilter;
+        System.out.println("SecurityConfig cargado");
     }
 
     @Bean
@@ -36,8 +37,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         // Endpoints públicos
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
+                        .requestMatchers("/catalogo").permitAll()
                         .requestMatchers("/api/sedes/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers("/admin/sedes/imagen/**").permitAll()

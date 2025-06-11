@@ -218,14 +218,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (!this.vehicle?.imagen) {
       return 'assets/img/Coche.png';
     }
-    return `http://localhost:8080/api/vehiculos/imagen/${this.vehicle.imagen}`;
+    return `/api/vehiculos/imagen/${this.vehicle.imagen}`;
   }
 
   getGalleryImage(imageName: string): string {
     if (!imageName) {
       return 'assets/img/Coche.png';
     }
-    return `http://localhost:8080/api/vehiculos/imagen/${imageName}`;
+    return `/api/vehiculos/imagen/${imageName}`;
   }
 
   getVehicleName(): string {
