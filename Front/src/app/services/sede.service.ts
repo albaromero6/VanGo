@@ -25,4 +25,8 @@ export class SedeService {
     getSedeById(id: number): Observable<Sede> {
         return this.http.get<Sede>(`${this.apiUrl}/${id}`);
     }
+
+    getImagenUrl(filename: string): string {
+        return `${this.apiUrl}/imagen/${filename}`;
+    }
 } 

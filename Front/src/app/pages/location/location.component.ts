@@ -39,6 +39,10 @@ export class LocationComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  getImagenUrl(filename: string): string {
+    return this.sedeService.getImagenUrl(filename);
+  }
+
   onImageError(event: Event): void {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = 'assets/img/placeholder-sede.jpg';

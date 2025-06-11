@@ -17,8 +17,7 @@
                         Ver en el mapa
                     </button>
                 </div>
-                <img [src]="'/api/sedes/imagen/' + sede.imagen" [alt]="'Sede ' + sede.ciudad"
-                    (error)="onImageError($event)">
+                <img [src]="getImagenUrl(sede.imagen)" [alt]="'Sede ' + sede.ciudad" (error)="onImageError($event)">
             </div>
         </div>
 
