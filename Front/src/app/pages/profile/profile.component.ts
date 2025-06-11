@@ -612,8 +612,9 @@ export class ProfileComponent implements OnInit {
   navigateToAdminPanel(): void {
     const token = localStorage.getItem('token');
     if (token) {
-      window.location.href = `${environment.apiUrl.replace('/api', '')}/admin/panel?token=${token}`;
-
+      window.location.href = `http://localhost:8080/admin/panel?token=${token}`;
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 }

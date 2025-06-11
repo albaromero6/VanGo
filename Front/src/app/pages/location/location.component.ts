@@ -38,4 +38,10 @@ export class LocationComponent implements OnInit {
     const url = this.mapsService.getGoogleMapsUrl(direccion, ciudad);
     window.open(url, '_blank');
   }
+
+  onImageError(event: Event): void {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/img/placeholder-sede.jpg';
+    imgElement.onerror = null;
+  }
 }

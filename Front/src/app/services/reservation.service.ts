@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
 
 export interface Reserva {
     idReser?: number;
+    idUsu: number;
+    idVeh: number;
+    idSedeSalid: number;
+    idSedeLleg: number;
     inicio: string;
     fin: string;
     total: number;
     estado?: string;
-    vehiculo: { idVeh: number };
-    usuario?: { idUsu: number };
-    idSed_Salid: { idSed: number };
-    idSed_Lleg: { idSed: number };
 }
 
 @Injectable({

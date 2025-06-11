@@ -160,15 +160,15 @@ export class ReservationComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // Crear el objeto de reserva
+      // Crear el objeto de reserva con el formato correcto
       const reserva = {
-        inicio: this.pickupDate,
-        fin: this.returnDate,
-        total: this.vehicle.precio * this.calculateDays(),
-        vehiculo: { idVeh: this.vehicle.idVeh },
-        usuario: { idUsu: user.idUsu },
-        idSed_Salid: { idSed: Number(this.pickupLocation) },
-        idSed_Lleg: { idSed: Number(this.returnLocation) }
+        idUsu: user.idUsu,
+        idVeh: this.vehicle.idVeh,
+        idSedeSalid: Number(this.pickupLocation),
+        idSedeLleg: Number(this.returnLocation),
+        inicio: new Date(this.pickupDate).toISOString(),
+        fin: new Date(this.returnDate).toISOString(),
+        total: this.vehicle.precio * this.calculateDays()
       };
 
       // Crear la reserva

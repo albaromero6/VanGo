@@ -17,7 +17,8 @@
                         Ver en el mapa
                     </button>
                 </div>
-                <img [src]="'/uploads/sedes/' + sede.imagen" [alt]="'Sede ' + sede.ciudad">
+                <img [src]="'/api/sedes/imagen/' + sede.imagen" [alt]="'Sede ' + sede.ciudad"
+                    (error)="onImageError($event)">
             </div>
         </div>
 

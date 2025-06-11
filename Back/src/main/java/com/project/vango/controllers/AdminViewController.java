@@ -42,7 +42,6 @@ import com.project.vango.services.ReseniaService;
 import com.project.vango.models.Resenia;
 import org.springframework.web.servlet.view.RedirectView;
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminViewController {
@@ -450,5 +449,28 @@ public class AdminViewController {
         redirectView.setUrl("http://localhost:4200/profile?token=" + token);
         redirectView.setExposeModelAttributes(false);
         return redirectView;
+    }
+
+    @GetMapping("/api/sedes/imagen/{filename}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImagenFrontend(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get("uploads/sedes").resolve(filename);
+            if (!Files.exists(filePath)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "image/jpeg";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
