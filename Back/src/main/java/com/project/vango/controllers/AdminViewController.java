@@ -24,6 +24,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.dao.DataIntegrityViolationException;
 import com.project.vango.services.MarcaService;
 import com.project.vango.services.ModeloService;
+import com.project.vango.models.Sede;
+import com.project.vango.services.SedeService;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+import java.io.IOException;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/admin")
@@ -36,6 +46,8 @@ public class AdminViewController {
     private MarcaService marcaService;
     @Autowired
     private ModeloService modeloService;
+    @Autowired
+    private SedeService sedeService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -117,11 +129,17 @@ public class AdminViewController {
 
     @GetMapping("/sedes")
     public String sedes(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<Sede> sedes = sedeService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("token", token);
+        model.addAttribute("sedes", sedes);
         return "admin/sedes";
     }
 
@@ -226,5 +244,153 @@ public class AdminViewController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PostMapping("/sedes/crear")
+    public String crearSede(@RequestParam("direccion") String direccion,
+            @RequestParam("ciudad") String ciudad,
+            @RequestParam("telefono") String telefono,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+            @RequestParam(required = false) String token,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Sede sede = new Sede();
+            sede.setDireccion(direccion);
+            sede.setCiudad(ciudad);
+            sede.setTelefono(telefono);
+
+            if (imagen != null && !imagen.isEmpty()) {
+                // Crear el directorio si no existe
+                Path uploadDir = Paths.get("uploads/sedes");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                // Validar el tipo de archivo
+                String contentType = imagen.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    throw new IllegalArgumentException("El archivo debe ser una imagen");
+                }
+
+                // Generar nombre único para el archivo
+                String originalFilename = imagen.getOriginalFilename();
+                if (originalFilename == null) {
+                    throw new IllegalArgumentException("El nombre del archivo no puede ser nulo");
+                }
+
+                String filename = UUID.randomUUID().toString() + "_" + originalFilename;
+                Path filePath = uploadDir.resolve(filename);
+
+                // Guardar el archivo
+                Files.copy(imagen.getInputStream(), filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+                // Guardar el nombre del archivo en la sede
+                sede.setImagen(filename);
+            }
+
+            sedeService.save(sede);
+            redirectAttributes.addFlashAttribute("success", "Sede creada exitosamente");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al crear la sede: " + e.getMessage());
+        }
+        return "redirect:/admin/sedes?token=" + token;
+    }
+
+    @DeleteMapping("/sedes/eliminar/{id}")
+    public ResponseEntity<Void> eliminarSede(@PathVariable Integer id) {
+        try {
+            sedeService.deleteById(id);
+            return ResponseEntity.ok().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/sedes/imagen/{filename}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getImagen(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get("uploads/sedes").resolve(filename);
+            if (!Files.exists(filePath)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            byte[] imageBytes = Files.readAllBytes(filePath);
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = "image/jpeg";
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(imageBytes);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/sedes/editar/{id}")
+    public String editarSede(@PathVariable Integer id,
+            @RequestParam("direccion") String direccion,
+            @RequestParam("ciudad") String ciudad,
+            @RequestParam("telefono") String telefono,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen,
+            @RequestParam(required = false) String token,
+            RedirectAttributes redirectAttributes) {
+        try {
+            Sede sede = sedeService.findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Sede no encontrada"));
+
+            sede.setDireccion(direccion);
+            sede.setCiudad(ciudad);
+            sede.setTelefono(telefono);
+
+            if (imagen != null && !imagen.isEmpty()) {
+                // Crear el directorio si no existe
+                Path uploadDir = Paths.get("uploads/sedes");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                // Validar el tipo de archivo
+                String contentType = imagen.getContentType();
+                if (contentType == null || !contentType.startsWith("image/")) {
+                    throw new IllegalArgumentException("El archivo debe ser una imagen");
+                }
+
+                // Generar nombre único para el archivo
+                String originalFilename = imagen.getOriginalFilename();
+                if (originalFilename == null) {
+                    throw new IllegalArgumentException("El nombre del archivo no puede ser nulo");
+                }
+
+                String filename = UUID.randomUUID().toString() + "_" + originalFilename;
+                Path filePath = uploadDir.resolve(filename);
+
+                // Guardar el archivo
+                Files.copy(imagen.getInputStream(), filePath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+
+                // Eliminar la imagen anterior si existe
+                if (sede.getImagen() != null) {
+                    Path oldFilePath = uploadDir.resolve(sede.getImagen());
+                    Files.deleteIfExists(oldFilePath);
+                }
+
+                // Guardar el nombre del archivo en la sede
+                sede.setImagen(filename);
+            }
+
+            sedeService.save(sede);
+            redirectAttributes.addFlashAttribute("success", "Sede actualizada exitosamente");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar la sede: " + e.getMessage());
+        }
+        return "redirect:/admin/sedes?token=" + token;
     }
 }

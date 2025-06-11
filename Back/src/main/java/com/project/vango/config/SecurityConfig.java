@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers("/api/sedes/**").permitAll()
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/admin/sedes/imagen/**").permitAll()
                         .requestMatchers("/api/vehiculos/**").permitAll()
                         .requestMatchers("/api/marcas/**").permitAll()
                         .requestMatchers("/api/modelos/**").permitAll()
