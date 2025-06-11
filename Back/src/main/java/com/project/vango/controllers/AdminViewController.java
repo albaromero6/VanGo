@@ -34,6 +34,10 @@ import java.util.UUID;
 import java.io.IOException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.project.vango.services.ReservaService;
+import com.project.vango.models.Reserva;
+import com.project.vango.services.VehiculoService;
+import com.project.vango.models.Vehiculo;
 
 @Controller
 @RequestMapping("/admin")
@@ -48,6 +52,10 @@ public class AdminViewController {
     private ModeloService modeloService;
     @Autowired
     private SedeService sedeService;
+    @Autowired
+    private ReservaService reservaService;
+    @Autowired
+    private VehiculoService vehiculoService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -155,12 +163,38 @@ public class AdminViewController {
 
     @GetMapping("/reservas")
     public String reservas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        model.addAttribute("nombreCompleto", getNombreCompleto(email));
-        model.addAttribute("currentUrl", request.getRequestURI());
-        model.addAttribute("token", token);
-        return "admin/reservas";
+        try {
+            if (token == null || token.isEmpty()) {
+                return "redirect:/login";
+            }
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = auth.getName();
+
+            logger.info("Obteniendo reservas para el usuario: {}", email);
+            List<Reserva> reservas = reservaService.findAll();
+            logger.info("Número de reservas encontradas: {}", reservas.size());
+
+            List<Sede> sedes = sedeService.findAll();
+            logger.info("Número de sedes encontradas: {}", sedes.size());
+
+            List<Usuario> usuarios = usuarioService.findAll();
+            logger.info("Número de usuarios encontrados: {}", usuarios.size());
+
+            List<Vehiculo> vehiculos = vehiculoService.findAll();
+            logger.info("Número de vehículos encontrados: {}", vehiculos.size());
+
+            model.addAttribute("nombreCompleto", getNombreCompleto(email));
+            model.addAttribute("currentUrl", request.getRequestURI());
+            model.addAttribute("token", token);
+            model.addAttribute("reservas", reservas);
+            model.addAttribute("sedes", sedes);
+            model.addAttribute("usuarios", usuarios);
+            model.addAttribute("vehiculos", vehiculos);
+            return "admin/reservas";
+        } catch (Exception e) {
+            logger.error("Error al cargar la página de reservas: ", e);
+            return "redirect:/error?message=" + e.getMessage();
+        }
     }
 
     @GetMapping("/resenas")

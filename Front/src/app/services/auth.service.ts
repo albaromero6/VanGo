@@ -107,8 +107,8 @@ export class AuthService {
         const user = this.currentUserSubject.value;
         console.log('Checking admin status for user:', user);
         console.log('User role:', user?.rol);
-        console.log('Is ADMINISTRADOR?', user?.rol === 'ADMINISTRADOR');
-        return user?.rol === 'ADMINISTRADOR';
+        console.log('Is ROLE_ADMINISTRADOR?', user?.rol === 'ROLE_ADMINISTRADOR');
+        return user?.rol === 'ROLE_ADMINISTRADOR';
     }
 
     private decodeToken(token: string): User {
@@ -128,7 +128,7 @@ export class AuthService {
                 nombre: payload.nombre || 'Usuario',
                 apellido: payload.apellido || '',
                 email: payload.sub,
-                rol: payload.rol
+                rol: 'ROLE_' + payload.rol
             };
             console.log('Usuario decodificado:', user);
             return user;
@@ -139,7 +139,7 @@ export class AuthService {
                 nombre: 'Usuario',
                 apellido: '',
                 email: '',
-                rol: 'USER'
+                rol: 'ROLE_USER'
             };
         }
     }

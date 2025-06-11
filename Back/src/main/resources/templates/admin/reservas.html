@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Van&Go</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
+    <link rel="stylesheet" th:href="@{/css/sweetalert.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <script>
+        // Lee el token de la URL y guárdalo en localStorage
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (token) {
+            localStorage.setItem('token', token);
+        }
+    </script>
+    <div th:replace="~{components/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="table-header">
+            <button class="btn btn-create" onclick="toggleForm()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Vehículo</th>
+                        <th>Salida</th>
+                        <th>Llegada</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reserva : ${reservas}" th:attr="data-reserva-id=${reserva.idReser}">
+                        <td th:text="${reserva.idReser}"></td>
+                        <td th:text="${reserva.usuario.nombre + ' ' + reserva.usuario.apellido}"></td>
+                        <td th:text="${reserva.vehiculo.modelo.marca.nombre + ' ' + reserva.vehiculo.modelo.nombre}">
+                        </td>
+                        <td th:text="${reserva.idSed_Salid.ciudad}"></td>
+                        <td th:text="${reserva.idSed_Lleg.ciudad}"></td>
+                        <td th:text="${#temporals.format(reserva.inicio, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(reserva.fin, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#numbers.formatInteger(reserva.total, 1, 'POINT') + ' €'}"></td>
+                        <td th:text="${reserva.estado}"></td>
+                        <td class="actions" style="text-align: center; vertical-align: middle;">
+                            <button class="btn btn-edit" th:onclick="'editReserva(' + ${reserva.idReser} + ')'">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-delete" th:onclick="'deleteReserva(' + ${reserva.idReser} + ')'">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="createReservaForm" class="create-form" style="display: none;">
+            <h2>Crear nueva reserva</h2>
+            <form th:action="@{/admin/reservas/crear}" method="POST" onsubmit="return createReserva(event)" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <select id="usuario" name="usuario" required>
+                            <option value="">Seleccionar usuario</option>
+                            <option th:each="usuario : ${usuarios}" th:value="${usuario.idUsu}"
+                                th:text="${usuario.nombre + ' ' + usuario.apellido}">
+                            </option>
+                        </select>
+                        <span class="error-message" id="usuario-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehiculo">Vehículo</label>
+                        <select id="vehiculo" name="vehiculo" required>
+                            <option value="">Seleccionar vehículo</option>
+                            <option th:each="vehiculo : ${vehiculos}" th:value="${vehiculo.idVeh}"
+                                th:data-precio="${vehiculo.precio}"
+                                th:text="${vehiculo.modelo.marca.nombre + ' ' + vehiculo.modelo.nombre}">
+                            </option>
+                        </select>
+                        <span class="error-message" id="vehiculo-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="idSed_Salid">Sede Salida</label>
+                        <select id="idSed_Salid" name="idSed_Salid" required>
+                            <option value="">Seleccionar sede de salida</option>
+                            <option th:each="sede : ${sedes}" th:value="${sede.idSed}" th:text="${sede.ciudad}">
+                            </option>
+                        </select>
+                        <span class="error-message" id="idSed_Salid-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="idSed_Lleg">Sede Llegada</label>
+                        <select id="idSed_Lleg" name="idSed_Lleg" required>
+                            <option value="">Seleccionar sede de llegada</option>
+                            <option th:each="sede : ${sedes}" th:value="${sede.idSed}" th:text="${sede.ciudad}">
+                            </option>
+                        </select>
+                        <span class="error-message" id="idSed_Lleg-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaInicio">Fecha Inicio</label>
+                        <input type="date" id="fechaInicio" name="fechaInicio" required>
+                        <span class="error-message" id="fechaInicio-error"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="fechaFin">Fecha Fin</label>
+                        <input type="date" id="fechaFin" name="fechaFin" required>
+                        <span class="error-message" id="fechaFin-error"></span>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">Guardar</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleForm()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function getToken() {
+            return localStorage.getItem('token');
+        }
+
+        function toggleForm() {
+            const form = document.getElementById('createReservaForm');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            clearErrors();
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+            });
+        }
+
+        // Función para obtener la fecha mínima (mañana)
+        function getMinDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return tomorrow.toISOString().split('T')[0];
+        }
+
+        // Función para obtener la fecha mínima de devolución
+        function getMinReturnDate() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            if (!fechaInicio) return getMinDate();
+            const pickup = new Date(fechaInicio);
+            const nextDay = new Date(pickup);
+            nextDay.setDate(pickup.getDate() + 1);
+            return nextDay.toISOString().split('T')[0];
+        }
+
+        // Función para calcular los días entre dos fechas
+        function calculateDays() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+            if (!fechaInicio || !fechaFin) return 0;
+            const start = new Date(fechaInicio);
+            const end = new Date(fechaFin);
+            const diffTime = Math.abs(end.getTime() - start.getTime());
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        }
+
+        // Actualizar la fecha mínima de devolución cuando cambia la fecha de inicio
+        document.getElementById('fechaInicio').addEventListener('change', function () {
+            document.getElementById('fechaFin').min = getMinReturnDate();
+            if (document.getElementById('fechaFin').value < getMinReturnDate()) {
+                document.getElementById('fechaFin').value = getMinReturnDate();
+            }
+        });
+
+        // Establecer la fecha mínima inicial
+        document.getElementById('fechaInicio').min = getMinDate();
+        document.getElementById('fechaFin').min = getMinDate();
+
+        const errorMessages = {
+            usuario: {
+                required: 'El usuario es obligatorio'
+            },
+            vehiculo: {
+                required: 'El vehículo es obligatorio'
+            },
+            idSed_Salid: {
+                required: 'La sede de salida es obligatoria'
+            },
+            idSed_Lleg: {
+                required: 'La sede de llegada es obligatoria'
+            },
+            fechaInicio: {
+                required: 'La fecha de inicio es obligatoria',
+                format: 'La fecha de inicio debe ser posterior a hoy'
+            },
+            fechaFin: {
+                required: 'La fecha de fin es obligatoria',
+                format: 'La fecha de fin debe ser posterior a la fecha de inicio'
+            }
+        };
+
+        function validateField(input, field) {
+            const errorElement = document.getElementById(`${field}-error`);
+            const value = input.value.trim();
+
+            if (!value) {
+                errorElement.textContent = errorMessages[field].required;
+                return false;
+            }
+
+            if (field === 'fechaInicio') {
+                const fechaInicio = new Date(value);
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+                if (fechaInicio < hoy) {
+                    errorElement.textContent = errorMessages[field].format;
+                    return false;
+                }
+            }
+
+            if (field === 'fechaFin') {
+                const fechaFin = new Date(value);
+                const fechaInicio = new Date(document.getElementById('fechaInicio').value);
+                if (fechaFin <= fechaInicio) {
+                    errorElement.textContent = errorMessages[field].format;
+                    return false;
+                }
+            }
+
+            if (field === 'idSed_Salid' && field === 'idSed_Lleg') {
+                if (document.getElementById('idSed_Salid').value === document.getElementById('idSed_Lleg').value) {
+                    errorElement.textContent = 'La sede de salida y llegada no pueden ser la misma';
+                    return false;
+                }
+            }
+
+            errorElement.textContent = '';
+            return true;
+        }
+
+        function createReserva(event) {
+            event.preventDefault();
+
+            // Validar todos los campos
+            const fields = ['usuario', 'vehiculo', 'idSed_Salid', 'idSed_Lleg', 'fechaInicio', 'fechaFin'];
+            let isValid = true;
+
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                if (!validateField(input, field)) {
+                    isValid = false;
+                }
+            });
+
+            if (!isValid) {
+                return false;
+            }
+
+            // Crear objeto con los datos de la reserva
+            const reservaData = {
+                idUsu: document.getElementById('usuario').value,
+                idVeh: document.getElementById('vehiculo').value,
+                idSedeSalid: document.getElementById('idSed_Salid').value,
+                idSedeLleg: document.getElementById('idSed_Lleg').value,
+                inicio: document.getElementById('fechaInicio').value + 'T00:00:00',
+                fin: document.getElementById('fechaFin').value + 'T00:00:00',
+                total: calculateTotal()
+            };
+
+            // Obtener el token del localStorage
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'No se encontró el token de autenticación',
+                    icon: 'error',
+                    confirmButtonColor: '#05889C'
+                });
+                return false;
+            }
+
+            fetch('/api/reservas', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reservaData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.error || 'Error al crear la reserva');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    Swal.fire({
+                        title: '¡Éxito!',
+                        text: 'La reserva se ha creado correctamente',
+                        icon: 'success',
+                        confirmButtonColor: '#05889C'
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: error.message || 'Error al crear la reserva',
+                        icon: 'error',
+                        confirmButtonColor: '#05889C'
+                    });
+                });
+
+            return false;
+        }
+
+        function calculateTotal() {
+            const vehiculo = document.getElementById('vehiculo');
+            const selectedOption = vehiculo.options[vehiculo.selectedIndex];
+            const precioPorDia = parseFloat(selectedOption.getAttribute('data-precio') || '0');
+            const dias = calculateDays();
+            return (precioPorDia * dias).toFixed(2);
+        }
+
+        function deleteReserva(reservaId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esta acción",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#05889C',
+                cancelButtonColor: '#EFBF14',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = getToken();
+                    if (!token) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'No hay token de autenticación',
+                            icon: 'error',
+                            confirmButtonColor: '#05889C'
+                        });
+                        return;
+                    }
+
+                    fetch(`/api/reservas/${reservaId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                Swal.fire({
+                                    title: '¡Eliminado!',
+                                    text: 'La reserva ha sido eliminada correctamente',
+                                    icon: 'success',
+                                    confirmButtonColor: '#05889C'
+                                }).then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                // Si la respuesta no es exitosa, intentamos leer el mensaje de error
+                                response.text().then(text => {
+                                    let errorMessage = 'Error al eliminar la reserva';
+                                    try {
+                                        const data = JSON.parse(text);
+                                        errorMessage = data.error || errorMessage;
+                                    } catch (e) {
+                                        // Si no podemos parsear el JSON, usamos el texto directamente
+                                        errorMessage = text || errorMessage;
+                                    }
+                                    throw new Error(errorMessage);
+                                }).catch(error => {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: error.message,
+                                        icon: 'error',
+                                        confirmButtonColor: '#05889C'
+                                    });
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: error.message || 'Error al eliminar la reserva',
+                                icon: 'error',
+                                confirmButtonColor: '#05889C'
+                            });
+                        });
+                }
+            });
+        }
+
+        function editReserva(id) {
+            const row = document.querySelector(`tr[data-reserva-id="${id}"]`);
+            const usuario = row.cells[1].textContent;
+            const vehiculo = row.cells[2].textContent;
+            const idSed_Salid = row.cells[3].textContent;
+            const idSed_Lleg = row.cells[4].textContent;
+            const fechaInicio = row.cells[5].textContent.split('/').reverse().join('-');
+            const fechaFin = row.cells[6].textContent.split('/').reverse().join('-');
+            const estado = row.cells[7].textContent;
+
+            // Mostrar el formulario
+            const form = document.getElementById('createReservaForm');
+            form.style.display = 'block';
+
+            // Cambiar el título del formulario
+            form.querySelector('h2').textContent = 'Editar reserva';
+
+            // Rellenar los campos con los datos de la reserva
+            document.getElementById('usuario').value = usuario;
+            document.getElementById('vehiculo').value = vehiculo;
+            document.getElementById('idSed_Salid').value = idSed_Salid;
+            document.getElementById('idSed_Lleg').value = idSed_Lleg;
+            document.getElementById('fechaInicio').value = fechaInicio;
+            document.getElementById('fechaFin').value = fechaFin;
+            document.getElementById('estado').value = estado;
+
+            // Desactivar completamente el formulario HTML
+            form.setAttribute('data-mode', 'edit');
+            form.setAttribute('data-id', id);
+            form.removeAttribute('action');
+            form.removeAttribute('method');
+            form.onsubmit = null;
+
+            // Agregar el manejador de eventos al botón de guardar
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.onclick = function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                clearErrors();
+
+                const usuario = document.getElementById('usuario');
+                const vehiculo = document.getElementById('vehiculo');
+                const idSed_Salid = document.getElementById('idSed_Salid');
+                const idSed_Lleg = document.getElementById('idSed_Lleg');
+                const fechaInicio = document.getElementById('fechaInicio');
+                const fechaFin = document.getElementById('fechaFin');
+                const estado = document.getElementById('estado');
+
+                let isValid = true;
+                isValid = validateField(usuario, 'usuario') && isValid;
+                isValid = validateField(vehiculo, 'vehiculo') && isValid;
+                isValid = validateField(idSed_Salid, 'idSed_Salid') && isValid;
+                isValid = validateField(idSed_Lleg, 'idSed_Lleg') && isValid;
+                isValid = validateField(fechaInicio, 'fechaInicio') && isValid;
+                isValid = validateField(fechaFin, 'fechaFin') && isValid;
+                isValid = validateField(estado, 'estado') && isValid;
+
+                if (!isValid) {
+                    return false;
+                }
+
+                const formData = new FormData();
+                formData.append('usuario', usuario.value);
+                formData.append('vehiculo', vehiculo.value);
+                formData.append('idSed_Salid', idSed_Salid.value);
+                formData.append('idSed_Lleg', idSed_Lleg.value);
+                formData.append('fechaInicio', fechaInicio.value);
+                formData.append('fechaFin', fechaFin.value);
+                formData.append('estado', estado.value);
+                formData.append('token', getToken());
+
+                fetch(`/admin/reservas/editar/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + getToken()
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else if (response.ok) {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: 'La reserva ha sido actualizada correctamente',
+                                icon: 'success',
+                                confirmButtonColor: '#05889C'
+                            }).then(() => {
+                                window.location.href = '/admin/reservas?token=' + getToken();
+                            });
+                        } else {
+                            throw new Error('Error al actualizar la reserva');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: error.message,
+                            icon: 'error',
+                            confirmButtonColor: '#05889C'
+                        });
+                    });
+
+                return false;
+            };
+
+            // Modificar el botón de cancelar
+            const cancelButton = form.querySelector('.btn-cancel');
+            cancelButton.onclick = function () {
+                form.style.display = 'none';
+                form.querySelector('h2').textContent = 'Crear nueva reserva';
+                form.removeAttribute('data-mode');
+                form.removeAttribute('data-id');
+                form.setAttribute('action', '/admin/reservas/crear');
+                form.setAttribute('method', 'POST');
+                submitButton.onclick = null;
+                cancelButton.onclick = null;
+                clearErrors();
+                form.reset();
+            };
+        }
+    </script>
+
+    <style>
+        .table-header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .btn-create {
+            background-color: #0c5661;
+            color: white;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #afd7d66a;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 14px;
+            margin-top: 0;
+        }
+
+        table thead {
+            background: #0c5661;
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding-top: 12px;
+            padding-bottom: 4px;
+            padding-left: 8px;
+            padding-right: 8px;
+            height: 28px;
+            text-align: left;
+            border-bottom: 1px solid #0a637230;
+        }
+
+        table tbody tr {
+            background: #afd7d66a;
+        }
+
+        table tbody tr:hover {
+            background: #afd7d6;
+        }
+
+        table tr {
+            min-height: 24px;
+        }
+
+        table th:last-child,
+        table td:last-child {
+            width: 80px;
+            min-width: 80px;
+            max-width: 80px;
+            text-align: center;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .btn-edit,
+        .btn-delete {
+            padding: 2px 6px;
+            font-size: 14px;
+            height: 24px;
+            min-width: 24px;
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-edit {
+            background-color: #0c5661;
+            color: white;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</body>
+
+</html>

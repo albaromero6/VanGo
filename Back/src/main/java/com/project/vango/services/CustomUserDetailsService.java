@@ -25,11 +25,18 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + email));
 
         String authority = "ROLE_" + usuario.getRol().name();
-        System.out.println("Cargando usuario: " + email + " con authority: " + authority);
+        System.out.println("Cargando usuario: " + email);
+        System.out.println("Rol del usuario: " + usuario.getRol().name());
+        System.out.println("Authority generada: " + authority);
 
-        return new User(
+        UserDetails userDetails = new User(
                 usuario.getEmail(),
                 usuario.getPassword(),
                 Collections.singletonList(new SimpleGrantedAuthority(authority)));
+
+        System.out.println("UserDetails creado: " + userDetails);
+        System.out.println("Authorities del UserDetails: " + userDetails.getAuthorities());
+
+        return userDetails;
     }
 }

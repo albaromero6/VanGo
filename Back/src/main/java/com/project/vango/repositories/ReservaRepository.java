@@ -12,9 +12,33 @@ import java.util.List;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
-    List<Reserva> findByUsuario(Usuario usuario);
+    @Query("SELECT DISTINCT r FROM Reserva r " +
+            "LEFT JOIN FETCH r.usuario " +
+            "LEFT JOIN FETCH r.vehiculo v " +
+            "LEFT JOIN FETCH v.modelo m " +
+            "LEFT JOIN FETCH m.marca " +
+            "LEFT JOIN FETCH r.idSed_Salid " +
+            "LEFT JOIN FETCH r.idSed_Lleg")
+    List<Reserva> findAll();
 
-    @Query("SELECT r FROM Reserva r WHERE r.usuario.idUsu = :usuarioId")
+    @Query("SELECT r FROM Reserva r " +
+            "LEFT JOIN FETCH r.usuario " +
+            "LEFT JOIN FETCH r.vehiculo v " +
+            "LEFT JOIN FETCH v.modelo m " +
+            "LEFT JOIN FETCH m.marca " +
+            "LEFT JOIN FETCH r.idSed_Salid " +
+            "LEFT JOIN FETCH r.idSed_Lleg " +
+            "WHERE r.usuario = :usuario")
+    List<Reserva> findByUsuario(@Param("usuario") Usuario usuario);
+
+    @Query("SELECT r FROM Reserva r " +
+            "LEFT JOIN FETCH r.usuario " +
+            "LEFT JOIN FETCH r.vehiculo v " +
+            "LEFT JOIN FETCH v.modelo m " +
+            "LEFT JOIN FETCH m.marca " +
+            "LEFT JOIN FETCH r.idSed_Salid " +
+            "LEFT JOIN FETCH r.idSed_Lleg " +
+            "WHERE r.usuario.idUsu = :usuarioId")
     List<Reserva> findByUsuarioId(@Param("usuarioId") Integer usuarioId);
 
     @Modifying
