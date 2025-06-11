@@ -187,24 +187,16 @@ public class ReseniaController {
         }
 
         @DeleteMapping("/{id}")
-        public ResponseEntity<? extends Object> deleteResenia(@PathVariable Integer id) {
-                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                Usuario usuario = usuarioService.findByEmail(auth.getName())
-                                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-                return reseniaService.findById(id)
-                                .map(resenia -> {
-                                        // Verificar si el usuario es admin o el propietario de la reseña
-                                        if (auth.getAuthorities().stream()
-                                                        .anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR")) ||
-                                                        resenia.getReserva().getUsuario().getIdUsu()
-                                                                        .equals(usuario.getIdUsu())) {
-                                                reseniaService.deleteById(id);
-                                                return ResponseEntity.ok().<Void>build();
-                                        }
-                                        return ResponseEntity.status(403).build();
-                                })
-                                .orElse(ResponseEntity.notFound().build());
+        @PreAuthorize("hasRole('ADMINISTRADOR')")
+        public ResponseEntity<?> deleteResenia(@PathVariable Integer id) {
+                try {
+                        reseniaService.deleteById(id);
+                        return ResponseEntity.ok().build();
+                } catch (Exception e) {
+                        Map<String, String> response = new HashMap<>();
+                        response.put("error", "Error al eliminar la reseña: " + e.getMessage());
+                        return ResponseEntity.badRequest().body(response);
+                }
         }
 
         @GetMapping("/exists/{reservaId}")

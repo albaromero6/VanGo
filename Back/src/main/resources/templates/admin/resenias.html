@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Van&Go</title>
+    <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
+    <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/sweetalert.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <script>
+        // Lee el token de la URL y guárdalo en localStorage
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (token) {
+            localStorage.setItem('token', token);
+        }
+    </script>
+    <div th:replace="~{components/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <div class="table-header">
+            <!-- Botón de crear reseñas eliminado -->
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Vehículo</th>
+                    <th>Puntuación</th>
+                    <th>Comentario</th>
+                    <th>Fecha</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="resena : ${resenas}">
+                    <td th:text="${resena.idRese}"></td>
+                    <td th:text="${resena.reserva.usuario.nombre + ' ' + resena.reserva.usuario.apellido}"></td>
+                    <td
+                        th:text="${resena.reserva.vehiculo.modelo.nombre + ' ' + resena.reserva.vehiculo.modelo.marca.nombre}">
+                    </td>
+                    <td>
+                        <div class="rating">
+                            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                th:class="${i <= resena.puntuacion ? 'star filled' : 'star'}"
+                                th:text="${i <= resena.puntuacion ? '★' : '☆'}"></span>
+                        </div>
+                    </td>
+                    <td th:text="${resena.comentario}"></td>
+                    <td th:text="${#temporals.format(resena.fecha, 'dd/MM/yyyy')}"></td>
+                    <td class="actions">
+                        <button class="btn btn-delete" th:onclick="'deleteResenia(' + ${resena.idRese} + ')'">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        function deleteResenia(id) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/api/resenias/${id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                        }
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                Swal.fire('¡Eliminada!', 'La reseña ha sido eliminada', 'success').then(() => {
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire('Error', 'Error al eliminar la reseña', 'error');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Error', 'Error al eliminar la reseña', 'error');
+                        });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -38,6 +38,8 @@ import com.project.vango.services.ReservaService;
 import com.project.vango.models.Reserva;
 import com.project.vango.services.VehiculoService;
 import com.project.vango.models.Vehiculo;
+import com.project.vango.services.ReseniaService;
+import com.project.vango.models.Resenia;
 
 @Controller
 @RequestMapping("/admin")
@@ -56,6 +58,8 @@ public class AdminViewController {
     private ReservaService reservaService;
     @Autowired
     private VehiculoService vehiculoService;
+    @Autowired
+    private ReseniaService reseniaService;
 
     private String getNombreCompleto(String email) {
         return usuarioService.findByEmail(email)
@@ -199,12 +203,18 @@ public class AdminViewController {
 
     @GetMapping("/resenas")
     public String resenas(@RequestParam(required = false) String token, Model model, HttpServletRequest request) {
+        if (token == null || token.isEmpty()) {
+            return "redirect:/login";
+        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
+        List<Resenia> resenas = reseniaService.findAll();
+
         model.addAttribute("nombreCompleto", getNombreCompleto(email));
         model.addAttribute("currentUrl", request.getRequestURI());
         model.addAttribute("token", token);
-        return "admin/resenas";
+        model.addAttribute("resenas", resenas);
+        return "admin/resenias";
     }
 
     @GetMapping("/conductores")

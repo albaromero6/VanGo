@@ -1,0 +1,70 @@
+/* Estilos para la tabla de reseñas */
+.rating {
+    display: flex;
+    gap: 2px;
+}
+
+.rating .star {
+    font-size: 1.2em;
+    cursor: default;
+    color: #222;
+}
+
+.rating .star.filled {
+    color: #222;
+}
+
+.rating .star:not(.filled) {
+    color: #222;
+}
+
+.data-table td {
+    vertical-align: middle;
+}
+
+.data-table td:nth-child(4) {
+    width: 120px;
+}
+
+.data-table td:nth-child(5) {
+    max-width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* Estilos para la columna de acciones */
+table td.actions {
+    text-align: center;
+    width: 60px;
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
+    height: 100%;
+}
+
+table td.actions .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0.3rem 0.5rem;
+    border-radius: 8px;
+    min-width: 32px;
+    min-height: 32px;
+    height: 32px;
+    box-sizing: border-box;
+}
+
+table td.actions .btn i {
+    font-size: 1.1rem;
+}
+
+/* Ajuste para la última columna del encabezado */
+table th:last-child {
+    width: 60px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+}
+
+table tr {
+    height: 48px;
+} 
