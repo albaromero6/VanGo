@@ -45,7 +45,7 @@ public class UsuarioService {
 
     @Transactional
     public void deleteUsuarioConReservas(Integer id) {
-        Usuario usuario = findById(id)
+        findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // Primero eliminamos todas las reseñas asociadas a las reservas del usuario

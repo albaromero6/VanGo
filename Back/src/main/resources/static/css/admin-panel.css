@@ -1,7 +1,3 @@
-/* ==========================================================================
-   RESET Y ESTILOS BASE
-   ========================================================================== */
-
 * {
     margin: 0;
     padding: 0;
@@ -14,10 +10,6 @@ body {
     min-height: 100vh;
     background-color: #f5f5f5;
 }
-
-/* ==========================================================================
-   SIDEBAR
-   ========================================================================== */
 
 .sidebar {
     width: 250px;
@@ -41,10 +33,6 @@ body {
     font-size: 1.3em;
     font-weight: 500;
 }
-
-/* ==========================================================================
-   MENÚ DE NAVEGACIÓN
-   ========================================================================== */
 
 .nav-menu {
     list-style: none;
@@ -87,10 +75,6 @@ body {
     font-weight: 500;
 }
 
-/* ==========================================================================
-   CONTENIDO PRINCIPAL
-   ========================================================================== */
-
 .main-content {
     margin-left: 250px;
     padding: 20px;
@@ -98,10 +82,6 @@ body {
     min-height: 100vh;
     overflow-y: auto;
 }
-
-/* ==========================================================================
-   TIPOGRAFÍA
-   ========================================================================== */
 
 h2 {
     font-size: 1.5em;
@@ -118,10 +98,6 @@ p {
     max-width: 600px;
 }
 
-/* ==========================================================================
-   CONTENEDORES
-   ========================================================================== */
-
 .container {
     padding: 20px;
     border-radius: 8px;
@@ -136,10 +112,6 @@ p {
     max-width: 800px;
     margin-top: 35vh;
 }
-
-/* ==========================================================================
-   TABLAS
-   ========================================================================== */
 
 .table-header {
     width: 100%;
@@ -251,10 +223,6 @@ table td:last-child {
 .btn:hover {
     opacity: 0.9;
 }
-
-/* ==========================================================================
-   FORMULARIOS
-   ========================================================================== */
    
 .create-form {
     width: 100%;
@@ -384,5 +352,177 @@ table td:last-child {
 
 .main-content .container h1 {
     color: #0c5661;
+}
+
+.rating {
+    display: flex;
+    gap: 2px;
+}
+
+.rating .star {
+    font-size: 1.2em;
+    cursor: default;
+    color: #222;
+}
+
+.rating .star.filled {
+    color: #222;
+}
+
+.rating .star:not(.filled) {
+    color: #222;
+}
+
+.data-table td {
+    vertical-align: middle;
+}
+
+.data-table td:nth-child(4) {
+    width: 120px;
+}
+
+.data-table td:nth-child(5) {
+    max-width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+table td.actions {
+    text-align: center;
+    width: 60px;
+    padding: 0.25rem 0.5rem;
+    vertical-align: middle;
+    height: 100%;
+}
+
+table td.actions .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0.3rem 0.5rem;
+    border-radius: 8px;
+    min-width: 32px;
+    min-height: 32px;
+    height: 32px;
+    box-sizing: border-box;
+}
+
+table td.actions .btn i {
+    font-size: 1.1rem;
+}
+
+table th:last-child {
+    width: 60px;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+}
+
+table tr {
+    height: 48px;
+}
+
+.swal2-popup {
+    font-family: 'Poppins', sans-serif !important;
+    border-radius: 16px !important;
+    padding: 2rem !important;
+    width: 50rem !important;
+}
+
+.swal2-title {
+    color: #181E4B !important;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.swal2-html-container {
+    color: #303030 !important;
+    font-size: 16px !important;
+}
+
+.swal2-actions {
+    gap: 1rem !important;
+    justify-content: center !important;
+}
+
+.swal2-confirm,
+.swal2-cancel {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 500 !important;
+    padding: 0.75rem 2rem !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    width: 140px !important;
+    margin: 0 !important;
+}
+
+.swal2-confirm {
+    background-color: #05889C !important;
+}
+
+.swal2-confirm:hover {
+    background-color: #047a8c !important;
+    transform: translateY(-2px);
+}
+
+.swal2-cancel {
+    background-color: #AFD7D6 !important;
+}
+
+.swal2-cancel:hover {
+    background-color: #8fc2c0 !important;
+    transform: translateY(-2px);
+}
+
+.swal2-icon {
+    border-width: 3px !important;
+}
+
+.swal2-icon.swal2-warning {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-success {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #05889C !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: #05889C !important;
+}
+
+.swal2-icon.swal2-error {
+    border-color: #05889C !important;
+    color: #05889C !important;
+}
+
+.swal2-icon.swal2-error [class^='swal2-x-mark-line'] {
+    background-color: #05889C !important;
+}
+
+.btn-profile {
+    color: #fff !important;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: none !important;
+    font-size: 1.5em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-profile:hover {
+    color: #afd7d6 !important;
+    text-decoration: none !important;
 }
 

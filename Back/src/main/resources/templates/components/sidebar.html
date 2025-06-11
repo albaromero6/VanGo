@@ -15,7 +15,7 @@
     <div th:fragment="sidebar">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <h2>Hola, <span th:text="${nombreCompleto}">Usuario</span></h2>
+                <h2>¡Hola!, <span th:text="${nombreCompleto}">Usuario</span></h2>
             </div>
             <nav>
                 <ul class="nav-menu">
@@ -70,6 +70,11 @@
                     </li>
                 </ul>
             </nav>
+            <div style="position: absolute; bottom: 30px; width: 100%; text-align: center;">
+                <a href="http://localhost:4200/perfil" class="btn btn-profile">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </div>
         </aside>
     </div>
 </body>

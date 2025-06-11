@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
-import java.util.HashMap;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -117,10 +116,10 @@ public class ReservaController {
                         Authentication authentication) {
                 try {
                         String email = authentication.getName();
-                        Usuario usuario = usuarioService.findByEmail(email)
+                        usuarioService.findByEmail(email)
                                         .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-                        // Obtener el ID del usuario de la reserva desde los datos
+                        // Obtener el ID del usuario de la reserva
                         Integer idUsuario = Integer.valueOf(reservaData.get("idUsu").toString());
                         Usuario usuarioReserva = usuarioService.findById(idUsuario)
                                         .orElseThrow(() -> new RuntimeException("Usuario de la reserva no encontrado"));

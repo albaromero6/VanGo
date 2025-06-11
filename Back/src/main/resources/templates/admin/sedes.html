@@ -6,7 +6,6 @@
     <title>Van&Go</title>
     <link rel="icon" type="image/png" th:href="@{/img/favicon.ico}">
     <link rel="stylesheet" th:href="@{/css/admin-panel.css}">
-    <link rel="stylesheet" th:href="@{/css/sweetalert.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +53,7 @@
                             style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px;">
                         <span th:unless="${sede.imagen}">Sin imagen</span>
                     </td>
-                    <td class="actions" style="text-align: center; vertical-align: middle;">
+                    <td class="actions">
                         <button class="btn btn-edit" th:onclick="'editSede(' + ${sede.idSed} + ')'">
                             <i class="fas fa-edit"></i>
                         </button>
