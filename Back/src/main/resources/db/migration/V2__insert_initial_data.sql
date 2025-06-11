@@ -10,9 +10,13 @@ DELETE FROM usuario;
 -- Insertar usuarios
 INSERT INTO usuario (nombre, apellido, email, password, telefono, direccion, fecha_nacimiento, registro, rol, dni) 
 VALUES 
-('Juan', 'Pérez', 'juan.perez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '600123456', 'Calle Mayor 123, Madrid', '1990-05-15', '2025-05-07', 'CLIENTE', '79954430J'),
-('Ana', 'Gómez', 'ana.gomez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '611234567', NULL, NULL, '2025-04-20', 'ADMINISTRADOR', '19338585R'),
-('Carlos', 'López', 'carlos.lopez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '622345678', 'Plaza España 7, Sevilla', '1995-03-10', '2025-03-15', 'CLIENTE', '32550686M');
+('Alba', 'Romero', 'alba.romero@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '600000001', 'Calle Luna 45, Málaga', '1996-10-09', '2025-05-07', 'ADMINISTRADOR', '52261075S'),
+('Luis', 'Martínez', 'luis.martinez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '611000002', 'Av. Reina Sofía 10, Murcia', '1992-07-18', '2025-04-21', 'CLIENTE', '17620168Y'),
+('María', 'Fernández', 'maria.fernandez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '622000003', 'Calle del Sol 21, Granada', '1988-01-30', '2025-04-22', 'CLIENTE', '43873119K'),
+('Javier', 'Ruiz', 'javier.ruiz@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '633000004', 'Plaza de la Paz 7, Logroño', '1990-06-05', '2025-04-23', 'CLIENTE', '02835332F'),
+('Sara', 'López', 'sara.lopez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '644000005', 'Calle Real 88, León', '1993-09-14', '2025-04-24', 'CLIENTE', '89087733Q'),
+('Diego', 'Sánchez', 'diego.sanchez@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '655000006', 'Camino Viejo 12, Alicante', '1991-03-09', '2025-04-25', 'CLIENTE', '10968994H'),
+('Lucía', 'García', 'lucia.garcia@example.com', '$2a$12$3RRcj7gb47dTstQL2CzBT.1/VAEIOavZSEnyfC9pIR8SsSE1v2qfG', '666000007', 'Av. de la Estación 5, Oviedo', '1994-12-01', '2025-04-26', 'CLIENTE', '33429685J');
 
 -- Insertar marcas
 INSERT INTO marca (nombre) 
@@ -63,23 +67,25 @@ VALUES
 -- Insertar reservas
 INSERT INTO reserva (inicio, fin, total, estado, id_usu, id_veh, id_sed_lleg, id_sed_salid)    
 VALUES
-('2025-04-15', '2025-04-22', 760.00, 'FINALIZADA', 1, 5, 1, 3),
-('2025-05-15', '2025-05-22', 800.00, 'FINALIZADA', 3, 7, 3, 1),
-('2025-03-10', '2025-03-17', 650.00, 'FINALIZADA', 1, 6, 2, 1),
-('2025-02-01', '2025-02-07', 780.00, 'FINALIZADA', 2, 6, 1, 4),
-('2025-01-10', '2025-01-15', 650.00, 'FINALIZADA', 3, 6, 3, 2),
-('2025-06-01', '2025-06-05', 920.00, 'CURSO', 1, 8, 4, 2),
-('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 1, 2, 5, 3),
-('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 1, 3, 4, 1),
-('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 1, 4, 2, 5),
-('2025-04-01', '2025-04-08', 800.00, 'FINALIZADA', 1, 10, 1, 3),
-('2025-04-10', '2025-04-15', 700.00, 'FINALIZADA', 3, 11, 3, 2),
-('2025-02-20', '2025-02-25', 950.00, 'FINALIZADA', 2, 12, 4, 1),
-('2025-03-05', '2025-03-10', 870.00, 'FINALIZADA', 1, 13, 2, 4),
-('2025-03-15', '2025-03-20', 920.00, 'FINALIZADA', 3, 14, 5, 2),
-('2025-03-25', '2025-03-30', 990.00, 'FINALIZADA', 2, 15, 1, 5),
-('2025-06-25', '2025-07-02', 1100.00, 'CURSO', 3, 10, 3, 4),
-('2025-07-10', '2025-07-15', 890.00, 'RESERVADA', 1, 11, 2, 1);
+('2025-04-15', '2025-04-22', 760.00, 'FINALIZADA', 2, 5, 1, 3),
+('2025-05-15', '2025-05-22', 800.00, 'FINALIZADA', 4, 7, 3, 1),
+('2025-03-10', '2025-03-17', 650.00, 'FINALIZADA', 2, 6, 2, 1),
+('2025-02-01', '2025-02-07', 780.00, 'FINALIZADA', 3, 6, 1, 4),
+('2025-01-10', '2025-01-15', 650.00, 'FINALIZADA', 4, 6, 3, 2),
+('2025-06-01', '2025-06-05', 920.00, 'CURSO', 2, 8, 4, 2),
+('2025-06-02', '2025-06-09', 1200.00, 'CURSO', 2, 2, 5, 3),
+('2025-06-15', '2025-06-22', 720.00, 'RESERVADA', 2, 3, 4, 1),
+('2025-06-20', '2025-06-27', 880.00, 'RESERVADA', 2, 4, 2, 5),
+('2025-04-01', '2025-04-08', 800.00, 'FINALIZADA', 2, 10, 1, 3),
+('2025-04-10', '2025-04-15', 700.00, 'FINALIZADA', 4, 11, 3, 2),
+('2025-02-20', '2025-02-25', 950.00, 'FINALIZADA', 3, 12, 4, 1),
+('2025-03-05', '2025-03-10', 870.00, 'FINALIZADA', 2, 13, 2, 4),
+('2025-03-15', '2025-03-20', 920.00, 'FINALIZADA', 4, 14, 5, 2),
+('2025-03-25', '2025-03-30', 990.00, 'FINALIZADA', 3, 15, 1, 5),
+('2025-06-25', '2025-07-02', 1100.00, 'CURSO', 4, 10, 3, 4),
+('2025-07-10', '2025-07-15', 890.00, 'RESERVADA', 2, 11, 2, 1),
+('2025-06-08', '2025-06-12', 950.00, 'CURSO', 5, 12, 3, 1),
+('2025-06-09', '2025-06-13', 790.00, 'CURSO', 6, 13, 2, 4);
 
 -- Insertar reseñas (solo para reservas finalizadas)
 INSERT INTO resenia (comentario, puntuacion, fecha, id_reser)
@@ -93,4 +99,5 @@ VALUES
 ('Excelente atención en la sede y muy buen coche.', 5, '2025-02-26', 12),
 ('Vehículo cómodo pero el depósito no estaba lleno.', 4, '2025-03-11', 13),
 ('La furgoneta estaba limpia y en muy buen estado.', 5, '2025-03-21', 14),
-('El proceso de recogida fue algo lento, pero buen servicio.', 4, '2025-03-31', 15);
+('El proceso de recogida fue algo lento, pero buen servicio.', 4, '2025-03-31', 15),
+('Muy buena relación calidad-precio, repetiré.', 5, '2025-04-09', 1);
