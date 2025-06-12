@@ -6,9 +6,8 @@
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)  
-6. [Histórico de cambios](#-histórico-de-cambios)  
-7. [Bibliografía y recursos](#-bibliografía-y-recursos)  
-8. [Vídeo](#-vídeo)
+6. [Bibliografía y recursos](#-bibliografía-y-recursos)  
+7. [Vídeo](#-vídeo)
 
 ---
 
@@ -81,19 +80,6 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ---
 
-## 📜 HISTÓRICO DE CAMBIOS
-
-- `commit1` (Subida Back Inicial) – Estructura inicial del backend creada con Spring Boot
-- `commit2` (Spring en Funcionamiento) – Arreglo de application.properties para conseguir lanzar Spring Boot  
-- `commit3` (Subida Models) – Estructura inicial de las entidades
-- `commit4` (Models Actualizados) – Models mejorados con validaciones y restricciones de los atributos
-- `commit5` (Models Terminados) – Models terminados con todas sus relaciones y mejoras
-- `commit6` (Subida Repositories) – Estructura inicial y final de los repositories
-- `commit7` (Subida Services) – Estructura inicial y final de los servicios
-- `commit8` (Subida Controllers) – Estructura inicial y final de los controllers
-- `commit9` (Solución a Recursión Infinita) – Uso de @JsonManagedReference para evitar la recursión infinita en la sereialización del JSON
-
----
 
 ## 📚 BIBLIOGRAFÍA Y RECURSOS
 
