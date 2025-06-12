@@ -76,7 +76,8 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ## 🧩 ESQUEMA DE LA BASE DE DATOS
 
-![ER](https://github.com/user-attachments/assets/f8d489af-2b50-4417-afab-a66e2105daa3)
+![ER](https://github.com/albaromero6/VanGo/blob/main/docs/ER.png)
+
 
 ![DED](https://github.com/albaromero6/VanGo/blob/main/docs/DED.png)
 
