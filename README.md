@@ -85,6 +85,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 A continuación se detallan las tareas principales realizadas durante el desarrollo del proyecto, indicando la fecha de cada una de ellas.
 
 
+
 | Tarea                                                                                           | Fecha        |
 |-------------------------------------------------------------------------------------------------|--------------|
 | Inicio del backend con Spring Boot y estructura base                                            | 25-04-2025   |
