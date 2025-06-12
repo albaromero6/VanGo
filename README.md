@@ -2,13 +2,13 @@
 
 ## **ÍNDICE**
 1. [Autoría](#-autoría)  
-2. [Descripción](#-introducción)  
+2. [Descripción](#-descripción)  
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)
 6. [Tutorial de uso de la aplicación](#-tutorial-de-uso-de-la-aplicación)
 7. [Aplicación desplegada](#-aplicación-desplegada)
-8. [Figma](#-figma)
+8. [Figma](#-diseño-en-figma)
 9. [Documentación](#-documentación)
 10. [Bitácora](#-bitácora)    
 11. [Bibliografía y recursos](#-bibliografía-y-recursos)  
