@@ -29,11 +29,10 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 ## 🎯 OBJETIVOS
 
 - Facilitar el acceso al alquiler de campers y caravanas a través de una plataforma intuitiva y accesible.
-- Ofrecer un sistema de alquiler flexible por horas.
+- Ofrecer un sistema de alquiler flexible.
 - Maximizar la disponibilidad y rentabilidad de los vehículos.
 - Garantizar una experiencia de alquiler segura con verificación y valoraciones.
 - Promover un turismo en carretera accesible y sostenible.
-- Implementar métodos de pago seguros.
 - Desarrollar una plataforma escalable.
 - Brindar atención al cliente efectiva.
 - Integrar herramientas de búsqueda avanzada y filtros personalizados.
@@ -53,21 +52,18 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ### Back-End y API
 - Spring Boot
+- Spring Security
 - JWT
 
 ### Front-End y Diseño
-- Angular
-- Bootstrap
-- Tailwind CSS
+- Angular 17
 - SCSS
-- SASS
 - CSS3
 - HTML5
 
 ### Infraestructura y Despliegue
 - AWS
 - NGINX
-- Docker
 
 ### Otras Herramientas
 - Git
