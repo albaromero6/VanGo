@@ -5,7 +5,7 @@
 2. [Descripción](#-descripción)  
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)
-5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)
+5. [Esquema de la Base de Datos](#-esquemas-de-la-base-de-datos)
 6. [Tutorial de uso de la aplicación](#-tutorial-de-uso-de-la-aplicación)
 7. [Aplicación desplegada](#-aplicación-desplegada)
 8. [Figma](#-diseño-en-figma)
