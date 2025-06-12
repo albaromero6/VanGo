@@ -6,11 +6,9 @@
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)  
-6. [Funcionalidades implementadas](#-funcionalidades-implementadas)  
-7. [Funcionalidades pendientes](#-funcionalidades-pendientes)  
-8. [Histórico de cambios](#-histórico-de-cambios)  
-9. [Bibliografía y recursos](#-bibliografía-y-recursos)  
-10. [Vídeo](#-vídeo)
+6. [Histórico de cambios](#-histórico-de-cambios)  
+7. [Bibliografía y recursos](#-bibliografía-y-recursos)  
+8. [Vídeo](#-vídeo)
 
 ---
 
@@ -80,30 +78,6 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 
 ![DED](https://github.com/albaromero6/VanGo/blob/main/docs/DED.png)
-
----
-
-## ✅ FUNCIONALIDADES IMPLEMENTADAS
-
-- Modelado de la base de datos.
-- Estructura básica del proyecto con Spring Boot.
-- Creación de modelos, repositorios, servicios y controladores en el backend.
-- Diseño en Figma de las interfaces principales.
-- Estilos CSS definidos para las ventanas principales de la aplicación.
-
----
-
-## 🔄 FUNCIONALIDADES PENDIENTES
-
-- Integración del frontend con el backend  
-- Registro e inicio de sesión con JWT  
-- Panel de control de usuarios y administradores  
-- Valoraciones y comentarios de usuarios  
-- Despliegue en AWS  
-- Configuración de NGINX  
-- Seguridad avanzada (roles, permisos)  
-- Testing y validaciones
-- Escaneo de seguridad con OWASP ZAP
 
 ---
 
