@@ -91,7 +91,6 @@ Al entrar a la aplicación, llegarás a la página principal donde encontrarás 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Home.png" alt="Home" width="600" />
 </p>
 
----
 
 ### Catálogo
 Aquí verás todos los vehículos disponibles para alquilar. Puedes ordenar los vehículos por precio (ascendente o descendente) y ver sus detalles básicos.
@@ -102,7 +101,7 @@ Aquí verás todos los vehículos disponibles para alquilar. Puedes ordenar los 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Catalogo.png" alt="Catálogo" width="600" />
 </p>
 
----
+
 
 ### Detalles 
 Al seleccionar un vehículo del catálogo, accederás a su página de detalles, donde podrás ver fotos del interior, características completas y precio.
@@ -113,7 +112,6 @@ Al seleccionar un vehículo del catálogo, accederás a su página de detalles, 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Detalles.png" alt="Detalles" width="600" />
 </p>
 
----
 
 ### Reservas  
 Después de elegir un vehículo, podrás seleccionar fechas de alquiler, lugar de recogida y entrega, ver el precio total y realizar la reserva.
@@ -124,7 +122,6 @@ Después de elegir un vehículo, podrás seleccionar fechas de alquiler, lugar d
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Reserva.png" alt="Reserva" width="600" />
 </p>
 
----
 
 ### Perfil
 En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y ver el historial de alquileres. Si eres administrador, tendrás acceso a un botón para entrar al panel de control.
@@ -136,7 +133,7 @@ En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Perfil2.png" alt="Perfil2" width="600" />
 </p>
 
----
+
 
 ### 6. Secciones Informativas  
 - **Por qué elegirnos:** `/eligenos` — Ventajas de usar Van&Go.  
