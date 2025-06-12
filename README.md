@@ -82,7 +82,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ## 📘 Bitácora
 
-| Tarea Realizada                                                                                 | Fecha        |
+| Tarea                                                                                           | Fecha        |
 |-------------------------------------------------------------------------------------------------|--------------|
 | Inicio del backend con Spring Boot y estructura base                                            | 25-04-2025   |
 | Creación de modelos, repositorios, servicios y controladores                                    | 30-04-2025   |
