@@ -80,6 +80,29 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ---
 
+## 📘 Bitácora
+
+| Fecha       | Tarea Realizada                                                                                  |
+|-------------|--------------------------------------------------------------------------------------------------|
+| 2025-04-25  | Inicio del backend con Spring Boot y estructura base                                             | 
+| 2025-04-30  | Creación de modelos, repositorios, servicios y controladores                                     | 
+| 2025-05-07  | Añadidas validaciones en modelos y datos iniciales en `import.sql`                               | 
+| 2025-05-09  | Configuración de seguridad con JWT y variables de entorno                                        |
+| 2025-05-13  | Configuración de roles para los endpoints                                                        |
+| 2025-05-15  | Creación del proyecto Angular 17 y estructura inicial del frontend                               |
+| 2025-05-18  | Desarrollo de secciones del sitio: Steps, Application, Hero, Reviews, etc.                       | 
+| 2025-05-23  | Implementación de login funcional, nombre de usuario en navbar, y enlaces                        | 
+| 2025-05-26  | Integración con Google Maps y obtención de ubicaciones desde el backend                          |
+| 2025-05-29  | Implementación de edición de vehículos con `editMode` y uso de SweetAlert                        |
+| 2025-06-01  | Implementación de internacionalización y mejoras en navbar y documentación                       | 
+| 2025-06-04  | Funcionalidad de reservas en perfil, eliminar cuenta y mejoras varias                            | 
+| 2025-06-06  | Sección de comentarios completa con CRUD y mejoras en estilo                                     | 
+| 2025-06-08  | Diseño responsive en varias secciones del sitio                                                  | 
+| 2025-06-10  | Desarrollo del panel de administración con gestión de usuarios, marcas, modelos, etc.            | 
+| 2025-06-11  | Resolución de errores globales y ajustes finales de rutas para producción                        |
+| 2025-06-12  | Actualización de documentación (README) y pruebas finales                                        |
+
+
 
 ## 📚 BIBLIOGRAFÍA Y RECURSOS
 
