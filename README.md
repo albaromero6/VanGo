@@ -82,7 +82,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ## 📖 Tutorial de Uso de la Aplicación Van&Go
 
-### Página Principal
+### Inicio
 Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y acceso a todas las secciones principales.
 <br>
 <br>
@@ -93,7 +93,7 @@ Al entrar a la aplicación, llegarás a la página principal donde encontrarás 
 
 ---
 
-### Catálogo de Vehículos  
+### Catálogo
 Aquí verás todos los vehículos disponibles para alquilar. Puedes ordenar los vehículos por precio (ascendente o descendente) y ver sus detalles básicos.
 <br>
 <br>
@@ -104,27 +104,37 @@ Aquí verás todos los vehículos disponibles para alquilar. Puedes ordenar los 
 
 ---
 
-### 3. Detalles del Vehículo  
-**Ruta:** `/detalles/:id`  
-Al seleccionar un vehículo del catálogo, accederás a su página de detalles, donde podrás ver fotos, características completas, precios y disponibilidad.
+### Detalles 
+Al seleccionar un vehículo del catálogo, accederás a su página de detalles, donde podrás ver fotos del interior, características completas y precio.
+<br>
+<br>
 
-![Detalles del Vehículo](ruta/a/tu/captura-detalles.png)
-
----
-
-### 4. Sistema de Reservas  
-**Ruta:** `/reserva/:id`  
-Después de elegir un vehículo, podrás seleccionar fechas de alquiler, ver el precio total y realizar la reserva.
-
-![Sistema de Reservas](ruta/a/tu/captura-reserva.png)
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Detalles.png" alt="Detalles" width="600" />
+</p>
 
 ---
 
-### 5. Perfil de Usuario  
-**Ruta:** `/perfil`  
+### Reservas  
+Después de elegir un vehículo, podrás seleccionar fechas de alquiler, lugar de recogida y entrega, ver el precio total y realizar la reserva.
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Reserva.png" alt="Reserva" width="600" />
+</p>
+
+---
+
+### Perfil
 En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y ver el historial de alquileres. Si eres administrador, tendrás acceso a un botón para entrar al panel de control.
+<br>
+<br>
 
-![Perfil de Usuario](ruta/a/tu/captura-perfil.png)
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Perfil.png" alt="Perfil1" width="600" />
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Perfil2.png" alt="Perfil2" width="600" />
+</p>
 
 ---
 
