@@ -83,7 +83,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 ## 📖 TUTORIAL DE USO DE LA APLICACIÓN
 
 ### Inicio
-Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y acceso a todas las secciones principales.
+Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y el acceso a todas las secciones principales.
 <br>
 <br>
 
@@ -159,14 +159,23 @@ En esta sección se muestran la información de todas nuestras sedes, donde pued
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Ubicacion.png" alt="Ubicación" width="600" />
 </p>
 
+### Inicio de sesión  
+Aquí puedes acceder a tu cuenta para gestionar reservas, dejar comentarios y usar todas las funcionalidades disponibles según tu rol.
+<br>
+<br>
 
-### 7. Sistema de Usuarios  
-- **Registro:** `/registro` para crear una nueva cuenta.  
-- **Login:** `/login` para iniciar sesión.  
-- **Comentarios:** `/comments/:id` para ver y dejar valoraciones sobre vehículos.
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Login.png" alt="Login" width="600" />
+</p>
 
-![Sistema de Usuarios](ruta/a/tu/captura-login-registro.png)
+### Registro  
+Si aún no tienes una cuenta, aquí podrás crearla fácilmente para empezar a disfrutar de Van&Go.
+<br>
+<br>
 
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Registro.png" alt="Registro" width="600" />
+</p>
 
 ### Perfil
 En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y ver el historial de alquileres. Si eres administrador, tendrás acceso a un botón para entrar al panel de control.
@@ -178,22 +187,25 @@ En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Perfil2.png" alt="Perfil2" width="600" />
 </p>
 
+### Reseñas  
+En esta sección puedes leer y dejar valoraciones sobre los vehículos que has alquilado. Tus comentarios ayudan a mejorar la experiencia para toda la comunidad.
+<br>
+<br>
 
-### 8. Panel de Administración (Solo administradores)  
-Accede desde el perfil, botón "Panel de control".  
-**Ruta:** `http://localhost:8080/admin/panel`  
-Requiere autenticación con token. Permite gestionar usuarios, vehículos, sedes, reservas, reseñas, marcas y modelos.
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Rese%C3%B1a.png" alt="Reseñas" width="600" />
+</p>
 
-![Panel de Administración](ruta/a/tu/captura-admin.png)
 
----
+### Panel de administración  
+Accede desde el perfil, botón "Panel de control". Requiere autenticación con rol administrador. Permite gestionar usuarios, vehículos, sedes, reservas, reseñas, marcas y modelos.
+<br>
+<br>
 
-### Consejos de Navegación
-- Usa el menú superior para moverte entre secciones principales.  
-- El logo de Van&Go siempre te llevará a la página principal.  
-- Para reservar: visita el catálogo, elige un vehículo, revisa detalles y realiza la reserva.  
-- Para usuarios: regístrate o inicia sesión para acceder a todas las funcionalidades y gestionar tu perfil.  
-- Para administradores: accede al panel de control para gestionar la plataforma.
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Panel.png" alt="Panel" width="600" />
+</p>
+
 
 ---
 
