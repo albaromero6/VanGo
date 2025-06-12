@@ -82,22 +82,25 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ## 📖 Tutorial de Uso de la Aplicación Van&Go
 
-### 1. Página Principal
+### Página Principal
 Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y acceso a todas las secciones principales.
 <br>
 <br>
 
 <p align="center">
-  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Home.png" alt="Página Principal" width="600" />
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Home.png" alt="Home" width="600" />
 </p>
 
 ---
 
-### 2. Catálogo de Vehículos  
-**Ruta:** `/catalogo`  
-Aquí verás todos los campers y caravanas disponibles para alquilar. Puedes ordenar los vehículos por precio (ascendente o descendente) y ver detalles básicos.
+### Catálogo de Vehículos  
+Aquí verás todos los vehículos disponibles para alquilar. Puedes ordenar los vehículos por precio (ascendente o descendente) y ver sus detalles básicos.
+<br>
+<br>
 
-![Catálogo de Vehículos](ruta/a/tu/captura-catalogo.png)
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Catalogo.png" alt="Catálogo" width="600" />
+</p>
 
 ---
 
