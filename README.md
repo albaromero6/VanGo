@@ -80,7 +80,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ---
 
-## 📖 Tutorial de Uso de la Aplicación Van&Go
+## 📖 TUTORIAL DE USO DE LA APLICACIÓN
 
 ### Inicio
 Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y acceso a todas las secciones principales.
@@ -123,6 +123,51 @@ Después de elegir un vehículo, podrás seleccionar fechas de alquiler, lugar d
 </p>
 
 
+### Elíjenos 
+En esta sección se muestran las ventajas que te proporciona ser miembro de Van&Go.
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Elijenos.png" alt="Elíjenos" width="600" />
+</p>
+
+### Rutas
+En esta sección se muestran una serie de rutas que se pueden realizar con la comodidad de nuestros vehículos.
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Rutas.png" alt="Rutas" width="600" />
+</p>
+
+### Contacto
+En esta sección se muestra información de contacto y un formulario para comunicarte con nuestro equipo de soporte.
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Contacto.png" alt="Contacto" width="600" />
+</p>
+
+### Ubicación
+En esta sección se muestran la información de todas nuestras sedes, donde puedes recoger y dejar nuestros vehículos.
+<br>
+<br>
+
+<p align="center">
+  <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Ubicacion.png" alt="Ubicación" width="600" />
+</p>
+
+
+### 7. Sistema de Usuarios  
+- **Registro:** `/registro` para crear una nueva cuenta.  
+- **Login:** `/login` para iniciar sesión.  
+- **Comentarios:** `/comments/:id` para ver y dejar valoraciones sobre vehículos.
+
+![Sistema de Usuarios](ruta/a/tu/captura-login-registro.png)
+
+
 ### Perfil
 En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y ver el historial de alquileres. Si eres administrador, tendrás acceso a un botón para entrar al panel de control.
 <br>
@@ -133,26 +178,6 @@ En tu perfil puedes ver y modificar tus datos personales, gestionar reservas, y 
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Perfil2.png" alt="Perfil2" width="600" />
 </p>
 
-
-
-### 6. Secciones Informativas  
-- **Por qué elegirnos:** `/eligenos` — Ventajas de usar Van&Go.  
-- **Rutas:** `/rutas` — Sugerencias de destinos para viajeros.  
-- **Contacto:** `/contacto` — Formulario para contactar con soporte.  
-- **Ubicación:** `/ubicacion` — Información de dónde encontrarnos.
-
-![Secciones Informativas](ruta/a/tu/captura-informacion.png)
-
----
-
-### 7. Sistema de Usuarios  
-- **Registro:** `/registro` para crear una nueva cuenta.  
-- **Login:** `/login` para iniciar sesión.  
-- **Comentarios:** `/comments/:id` para ver y dejar valoraciones sobre vehículos.
-
-![Sistema de Usuarios](ruta/a/tu/captura-login-registro.png)
-
----
 
 ### 8. Panel de Administración (Solo administradores)  
 Accede desde el perfil, botón "Panel de control".  
