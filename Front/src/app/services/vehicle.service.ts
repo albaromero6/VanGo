@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Marca {
     idMar: number;
@@ -38,72 +39,75 @@ export interface PaginatedResponse<T> {
     number: number;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class VehicleService {
-    private apiUrl = '/api/vehiculos';
 
-    constructor(private http: HttpClient) { }
+  private readonly base = environment.apiUrl;          // '/api'
 
-    getAllVehicles(page: number = 0, size: number = 9): Observable<PaginatedResponse<Vehicle>> {
-        return this.http.get<PaginatedResponse<Vehicle>>(`${this.apiUrl}?page=${page}&size=${size}`);
-    }
+  constructor(private http: HttpClient) {}
 
-    getVehicleById(id: number): Observable<Vehicle> {
-        return this.http.get<Vehicle>(`${this.apiUrl}/${id}`);
-    }
+  /* ---------- listados ---------- */
+  getAllVehicles(page = 0, size = 9): Observable<PaginatedResponse<Vehicle>> {
+    const params = new HttpParams()
+        .set('page', page)
+        .set('size', size);
 
-    getAllMarcas(): Observable<Marca[]> {
-        return this.http.get<Marca[]>(`/api/marcas`).pipe(
-            catchError(error => {
-                console.error('Error en getAllMarcas:', error);
-                return throwError(() => error);
-            })
-        );
-    }
+    return this.http.get<PaginatedResponse<Vehicle>>(
+      `${this.base}/vehiculos`, { params }
+    );
+  }
 
-    getModelosByMarca(marcaId: number): Observable<Modelo[]> {
-        const url = `/api/marcas/${marcaId}/modelos`;
-        return this.http.get<Modelo[]>(url).pipe(
-            catchError(error => {
-                console.error('Error en getModelosByMarca:', error);
-                return throwError(() => error);
-            })
-        );
-    }
+  getVehicleById(id: number): Observable<Vehicle> {
+    return this.http.get<Vehicle>(`${this.base}/vehiculos/${id}`);
+  }
 
-    getAvailableVehicles(): Observable<Vehicle[]> {
-        return this.http.get<Vehicle[]>(`${this.apiUrl}/disponibles`);
-    }
+  getAllMarcas(): Observable<Marca[]> {
+    return this.http.get<Marca[]>(`${this.base}/marcas`)
+      .pipe(catchError(this.handleError('getAllMarcas')));
+  }
 
-    deleteVehicle(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-            catchError((error: HttpErrorResponse) => {
-                let errorMessage = 'Error al eliminar el vehículo';
+  getModelosByMarca(marcaId: number): Observable<Modelo[]> {
+    return this.http.get<Modelo[]>(`${this.base}/marcas/${marcaId}/modelos`)
+      .pipe(catchError(this.handleError('getModelosByMarca')));
+  }
 
-                if (error.status === 500) {
-                    errorMessage = 'No se puede eliminar este vehículo porque tiene reservas asociadas';
-                } else if (error.status === 404) {
-                    errorMessage = 'El vehículo no existe';
-                } else if (error.status === 403) {
-                    errorMessage = 'No tienes permisos para eliminar vehículos';
-                }
+  getAvailableVehicles(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(`${this.base}/vehiculos/disponibles`);
+  }
 
-                return throwError(() => errorMessage);
-            })
-        );
-    }
+  /* ---------- CRUD ---------- */
+  createVehicle(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.post<Vehicle>(`${this.base}/vehiculos`, vehicle);
+  }
 
-    updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
-        return this.http.put<Vehicle>(`${this.apiUrl}/${vehicle.idVeh}`, vehicle);
-    }
+  updateVehicle(vehicle: Vehicle): Observable<Vehicle> {
+    return this.http.put<Vehicle>(`${this.base}/vehiculos/${vehicle.idVeh}`, vehicle);
+  }
 
-    uploadImage(formData: FormData): Observable<{ nombreArchivo: string }> {
-        return this.http.post<{ nombreArchivo: string }>(`${this.apiUrl}/upload`, formData);
-    }
+  deleteVehicle(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/vehiculos/${id}`)
+      .pipe(catchError(this.translateDeleteError));
+  }
 
-    createVehicle(vehicle: Vehicle): Observable<Vehicle> {
-        return this.http.post<Vehicle>(this.apiUrl, vehicle);
-    }
-} 
+  uploadImage(formData: FormData): Observable<{ nombreArchivo: string }> {
+    return this.http.post<{ nombreArchivo: string }>(
+      `${this.base}/vehiculos/upload`, formData
+    );
+  }
+
+  /* ---------- helpers ---------- */
+  private handleError(op: string) {
+    return (error: HttpErrorResponse) => {
+      console.error(`Error en ${op}:`, error);
+      return throwError(() => error);
+    };
+  }
+
+  private translateDeleteError = (error: HttpErrorResponse) => {
+    let msg = 'Error al eliminar el vehículo';
+    if (error.status === 500)      msg = 'No se puede eliminar: tiene reservas asociadas';
+    else if (error.status === 404) msg = 'El vehículo no existe';
+    else if (error.status === 403) msg = 'No tienes permisos para eliminar vehículos';
+    return throwError(() => msg);
+  };
+}
