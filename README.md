@@ -98,7 +98,9 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 ## 📚 BIBLIOGRAFÍA Y RECURSOS
 
 - [Documentación oficial de Spring Boot](https://spring.io/projects/spring-boot)  
-- [Documentación oficial de Angular](https://angular.io/)  
+- [Documentación oficial de Angular](https://angular.io/)
+- [Documentación JWT](https://jwt.io/introduction)
+- [Documentación Spring Security](https://docs.spring.io/spring-security/reference/getting-spring-security.html)
 - [Figma](https://www.figma.com/)  
 - [YouTube](https://www.youtube.com/)
 
