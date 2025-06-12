@@ -102,6 +102,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 | Resolución de errores globales y ajustes finales de rutas para producción                       | 11-06-2025   |
 | Actualización de documentación (README) y pruebas finales                                       | 12-06-2025   |
 
+---
 
 
 ## 📚 BIBLIOGRAFÍA Y RECURSOS
