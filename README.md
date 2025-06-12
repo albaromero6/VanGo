@@ -2,7 +2,7 @@
 
 ## **ÍNDICE**
 1. [Autoría](#-autoría)  
-2. [Introducción](#-introducción)  
+2. [Descripción](#-introducción)  
 3. [Objetivos](#-objetivos)  
 4. [Tecnologías](#-tecnologías)
 5. [Esquema de la Base de Datos](#-esquema-de-la-base-de-datos)  
@@ -18,7 +18,7 @@ Alba Romero Almansa
 
 ---
 
-## 🧭 INTRODUCCIÓN
+## 🧭 DESCRIPCIÓN
 
 Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de campers y caravanas de forma flexible, cómoda y accesible. Nuestro objetivo es ofrecer a los viajeros la libertad de disfrutar de la carretera sin preocuparse por tarifas rígidas o requisitos poco prácticos.
 
@@ -72,7 +72,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ---
 
-## 🧩 ESQUEMA DE LA BASE DE DATOS
+## 🧩 ESQUEMAS DE LA BASE DE DATOS
 
 ![ER](https://github.com/albaromero6/VanGo/blob/main/docs/ER.png)
 
