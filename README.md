@@ -24,10 +24,6 @@ Alba Romero Almansa
 
 Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de campers y caravanas de forma flexible, cómoda y accesible. Nuestro objetivo es ofrecer a los viajeros la libertad de disfrutar de la carretera sin preocuparse por tarifas rígidas o requisitos poco prácticos.
 
-Una de las características más destacadas de Van&Go es su sistema de alquiler por horas, que permite a los usuarios pagar únicamente por el tiempo que realmente necesitan. A diferencia de otros servicios que requieren alquilar por jornadas completas, en Van&Go los clientes pueden reservar vehículos por franjas horarias específicas. Por ejemplo, si alguien necesita una camper a partir de las 22:00, solo abonará el costo proporcional a las horas restantes hasta la medianoche.
-
-Esta flexibilidad optimiza tanto el presupuesto de los viajeros como la disponibilidad de los vehículos, beneficiando tanto a propietarios como a usuarios.
-
 ---
 
 ## 🎯 OBJETIVOS
