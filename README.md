@@ -214,12 +214,16 @@ Accede desde el perfil, botón "Panel de control". Requiere autenticación con r
 
 ---
 
+## 🎨 Diseño en Figma
+
+Puedes ver el diseño completo del proyecto en Figma aquí:  
+[Proyecto Van&Go en Figma](https://www.figma.com/proto/KxWmPDY6V17B8e9w9HWnLw/Van---Go?node-id=0-1&t=lQHx6rQtV5GP6ROC-1)
+
 
 ## 📘 Bitácora
 
 A continuación se detallan las tareas principales realizadas durante el desarrollo del proyecto, indicando la fecha de cada una de ellas.
-
-
+<br>
 
 | Tarea                                                                                           | Fecha        |
 |-------------------------------------------------------------------------------------------------|--------------|
