@@ -84,6 +84,7 @@ Van&Go es una innovadora plataforma web diseñada para facilitar el alquiler de 
 
 ### 1. Página Principal
 Al entrar a la aplicación, llegarás a la página principal donde encontrarás una presentación general de la plataforma y acceso a todas las secciones principales.
+<br>
 
 <p align="center">
   <img src="https://github.com/albaromero6/VanGo/blob/main/docs/Home.png" alt="Página Principal" width="600" />
