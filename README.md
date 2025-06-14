@@ -214,14 +214,26 @@ Accede desde el perfil, botón "Panel de control". Requiere autenticación con r
 
 ---
 
+
+## 🚀 APLICACIÓN DESPLEGADA
+
+Puedes acceder a la aplicación en el siguiente enlace: 🔗 [Van&Go en producción](https://van-go.albaromero.dev) 
+
+---
+
+
 ## 🎨 Diseño en Figma
 
 Aquí puedes ver el diseño completo del proyecto en [Figma](https://www.figma.com/proto/KxWmPDY6V17B8e9w9HWnLw/Van---Go?node-id=0-1&t=lQHx6rQtV5GP6ROC-1).
+
+---
 
 
 ## 📄 Documentación
 
 Aquí puedes descargar o ver el PDF con la [documentación](https://github.com/albaromero6/VanGo/blob/main/docs/Van%26Go.pdf) completa.
+
+---
 
 
 ## 📘 Bitácora
