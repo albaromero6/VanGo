@@ -217,7 +217,7 @@ Accede desde el perfil, botón "Panel de control". Requiere autenticación con r
 
 ## 🚀 APLICACIÓN DESPLEGADA
 
-Puedes acceder a la aplicación en el siguiente enlace: 🔗 [Van&Go en producción](https://van-go.albaromero.dev) 
+Puedes acceder a la aplicación en el siguiente enlace: 🔗 [Van&Go en producción](http://44.199.20.206/) 
 
 ---
 
