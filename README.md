@@ -278,4 +278,4 @@ A continuación se detallan las tareas principales realizadas durante el desarro
 
 ## 🎥 VÍDEO
 
-🔗 [Van&Go](https://vimeo.com/1080304449/fe6823ea07?share=copy)
+🔗 [Van&Go](https://vimeo.com/1093448836/28fe8c07d8?ts=0&share=copy)
